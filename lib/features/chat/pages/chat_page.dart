@@ -45,6 +45,7 @@ class ChatPage extends ConsumerWidget {
               children: [
                 Expanded(
                   child: TextField(
+                    maxLines: 2,
                     controller: _controller,
                     decoration: const InputDecoration(
                       hintText: 'メッセージを入力...',

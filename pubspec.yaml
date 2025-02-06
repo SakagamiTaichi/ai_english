@@ -23,6 +23,7 @@ dependencies:
   riverpod_annotation: ^2.6.1
   # HTTPクライアントライブラリ。API呼び出しやネットワーク通信を効率化。
   dio: ^5.8.0+1
+  flutter_tts: ^4.2.2
 
 dev_dependencies:
   # Flutterのテストフレームワーク。単体テストやウィジェットテストの実行に使用。

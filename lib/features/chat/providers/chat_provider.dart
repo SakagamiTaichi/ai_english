@@ -1,3 +1,4 @@
+import 'package:ai_english/core/utils/provider/tts_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../models/message.dart';
 
@@ -6,9 +7,11 @@ part 'chat_provider.g.dart';
 @riverpod
 class ChatNotifier extends _$ChatNotifier {
   @override
-  List<Message> build() => [];
+  List<Message> build() {
+    return [];
+  }
 
-  void sendMessage(String text) {
+  Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
     // ユーザーのメッセージを追加
@@ -32,5 +35,8 @@ class ChatNotifier extends _$ChatNotifier {
         ),
       ];
     });
+
+    // TTSプロバイダーを使用して読み上げ
+    await ref.read(ttsNotifierProvider.notifier).speak(text);
   }
 }
