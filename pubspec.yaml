@@ -1,0 +1,42 @@
+name: ai_english
+description: "A new Flutter project."
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.2
+
+dependencies:
+  # Flutter本体。Flutterアプリケーションを構築するためのフレームワーク。
+  flutter:
+    sdk: flutter
+  # Cupertinoデザインのアイコン集。iOS風のUIを提供するために使用。
+  cupertino_icons: ^1.0.8
+  # Freezedのアノテーション。イミュータブルなデータクラス生成を支援。
+  freezed_annotation: ^2.4.4
+  # JSONシリアライズ用のアノテーション。JSONとDart間の変換をサポート。
+  json_annotation: ^4.9.0
+  # ステート管理ライブラリ。宣言的な状態管理を実現するために利用。
+  flutter_riverpod: ^2.6.1
+  # Riverpod用のアノテーション。コード生成のための設定を補助。
+  riverpod_annotation: ^2.6.1
+  # HTTPクライアントライブラリ。API呼び出しやネットワーク通信を効率化。
+  dio: ^5.8.0+1
+
+dev_dependencies:
+  # Flutterのテストフレームワーク。単体テストやウィジェットテストの実行に使用。
+  flutter_test:
+    sdk: flutter
+  # Flutter用のLinter。コーディング規約に沿ったコード作成をサポート。
+  flutter_lints: ^5.0.0
+  # コード生成を実行するためのツール。Freezedやjson_serializableなどと連携。
+  build_runner: ^2.4.14
+  # Freezedパッケージ本体。データクラスやユニオン型のコード生成を行う。
+  freezed: ^2.5.8
+  # JSONシリアライズ処理のコード生成ライブラリ。DartオブジェクトとJSON間の変換コードを自動生成。
+  json_serializable: ^6.9.3
+  riverpod_generator: ^2.6.4
+
+flutter:
+  uses-material-design: true
