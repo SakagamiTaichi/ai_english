@@ -1,6 +1,4 @@
-import 'package:ai_english/features/chat/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Widget resetAlertDialog(BuildContext context, Function onReset) {
   return AlertDialog(

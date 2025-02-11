@@ -96,7 +96,7 @@ class ChatNotifier extends _$ChatNotifier {
       state = [
         ...state,
         Message(
-          text: "エラーが発生しました: $e",
+          text: "Unexpected error occurred while sending message: $e",
           isUser: false,
           createdAt: DateTime.now(),
         ),
@@ -119,7 +119,7 @@ class ChatNotifier extends _$ChatNotifier {
       state = [
         ...state,
         Message(
-          text: "リセット中にエラーが発生しました: $e",
+          text: "unexpected error occurred while resetting chat: $e",
           isUser: false,
           createdAt: DateTime.now(),
         ),
