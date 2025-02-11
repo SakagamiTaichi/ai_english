@@ -23,7 +23,7 @@ class ChatPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('モダンチャット'),
+        title: const Text('AI English Chat'),
       ),
       body: Column(
         children: [
