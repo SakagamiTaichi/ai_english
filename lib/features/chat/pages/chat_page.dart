@@ -1,4 +1,5 @@
 import 'package:ai_english/features/chat/pages/widgets/message_bubble.dart';
+import 'package:ai_english/features/chat/pages/widgets/reset_alert_dialog.dart';
 import 'package:ai_english/features/chat/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,17 @@ class ChatPage extends ConsumerWidget {
     _controller.clear();
   }
 
+  void _resetChat(WidgetRef ref) {
+    showDialog(
+      context: ref.context,
+      builder: (BuildContext context) {
+        return resetAlertDialog(context, () {
+          ref.read(chatNotifierProvider.notifier).resetChat();
+        });
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final messages = ref.watch(chatNotifierProvider);
@@ -24,6 +36,12 @@ class ChatPage extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('AI English Chat'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => _resetChat(ref),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -48,7 +66,7 @@ class ChatPage extends ConsumerWidget {
                     maxLines: 2,
                     controller: _controller,
                     decoration: const InputDecoration(
-                      hintText: 'メッセージを入力...',
+                      hintText: 'Type a message...',
                       border: InputBorder.none,
                     ),
                     onSubmitted: (value) => _sendMessage(ref),
