@@ -1,4 +1,5 @@
 import 'package:ai_english/features/chat/pages/widgets/message_bubble.dart';
+import 'package:ai_english/features/chat/pages/widgets/reset_alert_dialog.dart';
 import 'package:ai_english/features/chat/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,25 +21,9 @@ class ChatPage extends ConsumerWidget {
     showDialog(
       context: ref.context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Confirm Reset'),
-          content: const Text('Are you sure you want to reset the chat?'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Reset'),
-              onPressed: () {
-                ref.read(chatNotifierProvider.notifier).resetChat();
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
+        return resetAlertDialog(context, () {
+          ref.read(chatNotifierProvider.notifier).resetChat();
+        });
       },
     );
   }
@@ -81,7 +66,7 @@ class ChatPage extends ConsumerWidget {
                     maxLines: 2,
                     controller: _controller,
                     decoration: const InputDecoration(
-                      hintText: 'メッセージを入力...',
+                      hintText: 'Type a message...',
                       border: InputBorder.none,
                     ),
                     onSubmitted: (value) => _sendMessage(ref),
