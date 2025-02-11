@@ -31,20 +31,8 @@ class ChatPage extends ConsumerWidget {
   }
 
   void _playChatHistory(WidgetRef ref) {
-    final chatHistory = ref.read(chatNotifierProvider.notifier).state.map((message) => message.text).toList();
+    final chatHistory = ref.read(chatNotifierProvider).toList();
     ref.read(ttsNotifierProvider.notifier).speakChatHistory(chatHistory);
-  }
-
-  void _pauseTTS(WidgetRef ref) {
-    ref.read(ttsNotifierProvider.notifier).pause();
-  }
-
-  void _resumeTTS(WidgetRef ref) {
-    ref.read(ttsNotifierProvider.notifier).resume();
-  }
-
-  void _stopTTS(WidgetRef ref) {
-    ref.read(ttsNotifierProvider.notifier).stop();
   }
 
   @override
@@ -63,18 +51,6 @@ class ChatPage extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.play_arrow),
             onPressed: () => _playChatHistory(ref),
-          ),
-          IconButton(
-            icon: const Icon(Icons.pause),
-            onPressed: () => _pauseTTS(ref),
-          ),
-          IconButton(
-            icon: const Icon(Icons.play_arrow),
-            onPressed: () => _resumeTTS(ref),
-          ),
-          IconButton(
-            icon: const Icon(Icons.stop),
-            onPressed: () => _stopTTS(ref),
           ),
         ],
       ),
@@ -98,7 +74,6 @@ class ChatPage extends ConsumerWidget {
               children: [
                 Expanded(
                   child: TextField(
-                    maxLines: 2,
                     controller: _controller,
                     decoration: const InputDecoration(
                       hintText: 'Type a message...',

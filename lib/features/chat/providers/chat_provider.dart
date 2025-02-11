@@ -89,7 +89,7 @@ class ChatNotifier extends _$ChatNotifier {
 
       // 完成したメッセージを読み上げ
       if (state.last.text.isNotEmpty) {
-        await ref.read(ttsNotifierProvider.notifier).speak(state.last.text);
+        await ref.read(ttsNotifierProvider.notifier).speak(state.last);
       }
     } catch (e) {
       // エラーメッセージを追加
@@ -114,7 +114,7 @@ class ChatNotifier extends _$ChatNotifier {
 
       // 新しいチャット状態を初期化
       state = [];
-      
+
       // Clear the pause state
       await ref.read(ttsNotifierProvider.notifier).stop();
     } catch (e) {

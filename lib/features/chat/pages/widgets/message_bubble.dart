@@ -17,7 +17,7 @@ class MessageBubble extends ConsumerWidget {
     return GestureDetector(
       onTap: () async {
         // TTSプロバイダーを使用してメッセージを再生
-        await ref.read(ttsNotifierProvider.notifier).speak(message.text);
+        await ref.read(ttsNotifierProvider.notifier).speak(message);
       },
       child: Align(
         alignment:
