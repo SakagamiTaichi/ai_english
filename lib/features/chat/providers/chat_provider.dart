@@ -114,6 +114,9 @@ class ChatNotifier extends _$ChatNotifier {
 
       // 新しいチャット状態を初期化
       state = [];
+      
+      // Clear the pause state
+      await ref.read(ttsNotifierProvider.notifier).stop();
     } catch (e) {
       // エラーメッセージを追加
       state = [
@@ -125,5 +128,9 @@ class ChatNotifier extends _$ChatNotifier {
         ),
       ];
     }
+  }
+
+  List<String> getChatHistory() {
+    return state.map((message) => message.text).toList();
   }
 }

@@ -3,6 +3,7 @@ import 'package:ai_english/features/chat/pages/widgets/reset_alert_dialog.dart';
 import 'package:ai_english/features/chat/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ai_english/core/utils/provider/tts_provider.dart';
 
 class ChatPage extends ConsumerWidget {
   ChatPage({super.key});
@@ -23,9 +24,27 @@ class ChatPage extends ConsumerWidget {
       builder: (BuildContext context) {
         return resetAlertDialog(context, () {
           ref.read(chatNotifierProvider.notifier).resetChat();
+          ref.read(ttsNotifierProvider.notifier).stop();
         });
       },
     );
+  }
+
+  void _playChatHistory(WidgetRef ref) {
+    final chatHistory = ref.read(chatNotifierProvider.notifier).state.map((message) => message.text).toList();
+    ref.read(ttsNotifierProvider.notifier).speakChatHistory(chatHistory);
+  }
+
+  void _pauseTTS(WidgetRef ref) {
+    ref.read(ttsNotifierProvider.notifier).pause();
+  }
+
+  void _resumeTTS(WidgetRef ref) {
+    ref.read(ttsNotifierProvider.notifier).resume();
+  }
+
+  void _stopTTS(WidgetRef ref) {
+    ref.read(ttsNotifierProvider.notifier).stop();
   }
 
   @override
@@ -40,6 +59,22 @@ class ChatPage extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => _resetChat(ref),
+          ),
+          IconButton(
+            icon: const Icon(Icons.play_arrow),
+            onPressed: () => _playChatHistory(ref),
+          ),
+          IconButton(
+            icon: const Icon(Icons.pause),
+            onPressed: () => _pauseTTS(ref),
+          ),
+          IconButton(
+            icon: const Icon(Icons.play_arrow),
+            onPressed: () => _resumeTTS(ref),
+          ),
+          IconButton(
+            icon: const Icon(Icons.stop),
+            onPressed: () => _stopTTS(ref),
           ),
         ],
       ),

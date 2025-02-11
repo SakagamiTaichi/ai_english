@@ -27,4 +27,32 @@ class TtsNotifier extends AsyncNotifier<FlutterTts> {
     final tts = await future;
     await tts.speak(text);
   }
+
+  Future<void> speakChatHistory(List<String> chatHistory) async {
+    final tts = await future;
+    for (String message in chatHistory) {
+      await tts.speak(message);
+      await tts.awaitSpeakCompletion(true);
+    }
+  }
+
+  Future<void> pause() async {
+    final tts = await future;
+    await tts.pause();
+  }
+
+  Future<void> resume() async {
+    final tts = await future;
+    await tts.resume();
+  }
+
+  Future<void> stop() async {
+    final tts = await future;
+    await tts.stop();
+  }
+
+  Future<void> setPlaybackPosition(double position) async {
+    final tts = await future;
+    await tts.setProgress(position);
+  }
 }
