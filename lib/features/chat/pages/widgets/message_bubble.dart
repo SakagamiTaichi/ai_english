@@ -23,6 +23,7 @@ class MessageBubble extends ConsumerWidget {
         alignment:
             message.isUser ? Alignment.centerRight : Alignment.centerLeft,
         child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
           margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
