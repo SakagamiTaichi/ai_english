@@ -3,6 +3,7 @@ import 'package:ai_english/features/chat/pages/widgets/reset_alert_dialog.dart';
 import 'package:ai_english/features/chat/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ai_english/core/utils/provider/tts_provider.dart';
 
 class ChatPage extends ConsumerWidget {
   ChatPage({super.key});
@@ -23,9 +24,15 @@ class ChatPage extends ConsumerWidget {
       builder: (BuildContext context) {
         return resetAlertDialog(context, () {
           ref.read(chatNotifierProvider.notifier).resetChat();
+          ref.read(ttsNotifierProvider.notifier).stop();
         });
       },
     );
+  }
+
+  void _playChatHistory(WidgetRef ref) {
+    final chatHistory = ref.read(chatNotifierProvider).toList();
+    ref.read(ttsNotifierProvider.notifier).speakChatHistory(chatHistory);
   }
 
   @override
@@ -40,6 +47,10 @@ class ChatPage extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => _resetChat(ref),
+          ),
+          IconButton(
+            icon: const Icon(Icons.play_arrow),
+            onPressed: () => _playChatHistory(ref),
           ),
         ],
       ),
@@ -63,7 +74,6 @@ class ChatPage extends ConsumerWidget {
               children: [
                 Expanded(
                   child: TextField(
-                    maxLines: 2,
                     controller: _controller,
                     decoration: const InputDecoration(
                       hintText: 'Type a message...',
