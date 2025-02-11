@@ -16,6 +16,33 @@ class ChatPage extends ConsumerWidget {
     _controller.clear();
   }
 
+  void _resetChat(WidgetRef ref) {
+    showDialog(
+      context: ref.context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Reset'),
+          content: const Text('Are you sure you want to reset the chat?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Reset'),
+              onPressed: () {
+                ref.read(chatNotifierProvider.notifier).resetChat();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final messages = ref.watch(chatNotifierProvider);
@@ -24,6 +51,12 @@ class ChatPage extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('AI English Chat'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () => _resetChat(ref),
+          ),
+        ],
       ),
       body: Column(
         children: [

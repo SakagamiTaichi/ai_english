@@ -6,6 +6,7 @@ import 'package:ai_english/core/utils/provider/tts_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:uuid/uuid.dart';
 import '../models/message.dart';
 
 part 'chat_provider.g.dart';
@@ -13,14 +14,16 @@ part 'chat_provider.g.dart';
 @riverpod
 class ChatNotifier extends _$ChatNotifier {
   late final ApiClient _apiClient;
+  late String _sessionId;
 
   @override
   List<Message> build() {
     _apiClient = ApiClient();
+    _sessionId = const Uuid().v4();
     return [];
   }
 
-  Future<void> sendMessage(String text, {String sessionId = "default"}) async {
+  Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
     // ユーザーのメッセージを追加
@@ -47,7 +50,7 @@ class ChatNotifier extends _$ChatNotifier {
         '/english/chat',
         queryParameters: {
           'message': text,
-          'session_id': sessionId,
+          'session_id': _sessionId,
         },
       );
 
@@ -94,6 +97,29 @@ class ChatNotifier extends _$ChatNotifier {
         ...state,
         Message(
           text: "エラーが発生しました: $e",
+          isUser: false,
+          createdAt: DateTime.now(),
+        ),
+      ];
+    }
+  }
+
+  Future<void> resetChat() async {
+    try {
+      // チャット履歴をクリア
+      state = [];
+
+      // 新しいセッションIDを生成
+      _sessionId = const Uuid().v4();
+
+      // 新しいチャット状態を初期化
+      state = [];
+    } catch (e) {
+      // エラーメッセージを追加
+      state = [
+        ...state,
+        Message(
+          text: "リセット中にエラーが発生しました: $e",
           isUser: false,
           createdAt: DateTime.now(),
         ),
