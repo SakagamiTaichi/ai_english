@@ -2,6 +2,7 @@ import 'package:ai_english/core/utils/provider/tts_provider.dart';
 import 'package:ai_english/features/chat/models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MessageBubble extends ConsumerWidget {
   final Message message;
@@ -28,12 +29,17 @@ class MessageBubble extends ConsumerWidget {
             color: message.isUser ? Colors.blueAccent : Colors.grey[300],
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Text(
-            message.text,
-            style: TextStyle(
-              color: message.isUser ? Colors.white : Colors.black,
-            ),
-          ),
+          child: message.text.isEmpty
+              ? const SpinKitThreeBounce(
+                  color: Colors.grey,
+                  size: 20.0,
+                )
+              : Text(
+                  message.text,
+                  style: TextStyle(
+                    color: message.isUser ? Colors.white : Colors.black,
+                  ),
+                ),
         ),
       ),
     );

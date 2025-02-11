@@ -25,6 +25,7 @@ dependencies:
   dio: ^5.8.0+1
   flutter_tts: ^4.2.2
   uuid: ^4.5.1
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   # Flutterのテストフレームワーク。単体テストやウィジェットテストの実行に使用。
