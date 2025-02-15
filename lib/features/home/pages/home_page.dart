@@ -14,10 +14,13 @@ class HomePage extends StatelessWidget {
         child: Text('Welcome to AI English!'),
       ),
       bottomNavigationBar: BottomAppBar(
+        elevation: 1,
+        height: MediaQuery.of(context).size.height * 0.08,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             IconButton(
+              tooltip: 'New Chat',
               icon: const Icon(Icons.chat),
               onPressed: () {
                 Navigator.push(
