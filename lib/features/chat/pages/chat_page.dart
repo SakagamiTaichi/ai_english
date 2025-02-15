@@ -1,5 +1,5 @@
-import 'package:ai_english/features/chat/pages/widgets/message_bubble.dart';
-import 'package:ai_english/features/chat/pages/widgets/reset_alert_dialog.dart';
+import 'package:ai_english/features/chat/components/message_bubble.dart';
+import 'package:ai_english/features/chat/components/reset_alert_dialog.dart';
 import 'package:ai_english/features/chat/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
