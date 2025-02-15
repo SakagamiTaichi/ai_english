@@ -1,4 +1,4 @@
-import 'package:ai_english/features/chat/pages/chat_page.dart';
+import 'package:ai_english/features/home/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 255, 148, 55)),
         useMaterial3: true,
       ),
-      home: ChatPage(),
+      home: HomePage(),
     );
   }
 }
