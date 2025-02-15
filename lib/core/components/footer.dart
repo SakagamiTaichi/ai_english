@@ -1,4 +1,5 @@
 import 'package:ai_english/features/chat/pages/chat_page.dart';
+import 'package:ai_english/features/chat/pages/chat_history_page.dart';
 import 'package:flutter/material.dart';
 
 Widget footer(BuildContext context) {
@@ -15,6 +16,16 @@ Widget footer(BuildContext context) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ChatPage()),
+            );
+          },
+        ),
+        IconButton(
+          tooltip: 'Chat History',
+          icon: const Icon(Icons.history),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChatHistoryPage()),
             );
           },
         ),
