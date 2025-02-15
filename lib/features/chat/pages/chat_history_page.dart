@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:ai_english/core/http/api_client.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class ChatHistoryPage extends ConsumerStatefulWidget {
-  const ChatHistoryPage({Key? key}) : super(key: key);
+  const ChatHistoryPage({super.key});
 
   @override
-  _ChatHistoryPageState createState() => _ChatHistoryPageState();
+  ChatHistoryPageState createState() => ChatHistoryPageState();
 }
 
-class _ChatHistoryPageState extends ConsumerState<ChatHistoryPage> {
+class ChatHistoryPageState extends ConsumerState<ChatHistoryPage> {
   final ApiClient _apiClient = ApiClient();
   List<Map<String, dynamic>> _conversations = [];
   List<Map<String, dynamic>> _filteredConversations = [];
@@ -57,8 +57,9 @@ class _ChatHistoryPageState extends ConsumerState<ChatHistoryPage> {
   void _filterConversations(String keyword) {
     setState(() {
       _filteredConversations = _conversations
-          .where((conversation) =>
-              conversation['title'].toLowerCase().contains(keyword.toLowerCase()))
+          .where((conversation) => conversation['title']
+              .toLowerCase()
+              .contains(keyword.toLowerCase()))
           .toList();
     });
   }
