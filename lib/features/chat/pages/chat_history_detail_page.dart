@@ -52,6 +52,11 @@ class ChatHistoryDetailPage extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final chatHistory = chatHistories[index];
                 return ReversibleMessageBubble(
+                    onLongPress: () => ref
+                        .read(ttsNotifierProvider.notifier)
+                        .speak(Message(
+                            text: chatHistory.message_en,
+                            isUser: chatHistory.speaker_number == 0)),
                     messageEnglish: chatHistory.message_en,
                     messageJapanese: chatHistory.message_ja,
                     speaker: chatHistory.speaker_number);
