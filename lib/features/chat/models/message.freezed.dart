@@ -22,7 +22,6 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 mixin _$Message {
   String get text => throw _privateConstructorUsedError;
   bool get isUser => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Message to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +37,7 @@ abstract class $MessageCopyWith<$Res> {
   factory $MessageCopyWith(Message value, $Res Function(Message) then) =
       _$MessageCopyWithImpl<$Res, Message>;
   @useResult
-  $Res call({String text, bool isUser, DateTime createdAt});
+  $Res call({String text, bool isUser});
 }
 
 /// @nodoc
@@ -58,7 +57,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   $Res call({
     Object? text = null,
     Object? isUser = null,
-    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       text: null == text
@@ -69,10 +67,6 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.isUser
           : isUser // ignore: cast_nullable_to_non_nullable
               as bool,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
     ) as $Val);
   }
 }
@@ -84,7 +78,7 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
       __$$MessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String text, bool isUser, DateTime createdAt});
+  $Res call({String text, bool isUser});
 }
 
 /// @nodoc
@@ -102,7 +96,6 @@ class __$$MessageImplCopyWithImpl<$Res>
   $Res call({
     Object? text = null,
     Object? isUser = null,
-    Object? createdAt = null,
   }) {
     return _then(_$MessageImpl(
       text: null == text
@@ -113,10 +106,6 @@ class __$$MessageImplCopyWithImpl<$Res>
           ? _value.isUser
           : isUser // ignore: cast_nullable_to_non_nullable
               as bool,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
     ));
   }
 }
@@ -124,8 +113,7 @@ class __$$MessageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MessageImpl implements _Message {
-  const _$MessageImpl(
-      {required this.text, required this.isUser, required this.createdAt});
+  const _$MessageImpl({required this.text, required this.isUser});
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageImplFromJson(json);
@@ -134,12 +122,10 @@ class _$MessageImpl implements _Message {
   final String text;
   @override
   final bool isUser;
-  @override
-  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Message(text: $text, isUser: $isUser, createdAt: $createdAt)';
+    return 'Message(text: $text, isUser: $isUser)';
   }
 
   @override
@@ -148,14 +134,12 @@ class _$MessageImpl implements _Message {
         (other.runtimeType == runtimeType &&
             other is _$MessageImpl &&
             (identical(other.text, text) || other.text == text) &&
-            (identical(other.isUser, isUser) || other.isUser == isUser) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+            (identical(other.isUser, isUser) || other.isUser == isUser));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, text, isUser, createdAt);
+  int get hashCode => Object.hash(runtimeType, text, isUser);
 
   /// Create a copy of Message
   /// with the given fields replaced by the non-null parameter values.
@@ -175,9 +159,7 @@ class _$MessageImpl implements _Message {
 
 abstract class _Message implements Message {
   const factory _Message(
-      {required final String text,
-      required final bool isUser,
-      required final DateTime createdAt}) = _$MessageImpl;
+      {required final String text, required final bool isUser}) = _$MessageImpl;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
 
@@ -185,8 +167,6 @@ abstract class _Message implements Message {
   String get text;
   @override
   bool get isUser;
-  @override
-  DateTime get createdAt;
 
   /// Create a copy of Message
   /// with the given fields replaced by the non-null parameter values.

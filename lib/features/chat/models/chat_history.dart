@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'chat_history.freezed.dart';
 part 'chat_history.g.dart';
 
-@Freezed(unionKey: 'type', unionValueCase: FreezedUnionCase.snake)
+@freezed
 class ChatHistory with _$ChatHistory {
   const factory ChatHistory({
     required String id,

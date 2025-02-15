@@ -1,4 +1,5 @@
 import 'package:ai_english/core/utils/methods/format.dart';
+import 'package:ai_english/features/chat/pages/chat_history_detail_page.dart';
 import 'package:ai_english/features/chat/providers/chat_history_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +49,13 @@ class ChatHistoryPage extends ConsumerWidget {
                       title: Text(chatHistory.title),
                       subtitle: Text(formatDate(chatHistory.created_at)),
                       onTap: () {
-                        debugPrint('Tap message');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ChatHistoryDetailPage(id: chatHistory.id),
+                          ),
+                        );
                       },
                     ),
                   );

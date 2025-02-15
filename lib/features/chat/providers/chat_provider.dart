@@ -32,7 +32,6 @@ class ChatNotifier extends _$ChatNotifier {
       Message(
         text: text,
         isUser: true,
-        createdAt: DateTime.now(),
       ),
     ];
 
@@ -41,7 +40,6 @@ class ChatNotifier extends _$ChatNotifier {
       final responseMessage = Message(
         text: "",
         isUser: false,
-        createdAt: DateTime.now(),
       );
       state = [...state, responseMessage];
 
@@ -76,7 +74,6 @@ class ChatNotifier extends _$ChatNotifier {
                 updatedState.last = Message(
                   text: updatedState.last.text + jsonData['content'],
                   isUser: false,
-                  createdAt: responseMessage.createdAt,
                 );
                 state = updatedState;
               }
@@ -98,7 +95,6 @@ class ChatNotifier extends _$ChatNotifier {
         Message(
           text: "Unexpected error occurred while sending message: $e",
           isUser: false,
-          createdAt: DateTime.now(),
         ),
       ];
     }
@@ -124,7 +120,6 @@ class ChatNotifier extends _$ChatNotifier {
         Message(
           text: "unexpected error occurred while resetting chat: $e",
           isUser: false,
-          createdAt: DateTime.now(),
         ),
       ];
     }

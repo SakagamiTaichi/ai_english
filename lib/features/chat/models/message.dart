@@ -8,7 +8,6 @@ class Message with _$Message {
   const factory Message({
     required String text,
     required bool isUser,
-    required DateTime createdAt,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) =>
