@@ -26,7 +26,10 @@ dependencies:
   flutter_tts: ^4.2.2
   uuid: ^4.5.1
   flutter_spinkit: ^5.1.0
-  intl: ^0.20.2
+  # flutter_localizationsが0.19.0を要求しているため、明示的に指定。
+  intl: 0.19.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   # Flutterのテストフレームワーク。単体テストやウィジェットテストの実行に使用。
