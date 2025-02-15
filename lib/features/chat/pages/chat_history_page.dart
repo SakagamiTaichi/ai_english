@@ -36,12 +36,21 @@ class ChatHistoryPage extends ConsumerWidget {
                 itemCount: chatHistories.length,
                 itemBuilder: (context, index) {
                   final chatHistory = chatHistories[index];
-                  return ListTile(
-                    title: Text(chatHistory.title),
-                    subtitle: Text(formatDate(chatHistory.created_at)),
-                    onTap: () {
-                      debugPrint('Tap message');
-                    },
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Theme.of(context).dividerColor,
+                        ),
+                      ),
+                    ),
+                    child: ListTile(
+                      title: Text(chatHistory.title),
+                      subtitle: Text(formatDate(chatHistory.created_at)),
+                      onTap: () {
+                        debugPrint('Tap message');
+                      },
+                    ),
                   );
                 },
               ),

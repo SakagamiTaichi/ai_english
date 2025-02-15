@@ -41,11 +41,4 @@ class AsyncChatHistory extends _$AsyncChatHistory {
 
     state = AsyncData(filteredList);
   }
-
-  // オプション: 検索をリセットするメソッド
-  void resetFilter() {
-    if (_originalChatHistories != null) {
-      state = AsyncData(_originalChatHistories!);
-    }
-  }
 }
