@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- リリースビルドにおいては明示的にインターネット接続への許可を求める -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="ai_english"
         android:name="${applicationName}"
