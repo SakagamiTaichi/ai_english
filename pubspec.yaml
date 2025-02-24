@@ -33,6 +33,7 @@ dependencies:
   # Flutter Hooksライブラリ。フックを利用して状態管理を行うために使用。
   flutter_hooks: ^0.20.5
   shared_preferences: ^2.5.2
+  page_transition: ^2.2.1
 
 dev_dependencies:
   # Flutterのテストフレームワーク。単体テストやウィジェットテストの実行に使用。
