@@ -1,3 +1,4 @@
+import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/features/theme/providers/theme_selector_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,6 +34,7 @@ class ThemeSelectorPage extends ConsumerWidget {
           );
         },
       ),
+      bottomNavigationBar: footer(context),
     );
   }
 }

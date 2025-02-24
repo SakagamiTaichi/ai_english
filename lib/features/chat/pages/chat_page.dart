@@ -1,3 +1,4 @@
+import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/features/chat/components/message_bubble.dart';
 import 'package:ai_english/features/chat/components/reset_alert_dialog.dart';
 import 'package:ai_english/features/chat/providers/chat_provider.dart';
@@ -91,6 +92,7 @@ class ChatPage extends ConsumerWidget {
           ),
         ],
       ),
+      bottomNavigationBar: footer(context),
     );
   }
 }
