@@ -14,6 +14,7 @@ class ChatHistoryPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Chat History'),
       ),
       body: Column(

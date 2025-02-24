@@ -1,5 +1,6 @@
 import 'package:ai_english/features/chat/pages/chat_page.dart';
 import 'package:ai_english/features/chat/pages/chat_history_page.dart';
+import 'package:ai_english/features/theme/pages/theme_selector_page.dart';
 import 'package:flutter/material.dart';
 
 Widget footer(BuildContext context) {
@@ -29,6 +30,15 @@ Widget footer(BuildContext context) {
             );
           },
         ),
+        IconButton(
+            tooltip: 'Settings',
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ThemeSelectorPage()),
+              );
+            })
       ],
     ),
   );
