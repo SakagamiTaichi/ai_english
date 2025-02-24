@@ -30,6 +30,7 @@ dependencies:
   intl: 0.19.0
   flutter_localizations:
     sdk: flutter
+  # Flutter Hooksライブラリ。フックを利用して状態管理を行うために使用。
   flutter_hooks: ^0.20.5
 
 dev_dependencies:
@@ -45,6 +46,8 @@ dev_dependencies:
   # JSONシリアライズ処理のコード生成ライブラリ。DartオブジェクトとJSON間の変換コードを自動生成。
   json_serializable: ^6.9.3
   riverpod_generator: ^2.6.4
+  # モック用のライブラリ。ユニットテストやウィジェットテストを実行するために使用。
+  mockito: ^5.4.5
 
 flutter:
   uses-material-design: true

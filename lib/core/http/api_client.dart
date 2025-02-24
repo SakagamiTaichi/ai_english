@@ -1,8 +1,9 @@
 import 'package:ai_english/core/constans/constans.dart';
+import 'package:ai_english/core/http/iapi_client.dart';
 import 'package:ai_english/core/http/interceptors/error_interceptors.dart';
 import 'package:dio/dio.dart';
 
-class ApiClient {
+class ApiClient implements IApiClient {
   late Dio _dio;
 
   ApiClient() {
@@ -23,6 +24,7 @@ class ApiClient {
     ]);
   }
 
+  @override
   // GET リクエスト
   Future<Response> get(String path,
       {Map<String, dynamic>? queryParameters}) async {
@@ -35,6 +37,7 @@ class ApiClient {
     }
   }
 
+  @override
   // ストリーミング形式Getリクエスト
   Future<Response> getStream(String path,
       {Map<String, dynamic>? queryParameters}) async {
@@ -55,7 +58,7 @@ class ApiClient {
     }
   }
 
-  // Putリクエスト
+  @override // Putリクエスト
   Future<Response> put(String path, {dynamic data}) async {
     try {
       return await _dio.put(path, data: data);
@@ -64,6 +67,7 @@ class ApiClient {
     }
   }
 
+  @override
   // POST リクエスト
   Future<Response> post(String path, {dynamic data}) async {
     try {
@@ -73,6 +77,7 @@ class ApiClient {
     }
   }
 
+  @override
   // DELETE リクエスト
   Future<Response> delete(String path, {dynamic data}) async {
     try {

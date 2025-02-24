@@ -6,7 +6,7 @@ part of 'chat_history_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncChatHistoryHash() => r'f1e6328f3b011b32f7c001f27e6ded455a12fc75';
+String _$asyncChatHistoryHash() => r'383f05333a1dc116a7985724316aa6a051cf9369';
 
 /// See also [AsyncChatHistory].
 @ProviderFor(AsyncChatHistory)
