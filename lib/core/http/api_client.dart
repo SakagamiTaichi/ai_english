@@ -19,7 +19,13 @@ class ApiClient {
     // インターセプターの追加
     _dio.interceptors.addAll([
       ErrorInterceptor(),
-      // LogInterceptor(responseBody: true),
+      LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        error: true,
+        requestHeader: true,
+        responseHeader: true,
+      ),
     ]);
   }
 
