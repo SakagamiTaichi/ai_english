@@ -1,4 +1,5 @@
 import 'package:ai_english/core/components/footer.dart';
+import 'package:ai_english/core/components/header.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,10 +8,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Home'),
-      ),
+      appBar: header(context),
       body: const Center(
         child: Text('Welcome to AI English!'),
       ),

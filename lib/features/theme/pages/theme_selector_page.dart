@@ -1,4 +1,5 @@
 import 'package:ai_english/core/components/footer.dart';
+import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/theme/providers/theme_selector_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,10 +14,7 @@ class ThemeSelectorPage extends ConsumerWidget {
 
     // Scaffold を追加
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Settings'),
-      ),
+      appBar: header(context),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 16),
         itemCount: ThemeMode.values.length,
