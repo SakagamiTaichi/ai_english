@@ -27,12 +27,12 @@ class ReversibleMessageBubble extends HookWidget {
 
     return GestureDetector(
       onTap: () async {
-        // 言語切り替え
-        toggleLanguage();
+        // 声再生（常に英語）
+        onLongPress();
       },
       onLongPress: () async {
-        // 長押しで音声再生（常に英語）
-        onLongPress();
+        // 長押しで音言語切り替え
+        toggleLanguage();
       },
       child: Align(
         alignment: speaker == 0 ? Alignment.centerRight : Alignment.centerLeft,
