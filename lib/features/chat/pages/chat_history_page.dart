@@ -49,7 +49,11 @@ class ChatHistoryPage extends ConsumerWidget {
                       ),
                     ),
                     child: ListTile(
-                      title: Text(chatHistory.title),
+                      title: Text(
+                        chatHistory.title,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
                       subtitle: Text(formatDate(chatHistory.created_at)),
                       onTap: () {
                         Navigator.push(
