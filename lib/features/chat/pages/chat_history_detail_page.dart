@@ -1,3 +1,5 @@
+import 'package:ai_english/core/components/footer.dart';
+import 'package:ai_english/features/chat/components/setting_panel.dart';
 import 'package:ai_english/core/utils/provider/tts_provider.dart';
 import 'package:ai_english/features/chat/components/reversible_message_bubble.dart';
 import 'package:ai_english/features/chat/models/chat_history_detail.dart';
@@ -30,20 +32,23 @@ class ChatHistoryDetailPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('AI English Chat'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.play_arrow),
-            onPressed: () => data.whenOrNull(
-              data: (chatHistories) => _playChatHistory(ref, chatHistories),
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
+          SettingPanel(
+            onPlayAll: () {
+              data.whenOrNull(
+                data: (chatHistories) => _playChatHistory(ref, chatHistories),
+              );
+            },
+            onSpeedChanged: (speed) {
+              // 再生速度の変更処理をここに追加
+              ref.read(ttsNotifierProvider.notifier).setSpeechRate(speed);
+            },
+          ),
           Expanded(
               child: data.when(
             loading: () => const Center(child: CircularProgressIndicator()),
@@ -66,6 +71,7 @@ class ChatHistoryDetailPage extends ConsumerWidget {
           )),
         ],
       ),
+      bottomNavigationBar: footer(context),
     );
   }
 }

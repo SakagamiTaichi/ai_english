@@ -1,6 +1,7 @@
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/features/chat/components/message_bubble.dart';
 import 'package:ai_english/features/chat/components/reset_alert_dialog.dart';
+import 'package:ai_english/features/chat/components/setting_panel.dart';
 import 'package:ai_english/features/chat/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,11 +39,11 @@ class ChatPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messages = ref.watch(chatNotifierProvider);
+    final data = ref.watch(chatNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('AI English Chat'),
         actions: [
@@ -50,21 +51,26 @@ class ChatPage extends ConsumerWidget {
             icon: const Icon(Icons.refresh),
             onPressed: () => _resetChat(ref),
           ),
-          IconButton(
-            icon: const Icon(Icons.play_arrow),
-            onPressed: () => _playChatHistory(ref),
-          ),
         ],
       ),
       body: Column(
         children: [
+          SettingPanel(
+            onPlayAll: () {
+              _playChatHistory(ref);
+            },
+            onSpeedChanged: (speed) {
+              // 再生速度の変更処理をここに追加
+              ref.read(ttsNotifierProvider.notifier).setSpeechRate(speed);
+            },
+          ),
           Expanded(
             child: ListView.builder(
               reverse: false,
               padding: const EdgeInsets.all(8.0),
-              itemCount: messages.length,
+              itemCount: data.length,
               itemBuilder: (context, index) {
-                return MessageBubble(message: messages[index]);
+                return MessageBubble(message: data[index]);
               },
             ),
           ),
