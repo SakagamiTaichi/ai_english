@@ -37,4 +37,9 @@ class AsyncChatHistory extends _$AsyncChatHistory {
 
     state = AsyncData(filteredList);
   }
+
+  Future<void> refresh() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() => _fetchAndStoreConversations());
+  }
 }

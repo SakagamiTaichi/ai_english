@@ -1,7 +1,7 @@
 import 'package:ai_english/features/chat/pages/chat_page.dart';
 import 'package:ai_english/features/chat/pages/chat_history_page.dart';
 import 'package:ai_english/features/home/pages/home_page.dart';
-import 'package:ai_english/features/theme/pages/theme_selector_page.dart';
+import 'package:ai_english/features/settings/pages/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -65,15 +65,15 @@ Widget footer(BuildContext context) {
         IconButton(
             tooltip: 'Settings',
             icon: const Icon(Icons.settings),
-            color: context.widget is ThemeSelectorPage
+            color: context.widget is SettingPage
                 ? Theme.of(context).primaryColor
                 : null,
             onPressed: () {
-              if (context.widget is ThemeSelectorPage) return;
+              if (context.widget is SettingPage) return;
               Navigator.push(
                   context,
                   PageTransition(
-                    child: ThemeSelectorPage(), //画面遷移先
+                    child: SettingPage(), //画面遷移先
                     type: PageTransitionType.leftToRightWithFade, //アニメーションの種類
                   ));
             })

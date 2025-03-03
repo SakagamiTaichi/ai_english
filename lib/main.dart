@@ -1,5 +1,8 @@
+import 'package:ai_english/features/auth/components/auth_guard.dart';
+import 'package:ai_english/features/auth/pages/sign_in_page.dart';
+import 'package:ai_english/features/auth/providers/auth_provider.dart';
 import 'package:ai_english/features/home/pages/home_page.dart';
-import 'package:ai_english/features/theme/providers/theme_selector_provider.dart';
+import 'package:ai_english/features/settings/providers/theme_selector_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,8 +21,10 @@ class MyApp extends ConsumerWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authNotifierProvider);
+
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'AI English',
       localizationsDelegates: [
         GlobalWidgetsLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -40,7 +45,9 @@ class MyApp extends ConsumerWidget {
             loading: () => ThemeMode.system,
             error: (error, stack) => ThemeMode.system,
           ),
-      home: HomePage(),
+      home: authState.isAuthenticated
+          ? const AuthGuard(child: HomePage())
+          : const SignInPage(),
     );
   }
 }

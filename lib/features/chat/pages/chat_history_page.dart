@@ -32,41 +32,44 @@ class ChatHistoryPage extends ConsumerWidget {
             ),
           ),
           Expanded(
-            child: data.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) =>
-                  Center(child: Text('Failed to load conversations')),
-              data: (chatHistories) => ListView.builder(
-                itemCount: chatHistories.length,
-                itemBuilder: (context, index) {
-                  final chatHistory = chatHistories[index];
-                  return Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Theme.of(context).dividerColor,
+            child: RefreshIndicator(
+              onRefresh: () => notifier.refresh(),
+              child: data.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, _) =>
+                    Center(child: Text('Failed to load conversations')),
+                data: (chatHistories) => ListView.builder(
+                  itemCount: chatHistories.length,
+                  itemBuilder: (context, index) {
+                    final chatHistory = chatHistories[index];
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Theme.of(context).dividerColor,
+                          ),
                         ),
                       ),
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        chatHistory.title,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                      child: ListTile(
+                        title: Text(
+                          chatHistory.title,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        subtitle: Text(formatDate(chatHistory.created_at)),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ChatHistoryDetailPage(id: chatHistory.id),
+                            ),
+                          );
+                        },
                       ),
-                      subtitle: Text(formatDate(chatHistory.created_at)),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ChatHistoryDetailPage(id: chatHistory.id),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ),

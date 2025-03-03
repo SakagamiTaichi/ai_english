@@ -1,10 +1,13 @@
 import 'package:ai_english/core/constans/constans.dart';
 import 'package:ai_english/core/http/iapi_client.dart';
 import 'package:ai_english/core/http/interceptors/error_interceptors.dart';
+import 'package:ai_english/core/http/interceptors/auth_interceptor.dart'; // 新しいインターセプターをインポート
 import 'package:dio/dio.dart';
 
 class ApiClient implements IApiClient {
   late Dio _dio;
+  // 認証インターセプターのインスタンスを保持
+  final AuthInterceptor _authInterceptor = AuthInterceptor();
 
   ApiClient() {
     _dio = Dio(
@@ -17,8 +20,9 @@ class ApiClient implements IApiClient {
       ),
     );
 
-    // インターセプターの追加
+    // インターセプターの追加（認証インターセプターを含む）
     _dio.interceptors.addAll([
+      _authInterceptor, // 認証インターセプターを最初に追加
       ErrorInterceptor(),
       LogInterceptor(
         requestBody: true,
@@ -28,6 +32,20 @@ class ApiClient implements IApiClient {
         responseHeader: true,
       ),
     ]);
+  }
+
+  @override
+
+  /// 認証トークンを設定するメソッド
+  void setAuthToken(String token) {
+    _authInterceptor.setToken(token);
+  }
+
+  @override
+
+  /// 認証トークンをクリアするメソッド
+  void clearAuthToken() {
+    _authInterceptor.clearToken();
   }
 
   @override
