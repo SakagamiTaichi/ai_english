@@ -1,3 +1,4 @@
+import 'package:ai_english/core/utils/provider/tts_provider.dart';
 import 'package:ai_english/core/utils/provider/tts_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,11 +7,13 @@ class SettingPanel extends ConsumerStatefulWidget {
   const SettingPanel({
     super.key,
     this.onPlayAll,
-    this.onSpeedChanged,
+    this.showPlayAllButton = true,
+    this.showSpeedControl = true,
   });
 
   final VoidCallback? onPlayAll;
-  final Function(double)? onSpeedChanged;
+  final bool showPlayAllButton;
+  final bool showSpeedControl;
 
   @override
   ConsumerState<SettingPanel> createState() => _SettingPanelState();
@@ -36,9 +39,10 @@ class _SettingPanelState extends ConsumerState<SettingPanel> {
           },
           children: [
             ExpansionPanel(
+              canTapOnHeader: true,
               headerBuilder: (context, isExpanded) {
                 return const ListTile(
-                  title: Text('Playback Controls'),
+                  title: Text('Controls'),
                 );
               },
               body: Padding(
@@ -69,10 +73,10 @@ class _SettingPanelState extends ConsumerState<SettingPanel> {
                               ref
                                   .read(ttsSettingsNotifierProvider.notifier)
                                   .setSpeechRate(value);
-                              // ウィジェットのコールバックも呼び出す
-                              if (widget.onSpeedChanged != null) {
-                                widget.onSpeedChanged!(value);
-                              }
+
+                              ref
+                                  .read(ttsNotifierProvider.notifier)
+                                  .setSpeechRate(value);
                             },
                           ),
                         ),

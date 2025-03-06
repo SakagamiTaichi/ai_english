@@ -55,15 +55,9 @@ class ChatPage extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          SettingPanel(
-            onPlayAll: () {
-              _playChatHistory(ref);
-            },
-            onSpeedChanged: (speed) {
-              // 再生速度の変更処理をここに追加
-              ref.read(ttsNotifierProvider.notifier).setSpeechRate(speed);
-            },
-          ),
+          SettingPanel(onPlayAll: () {
+            _playChatHistory(ref);
+          }),
           Expanded(
             child: ListView.builder(
               reverse: false,

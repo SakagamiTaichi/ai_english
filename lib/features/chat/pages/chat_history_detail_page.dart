@@ -38,17 +38,11 @@ class ChatHistoryDetailPage extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          SettingPanel(
-            onPlayAll: () {
-              data.whenOrNull(
-                data: (chatHistories) => _playChatHistory(ref, chatHistories),
-              );
-            },
-            onSpeedChanged: (speed) {
-              // 再生速度の変更処理をここに追加
-              ref.read(ttsNotifierProvider.notifier).setSpeechRate(speed);
-            },
-          ),
+          SettingPanel(onPlayAll: () {
+            data.whenOrNull(
+              data: (chatHistories) => _playChatHistory(ref, chatHistories),
+            );
+          }),
           Expanded(
               child: data.when(
             loading: () => const Center(child: CircularProgressIndicator()),
