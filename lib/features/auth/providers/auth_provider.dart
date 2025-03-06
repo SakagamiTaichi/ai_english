@@ -58,28 +58,28 @@ class AuthNotifier extends _$AuthNotifier {
     await prefs.remove(_refreshTokenKey);
   }
 
-  Future<void> signUp(String email, String password) async {
+  // Modified: Now returns String for email to display on verification page
+  Future<String> signUp(String email, String password) async {
     try {
       state = state.copyWith(isLoading: true, errorMessage: null);
 
       final repository = ref.read(authRepositoryProvider);
-      final token = await repository.signUp(email, password);
+      await repository.signUp(email, password);
 
-      await _saveSession(token);
-
+      // No longer signing in automatically after registration
       state = state.copyWith(
-        token: token,
         isLoading: false,
-        isAuthenticated: true,
+        // Keep isAuthenticated as false
       );
 
-      // Get user info
-      await getCurrentUser();
+      // Return the email for display in the verification page
+      return email;
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
         errorMessage: 'Failed to sign up: ${e.toString()}',
       );
+      rethrow;
     }
   }
 

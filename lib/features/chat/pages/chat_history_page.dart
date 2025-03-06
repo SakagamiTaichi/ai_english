@@ -1,4 +1,5 @@
 import 'package:ai_english/core/components/footer.dart';
+import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/core/utils/methods/format.dart';
 import 'package:ai_english/features/chat/pages/chat_history_detail_page.dart';
 import 'package:ai_english/features/chat/providers/chat_history_provider.dart';
@@ -14,11 +15,7 @@ class ChatHistoryPage extends ConsumerWidget {
     final notifier = ref.read(asyncChatHistoryProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Chat History'),
-      ),
+      appBar: header(context, 'Chat History'),
       body: Column(
         children: [
           Padding(

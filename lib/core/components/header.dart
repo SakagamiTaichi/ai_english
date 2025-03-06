@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-PreferredSizeWidget header(BuildContext context) {
+PreferredSizeWidget header(BuildContext context, String title) {
   return AppBar(
-    automaticallyImplyLeading: true,
+    automaticallyImplyLeading: false,
     backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-    title: const Text('Settings'),
+    title: Text(title),
   );
 }

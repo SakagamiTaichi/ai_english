@@ -1,42 +1,132 @@
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
-import 'package:ai_english/features/settings/providers/theme_selector_provider.dart';
+import 'package:ai_english/features/auth/providers/auth_provider.dart';
+import 'package:ai_english/features/auth/pages/sign_in_page.dart';
+import 'package:ai_english/features/settings/pages/theme_selection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SettingPage extends ConsumerWidget {
   const SettingPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeSelector = ref.watch(themeNotifierProvider.notifier);
-    final currentThemeMode = ref.watch(themeNotifierProvider);
-
-    // Scaffold を追加
     return Scaffold(
-      appBar: header(context),
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        itemCount: ThemeMode.values.length,
-        itemBuilder: (_, index) {
-          final themeMode = ThemeMode.values[index];
-          return Column(
-            children: [
-              RadioListTile<ThemeMode>(
-                value: themeMode,
-                groupValue: currentThemeMode.when(
-                  data: (themeMode) => themeMode,
-                  loading: () => ThemeMode.system,
-                  error: (error, stack) => ThemeMode.system,
+      appBar: header(context, 'Settings'),
+      body: ListView(
+        children: [
+          const SizedBox(height: 16),
+          _buildSectionHeader(context, 'Preferences'),
+          _buildNavigationItem(
+            context,
+            icon: Icons.color_lens,
+            title: 'Appearance',
+            subtitle: 'Change app theme',
+            onTap: () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  child: const ThemeSelectionPage(),
+                  type: PageTransitionType.rightToLeftWithFade,
                 ),
-                onChanged: (newTheme) => themeSelector.changeAndSave(newTheme!),
-                title: Text(themeMode.name),
-              ),
-            ],
-          );
-        },
+              );
+            },
+          ),
+          _buildNavigationItem(
+            context,
+            icon: Icons.notifications,
+            title: 'Notifications',
+            subtitle: 'Manage notifications',
+            onTap: () {
+              // Will be implemented in the future
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Coming soon!'),
+                ),
+              );
+            },
+          ),
+          const Divider(),
+          const SizedBox(height: 24),
+          _buildSectionHeader(context, 'Account'),
+          _buildNavigationItem(
+            context,
+            icon: Icons.logout,
+            title: 'Sign Out',
+            subtitle: 'Sign out from your account',
+            onTap: () {
+              _showSignOutConfirmationDialog(context, ref);
+            },
+          ),
+          const SizedBox(height: 16),
+        ],
       ),
       bottomNavigationBar: footer(context),
+    );
+  }
+
+  Widget _buildSectionHeader(BuildContext context, String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+      child: Text(
+        title,
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavigationItem(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: onTap,
+    );
+  }
+
+  void _showSignOutConfirmationDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Sign Out'),
+        content: const Text('Are you sure you want to sign out?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context); // Close dialog
+              await ref.read(authNotifierProvider.notifier).signOut();
+              if (context.mounted) {
+                // Navigate to sign in page and clear navigation stack
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  PageTransition(
+                    child: const SignInPage(),
+                    type: PageTransitionType.fade,
+                  ),
+                  (route) => false,
+                );
+              }
+            },
+            child: const Text('Sign Out'),
+          ),
+        ],
+      ),
     );
   }
 }

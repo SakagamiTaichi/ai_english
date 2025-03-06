@@ -1,6 +1,7 @@
+import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/auth/components/custom_input_field.dart';
+import 'package:ai_english/features/auth/pages/email_verification_page.dart';
 import 'package:ai_english/features/auth/providers/auth_provider.dart';
-import 'package:ai_english/features/home/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
@@ -63,7 +64,25 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
 
-      await ref.read(authNotifierProvider.notifier).signUp(email, password);
+      try {
+        // Now signUp returns the email address on success
+        final userEmail = await ref
+            .read(authNotifierProvider.notifier)
+            .signUp(email, password);
+
+        // Navigate to email verification page on success
+        if (!mounted) return;
+
+        Navigator.pushReplacement(
+          context,
+          PageTransition(
+            child: EmailVerificationPage(email: userEmail),
+            type: PageTransitionType.fade,
+          ),
+        );
+      } catch (e) {
+        // Error handling is already done in the auth provider
+      }
     }
   }
 
@@ -71,24 +90,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
 
-    // If authenticated, navigate to home
-    if (authState.isAuthenticated) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pushReplacement(
-          context,
-          PageTransition(
-            child: const HomePage(),
-            type: PageTransitionType.fade,
-          ),
-        );
-      });
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      appBar: header(context, "Sign Up"),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

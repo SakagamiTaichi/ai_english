@@ -2,7 +2,7 @@ import 'package:ai_english/core/http/iapi_client.dart';
 import 'package:ai_english/features/auth/models/auth_models.dart';
 
 abstract class IAuthRepository {
-  Future<Token> signUp(String email, String password);
+  Future<void> signUp(String email, String password);
   Future<Token> signIn(String email, String password);
   Future<Token> refreshToken(String refreshToken);
   Future<User> getCurrentUser(String accessToken);
@@ -14,15 +14,14 @@ class AuthRepository implements IAuthRepository {
   AuthRepository(this._apiClient);
 
   @override
-  Future<Token> signUp(String email, String password) async {
+  Future<void> signUp(String email, String password) async {
     try {
-      final response = await _apiClient.post('/auth/signup', data: {
+      await _apiClient.post('/auth/signup', data: {
         'email': email,
         'password': password,
       });
 
-      // After successful signup, we need to sign in to get the token
-      return await signIn(email, password);
+      // No longer automatically signing in after registration
     } catch (e) {
       rethrow;
     }

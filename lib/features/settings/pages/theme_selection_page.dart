@@ -1,0 +1,76 @@
+import 'package:ai_english/features/settings/providers/theme_selector_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class ThemeSelectionPage extends ConsumerWidget {
+  const ThemeSelectionPage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeSelector = ref.watch(themeNotifierProvider.notifier);
+    final currentThemeMode = ref.watch(themeNotifierProvider);
+
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: const Text('Appearance'),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        itemCount: ThemeMode.values.length,
+        itemBuilder: (_, index) {
+          final themeMode = ThemeMode.values[index];
+          return Column(
+            children: [
+              RadioListTile<ThemeMode>(
+                value: themeMode,
+                groupValue: currentThemeMode.when(
+                  data: (themeMode) => themeMode,
+                  loading: () => ThemeMode.system,
+                  error: (error, stack) => ThemeMode.system,
+                ),
+                onChanged: (newTheme) {
+                  themeSelector.changeAndSave(newTheme!);
+                  // Optional: You could add a snackbar confirmation
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Theme changed to ${newTheme.name}'),
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
+                },
+                title: Text(_getThemeDisplayName(themeMode)),
+                subtitle: Text(_getThemeDescription(themeMode)),
+              ),
+              if (index < ThemeMode.values.length - 1)
+                const Divider(indent: 16, endIndent: 16),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  String _getThemeDisplayName(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.system:
+        return 'System Default';
+      case ThemeMode.light:
+        return 'Light';
+      case ThemeMode.dark:
+        return 'Dark';
+    }
+  }
+
+  String _getThemeDescription(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.system:
+        return 'Follow system settings';
+      case ThemeMode.light:
+        return 'Light theme for all screens';
+      case ThemeMode.dark:
+        return 'Dark theme for all screens';
+    }
+  }
+}

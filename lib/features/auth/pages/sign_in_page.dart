@@ -1,3 +1,4 @@
+import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/auth/components/custom_input_field.dart';
 import 'package:ai_english/features/auth/pages/sign_up_page.dart';
 import 'package:ai_english/features/auth/providers/auth_provider.dart';
@@ -73,10 +74,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign In'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
+      appBar: header(context, 'Sign In'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

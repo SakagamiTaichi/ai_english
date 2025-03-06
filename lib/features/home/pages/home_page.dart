@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: header(context),
+      appBar: header(context, 'AI English'),
       body: const Center(
         child: Text('Welcome to AI English!'),
       ),
