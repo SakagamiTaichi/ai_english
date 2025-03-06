@@ -1,4 +1,5 @@
-import 'package:ai_english/core/http/api_client.dart';
+import 'package:ai_english/features/chat/data/chat_history_detail_repository.dart';
+import 'package:ai_english/features/chat/data/chat_history_detail_repository_provider.dart';
 import 'package:ai_english/features/chat/models/chat_history_detail.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -6,21 +7,15 @@ part 'chat_history_detail_provider.g.dart';
 
 @riverpod
 class AsyncChatHistoryDetail extends _$AsyncChatHistoryDetail {
-  late final ApiClient _apiClient;
-
+  late final IChatHistoryDetailRepository _repository;
   @override
   FutureOr<List<ChatHistoryDetail>> build(String id) async {
-    _apiClient = ApiClient();
-    return await _fetchConversations(id);
+    _repository = ref.watch(chatHistoryDetailRepositoryProvider);
+    return await _fetchData(id);
   }
 
-  Future<List<ChatHistoryDetail>> _fetchConversations(String id) async {
-    try {
-      final response = await _apiClient.get('/english/message/$id');
-      var data = response.data as List<dynamic>;
-      return data.map((e) => ChatHistoryDetail.fromJson(e)).toList();
-    } catch (e) {
-      rethrow;
-    }
+  Future<List<ChatHistoryDetail>> _fetchData(String id) async {
+    final data = await _repository.fetchData(id);
+    return data;
   }
 }

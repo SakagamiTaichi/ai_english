@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:ai_english/core/http/api_client.dart';
+import 'package:ai_english/core/http/api_client_provider.dart';
 import 'package:ai_english/core/utils/provider/tts_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +13,10 @@ part 'chat_provider.g.dart';
 
 @riverpod
 class ChatNotifier extends _$ChatNotifier {
-  late final ApiClient _apiClient;
   late String _sessionId;
 
   @override
   List<Message> build() {
-    _apiClient = ApiClient();
     _sessionId = const Uuid().v4();
     return [];
   }
@@ -36,6 +34,9 @@ class ChatNotifier extends _$ChatNotifier {
     ];
 
     try {
+      // 共通の ApiClient インスタンスを使用する
+      final apiClient = ref.watch(apiClientProvider);
+
       // 空の応答メッセージを追加（ストリーミング用）
       final responseMessage = Message(
         text: "",
@@ -44,7 +45,7 @@ class ChatNotifier extends _$ChatNotifier {
       state = [...state, responseMessage];
 
       // APIからストリーミングレスポンスを取得
-      final response = await _apiClient.getStream(
+      final response = await apiClient.getStream(
         '/english/chat',
         queryParameters: {
           'message': text,
