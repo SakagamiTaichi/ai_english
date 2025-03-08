@@ -12,17 +12,19 @@ class SettingPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 現在ログイン中のユーザーアカウントを取得
+    final user = ref.watch(authNotifierProvider).user;
     return Scaffold(
-      appBar: header(context, 'Settings'),
+      appBar: header(context, '設定'),
       body: ListView(
         children: [
           const SizedBox(height: 16),
-          _buildSectionHeader(context, 'Preferences'),
+          _buildSectionHeader(context, '一般'),
           _buildNavigationItem(
             context,
             icon: Icons.color_lens,
-            title: 'Appearance',
-            subtitle: 'Change app theme',
+            title: 'テーマ',
+            subtitle: 'テーマを変更',
             onTap: () {
               Navigator.push(
                 context,
@@ -36,8 +38,8 @@ class SettingPage extends ConsumerWidget {
           _buildNavigationItem(
             context,
             icon: Icons.notifications,
-            title: 'Notifications',
-            subtitle: 'Manage notifications',
+            title: '通知',
+            subtitle: '通知の設定',
             onTap: () {
               // Will be implemented in the future
               ScaffoldMessenger.of(context).showSnackBar(
@@ -49,12 +51,12 @@ class SettingPage extends ConsumerWidget {
           ),
           const Divider(),
           const SizedBox(height: 24),
-          _buildSectionHeader(context, 'Account'),
+          _buildSectionHeader(context, 'アカウント'),
           _buildNavigationItem(
             context,
             icon: Icons.logout,
-            title: 'Sign Out',
-            subtitle: 'Sign out from your account',
+            title: 'ログアウト',
+            subtitle: '${user?.email}',
             onTap: () {
               _showSignOutConfirmationDialog(context, ref);
             },
@@ -100,12 +102,12 @@ class SettingPage extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Sign Out'),
-        content: const Text('Are you sure you want to sign out?'),
+        title: const Text('ログアウト'),
+        content: const Text('ログアウトしますか？'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: const Text('キャンセル'),
           ),
           TextButton(
             onPressed: () async {
@@ -123,7 +125,7 @@ class SettingPage extends ConsumerWidget {
                 );
               }
             },
-            child: const Text('Sign Out'),
+            child: const Text('ログアウト'),
           ),
         ],
       ),

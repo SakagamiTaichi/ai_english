@@ -1,6 +1,7 @@
 import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/auth/components/custom_input_field.dart';
 import 'package:ai_english/features/auth/pages/email_verification_page.dart';
+import 'package:ai_english/features/auth/pages/sign_in_page.dart';
 import 'package:ai_english/features/auth/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +32,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
   String? _emailValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your email';
+      return 'メールアドレスを入力してください';
     }
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
       return 'Please enter a valid email address';
@@ -41,20 +42,20 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
   String? _passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your password';
+      return 'パスワードを入力してください';
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+      return 'パスワードは6文字以上である必要があります';
     }
     return null;
   }
 
   String? _confirmPasswordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please confirm your password';
+      return 'パスワード確認を入力してください';
     }
     if (value != _passwordController.text) {
-      return 'Passwords do not match';
+      return 'パスワードが一致しません';
     }
     return null;
   }
@@ -100,25 +101,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 24),
-                Icon(
-                  Icons.person_add,
-                  size: 64,
-                  color: Theme.of(context).primaryColor,
-                ),
-                const SizedBox(height: 24),
                 const Text(
-                  'Create Account',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Sign up to get started',
-                  textAlign: TextAlign.center,
+                  '新規登録',
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
@@ -127,14 +112,14 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                 const SizedBox(height: 32),
                 CustomInputField(
                   controller: _emailController,
-                  label: 'Email',
+                  label: 'メール',
                   validator: _emailValidator,
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 16),
                 CustomInputField(
                   controller: _passwordController,
-                  label: 'Password',
+                  label: 'パスワード',
                   validator: _passwordValidator,
                   obscureText: !_passwordVisible,
                   suffix: IconButton(
@@ -153,7 +138,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                 const SizedBox(height: 16),
                 CustomInputField(
                   controller: _confirmPasswordController,
-                  label: 'Confirm Password',
+                  label: 'パスワード確認',
                   validator: _confirmPasswordValidator,
                   obscureText: !_confirmPasswordVisible,
                   suffix: IconButton(
@@ -186,18 +171,24 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                   ),
                   child: authState.isLoading
                       ? const CircularProgressIndicator()
-                      : const Text('Sign Up'),
+                      : const Text('新規登録'),
                 ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Already have an account?'),
+                    const Text('既にアカウントをお持ちの場合は'),
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(
+                          context,
+                          PageTransition(
+                            child: const SignInPage(),
+                            type: PageTransitionType.fade,
+                          ),
+                        );
                       },
-                      child: const Text('Sign In'),
+                      child: const Text('ログイン'),
                     ),
                   ],
                 ),

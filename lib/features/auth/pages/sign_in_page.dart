@@ -84,24 +84,10 @@ class _SignInPageState extends ConsumerState<SignInPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 24),
-                Icon(
-                  Icons.lock,
-                  size: 64,
-                  color: Theme.of(context).primaryColor,
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  'Welcome Back',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Sign in to continue',
-                  textAlign: TextAlign.center,
+                  'ログイン',
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
@@ -110,14 +96,14 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                 const SizedBox(height: 32),
                 CustomInputField(
                   controller: _emailController,
-                  label: 'Email',
+                  label: 'メール',
                   validator: _emailValidator,
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 16),
                 CustomInputField(
                   controller: _passwordController,
-                  label: 'Password',
+                  label: 'パスワード',
                   validator: _passwordValidator,
                   obscureText: !_passwordVisible,
                   suffix: IconButton(
@@ -145,29 +131,27 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   ),
                 ElevatedButton(
                   onPressed: authState.isLoading ? null : _signIn,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
+                  style: Theme.of(context).elevatedButtonTheme.style,
                   child: authState.isLoading
                       ? const CircularProgressIndicator()
-                      : const Text('Sign In'),
+                      : const Text('ログイン'),
                 ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account?"),
+                    const Text("アカウントをお持ちでない場合は"),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           PageTransition(
                             child: const SignUpPage(),
-                            type: PageTransitionType.rightToLeftWithFade,
+                            type: PageTransitionType.fade,
                           ),
                         );
                       },
-                      child: const Text('Sign Up'),
+                      child: const Text('新規登録'),
                     ),
                   ],
                 ),

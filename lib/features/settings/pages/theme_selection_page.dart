@@ -14,7 +14,7 @@ class ThemeSelectionPage extends ConsumerWidget {
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Appearance'),
+        title: const Text('テーマ'),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -35,7 +35,7 @@ class ThemeSelectionPage extends ConsumerWidget {
                   // Optional: You could add a snackbar confirmation
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Theme changed to ${newTheme.name}'),
+                      content: Text('${newTheme.name}に変更されました。'),
                       duration: const Duration(seconds: 1),
                     ),
                   );
@@ -55,7 +55,7 @@ class ThemeSelectionPage extends ConsumerWidget {
   String _getThemeDisplayName(ThemeMode mode) {
     switch (mode) {
       case ThemeMode.system:
-        return 'System Default';
+        return 'System';
       case ThemeMode.light:
         return 'Light';
       case ThemeMode.dark:
@@ -66,11 +66,11 @@ class ThemeSelectionPage extends ConsumerWidget {
   String _getThemeDescription(ThemeMode mode) {
     switch (mode) {
       case ThemeMode.system:
-        return 'Follow system settings';
+        return 'システム設定に従う';
       case ThemeMode.light:
-        return 'Light theme for all screens';
+        return 'ライトテーマを適用';
       case ThemeMode.dark:
-        return 'Dark theme for all screens';
+        return 'ダークテーマを適用';
     }
   }
 }
