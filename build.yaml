@@ -1,0 +1,12 @@
+targets:
+  $default:
+    builders:
+      # freezed用の設定
+      freezed:
+        options:
+          output_dir: lib/generated
+
+      # riverpod用の設定
+      riverpod_generator:
+        options:
+          output_dir: lib/generated

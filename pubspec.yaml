@@ -53,6 +53,9 @@ dev_dependencies:
   # モック用のライブラリ。ユニットテストやウィジェットテストを実行するために使用。
   mockito: ^5.4.5
 
+  # 自動生成ファイルの出力先を指定するためのツール。
+  source_gen: ^2.0.0
+
 flutter:
   uses-material-design: true
 
