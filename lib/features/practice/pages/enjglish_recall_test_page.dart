@@ -1,9 +1,9 @@
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
-import 'package:ai_english/features/chat/models/chat_history_detail.dart';
-import 'package:ai_english/features/chat/models/recall_test_request_model.dart';
-import 'package:ai_english/features/chat/pages/recall_test_summary_page.dart';
-import 'package:ai_english/features/chat/providers/chat_history_detail_provider.dart';
+import 'package:ai_english/features/practice/models/chat_history_detail.dart';
+import 'package:ai_english/features/practice/models/recall_test_request_model.dart';
+import 'package:ai_english/features/practice/pages/recall_test_summary_page.dart';
+import 'package:ai_english/features/practice/providers/chat_history_detail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,7 +39,7 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
     super.dispose();
   }
 
-  void _nextQuestion(List<ChatHistoryDetail> questions, bool wasSkipped) {
+  void _nextQuestion(List<Conversation> questions, bool wasSkipped) {
     // 現在の解答を保存
     setState(() {
       _userAnswers[_currentQuestionIndex] = _answerController.text;
@@ -92,7 +92,7 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
   @override
   Widget build(BuildContext context) {
     final chatHistoryDetailAsync =
-        ref.watch(asyncChatHistoryDetailProvider(widget.chatHistoryId));
+        ref.watch(conversationNotifierProvider(widget.chatHistoryId));
 
     return Scaffold(
       appBar: header(context, '英語リコールテスト'),

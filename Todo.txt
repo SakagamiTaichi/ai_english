@@ -1,10 +1,10 @@
 
 リファクタリング
-・自動生成ファイルが多すぎて.generatedフォルダにまとめたい
+〇自動生成ファイルが多すぎて.generatedフォルダにまとめたい
 ・エラーハンドリング（ユーザーに表示するエラーメッセージも含め）
 ・エラー時のログ処理
 ・ログインIDとパスワードが存在しないときのエラー
-・警告の The variable name 'access_token' isn't a lowerCameCase identifierという警告
+〇警告の The variable name 'access_token' isn't a lowerCameCase identifierという警告
 ・レスポンスモデル・リクエストモデルの在り方
 ・ファイル名・変数などの命名規則
 ・フォルダ構成（Chatフォルダがファットになってきている）
@@ -21,3 +21,4 @@
 ・Sign Up 時のDeepLink処理
 ・ダッシュボード（学習記録）の作成
 ・ダッシュボード機能に伴う通知機能
+

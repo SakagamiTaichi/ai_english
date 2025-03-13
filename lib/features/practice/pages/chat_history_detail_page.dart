@@ -1,10 +1,10 @@
 import 'package:ai_english/core/components/footer.dart';
-import 'package:ai_english/features/chat/components/setting_panel.dart';
-import 'package:ai_english/core/utils/provider/tts_provider.dart';
-import 'package:ai_english/features/chat/components/reversible_message_bubble.dart';
-import 'package:ai_english/features/chat/models/chat_history_detail.dart';
-import 'package:ai_english/features/chat/models/message.dart';
-import 'package:ai_english/features/chat/providers/chat_history_detail_provider.dart';
+import 'package:ai_english/features/practice/components/setting_panel.dart';
+import 'package:ai_english/core/utils/providers/tts_provider.dart';
+import 'package:ai_english/features/practice/components/reversible_message_bubble.dart';
+import 'package:ai_english/features/practice/models/chat_history_detail.dart';
+import 'package:ai_english/features/practice/models/message.dart';
+import 'package:ai_english/features/practice/providers/chat_history_detail_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,7 +14,7 @@ class ChatHistoryDetailPage extends ConsumerWidget {
 
   const ChatHistoryDetailPage({super.key, required this.id});
 
-  void _playChatHistory(WidgetRef ref, List<ChatHistoryDetail> chatHistories) {
+  void _playChatHistory(WidgetRef ref, List<Conversation> chatHistories) {
     final messages = chatHistories
         .map((history) => Message(
             text: history.message_en, // 英語のメッセージを使用
@@ -27,7 +27,7 @@ class ChatHistoryDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final data = ref.watch(asyncChatHistoryDetailProvider(id));
+    final data = ref.watch(conversationNotifierProvider(id));
     // final notifier = ref.read(asyncChatHistoryDetailProvider(id).notifier);
 
     return Scaffold(

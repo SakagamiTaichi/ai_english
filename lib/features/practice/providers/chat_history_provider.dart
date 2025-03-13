@@ -1,22 +1,22 @@
-import 'package:ai_english/features/chat/data/chat_history_repository.dart';
-import 'package:ai_english/features/chat/data/chat_history_repository_provider.dart';
-import 'package:ai_english/features/chat/models/chat_history.dart';
+import 'package:ai_english/features/practice/data/conversations_repository.dart';
+import 'package:ai_english/features/practice/data/conversations_repository_provider.dart';
+import 'package:ai_english/features/practice/models/chat_history.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part '../../../generated/features/chat/providers/chat_history_provider.g.dart';
+part '../../../generated/features/practice/providers/chat_history_provider.g.dart';
 
 @riverpod
 class AsyncChatHistory extends _$AsyncChatHistory {
-  late final IChatHistoryRepository _repository;
-  List<ChatHistory>? _originalChatHistories;
+  late final IConversationsRepository _repository;
+  List<Conversation>? _originalChatHistories;
 
   @override
-  FutureOr<List<ChatHistory>> build() async {
-    _repository = ref.watch(chatHistoryRepositoryProvider);
+  FutureOr<List<Conversation>> build() async {
+    _repository = ref.watch(conversationsRepositoryProvider);
     return await _fetchAndStoreConversations();
   }
 
-  Future<List<ChatHistory>> _fetchAndStoreConversations() async {
+  Future<List<Conversation>> _fetchAndStoreConversations() async {
     final conversations = await _repository.fetchConversations();
     _originalChatHistories = conversations;
     return conversations;

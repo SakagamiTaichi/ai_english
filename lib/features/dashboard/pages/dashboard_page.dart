@@ -2,8 +2,8 @@ import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class DashboardPage extends StatelessWidget {
+  const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {

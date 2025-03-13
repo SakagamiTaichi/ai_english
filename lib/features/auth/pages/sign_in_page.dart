@@ -2,7 +2,7 @@ import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/auth/components/custom_input_field.dart';
 import 'package:ai_english/features/auth/pages/sign_up_page.dart';
 import 'package:ai_english/features/auth/providers/auth_provider.dart';
-import 'package:ai_english/features/home/pages/home_page.dart';
+import 'package:ai_english/features/dashboard/pages/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:page_transition/page_transition.dart';
@@ -66,7 +66,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
         Navigator.pushReplacement(
           context,
           PageTransition(
-            child: const HomePage(),
+            child: const DashboardPage(),
             type: PageTransitionType.fade,
           ),
         );

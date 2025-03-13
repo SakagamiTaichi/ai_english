@@ -9,7 +9,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 import '../models/message.dart';
 
-part '../../../generated/features/chat/providers/chat_provider.g.dart';
+part '../../../generated/features/practice/providers/chat_provider.g.dart';
 
 @riverpod
 class ChatNotifier extends _$ChatNotifier {

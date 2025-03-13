@@ -1,5 +1,5 @@
-import 'package:ai_english/core/utils/provider/tts_provider.dart';
-import 'package:ai_english/core/utils/provider/tts_settings_provider.dart';
+import 'package:ai_english/core/utils/providers/tts_provider.dart';
+import 'package:ai_english/core/utils/providers/tts_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

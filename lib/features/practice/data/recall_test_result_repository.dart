@@ -1,6 +1,6 @@
 import 'package:ai_english/core/http/iapi_client.dart';
-import 'package:ai_english/features/chat/models/recall_test_request_model.dart';
-import 'package:ai_english/features/chat/models/recall_test_response_model.dart';
+import 'package:ai_english/features/practice/models/recall_test_request_model.dart';
+import 'package:ai_english/features/practice/models/recall_test_response_model.dart';
 
 abstract class IRecallTestResultRepository {
   Future<RecallTestSummaryResponseModel> fetchData(

@@ -1,34 +1,35 @@
-import 'package:ai_english/features/chat/data/chat_history_repository_provider.dart';
+import 'package:ai_english/features/practice/data/conversations_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
-import 'package:ai_english/features/chat/data/chat_history_repository.dart';
-import 'package:ai_english/features/chat/models/chat_history.dart';
-import 'package:ai_english/features/chat/providers/chat_history_provider.dart';
+import 'package:ai_english/features/practice/data/conversations_repository.dart';
+import 'package:ai_english/features/practice/models/chat_history.dart';
+import 'package:ai_english/features/practice/providers/chat_history_provider.dart';
 
 import 'chat_history_provider_test.mocks.dart';
 
-@GenerateMocks([IChatHistoryRepository])
+@GenerateMocks([IConversationsRepository])
 void main() {
-  late MockIChatHistoryRepository mockRepository;
+  late MockIConversationsRepository mockRepository;
   late ProviderContainer container;
-  late List<ChatHistory> testData;
+  late List<Conversation> testData;
 
   setUp(() {
-    mockRepository = MockIChatHistoryRepository();
+    mockRepository = MockIConversationsRepository();
     container = ProviderContainer(
       overrides: [
-        chatHistoryRepositoryProvider.overrideWithValue(mockRepository),
+        conversationsRepositoryProvider.overrideWithValue(mockRepository),
       ],
     );
 
     testData = [
-      ChatHistory(
+      Conversation(
           id: '1', title: 'English Conversation', created_at: DateTime.now()),
-      ChatHistory(
+      Conversation(
           id: '2', title: 'Japanese Learning', created_at: DateTime.now()),
-      ChatHistory(id: '3', title: 'TOEIC Practice', created_at: DateTime.now()),
+      Conversation(
+          id: '3', title: 'TOEIC Practice', created_at: DateTime.now()),
     ];
   });
 

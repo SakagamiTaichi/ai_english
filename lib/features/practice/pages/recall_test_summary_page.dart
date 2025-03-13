@@ -1,5 +1,5 @@
-import 'package:ai_english/features/chat/models/recall_test_request_model.dart';
-import 'package:ai_english/features/chat/providers/recall_test_result_provider.dart';
+import 'package:ai_english/features/practice/models/recall_test_request_model.dart';
+import 'package:ai_english/features/practice/providers/recall_test_result_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

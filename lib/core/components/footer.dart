@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:ai_english/core/theme/app_theme.dart';
-import 'package:ai_english/features/chat/pages/chat_history_page.dart';
-import 'package:ai_english/features/home/pages/home_page.dart';
+import 'package:ai_english/features/practice/pages/chat_history_page.dart';
+import 'package:ai_english/features/dashboard/pages/dashboard_page.dart';
 import 'package:ai_english/features/settings/pages/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -55,13 +55,13 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                         context,
                         Icons.home,
                         'ダッシュボード',
-                        context.widget is HomePage,
+                        context.widget is DashboardPage,
                         () {
-                          if (context.widget is HomePage) return;
+                          if (context.widget is DashboardPage) return;
                           Navigator.push(
                             context,
                             PageTransition(
-                              child: HomePage(),
+                              child: DashboardPage(),
                               type: PageTransitionType.fade,
                             ),
                           );

@@ -1,5 +1,5 @@
 import 'package:ai_english/core/utils/providers/tts_settings_provider.dart'; // 新しいプロバイダーをインポート
-import 'package:ai_english/features/chat/models/message.dart';
+import 'package:ai_english/features/practice/models/message.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

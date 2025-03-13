@@ -1,5 +1,5 @@
-import 'package:ai_english/core/utils/provider/tts_provider.dart';
-import 'package:ai_english/features/chat/models/message.dart';
+import 'package:ai_english/core/utils/providers/tts_provider.dart';
+import 'package:ai_english/features/practice/models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
