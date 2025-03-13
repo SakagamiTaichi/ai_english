@@ -4,20 +4,20 @@ part 'recall_test_request_model.freezed.dart';
 part 'recall_test_request_model.g.dart';
 
 @freezed
-class RecallTestAnser with _$RecallTestAnser {
-  const factory RecallTestAnser({
+class RecallTestAnswer with _$RecallTestAnswer {
+  const factory RecallTestAnswer({
     required String user_answer,
     required String correct_answer,
-  }) = _RecallTestAnser;
+  }) = _RecallTestAnswer;
 
-  factory RecallTestAnser.fromJson(Map<String, dynamic> json) =>
-      _$RecallTestAnserFromJson(json);
+  factory RecallTestAnswer.fromJson(Map<String, dynamic> json) =>
+      _$RecallTestAnswerFromJson(json);
 }
 
 @freezed
 class RecallTestRequestModel with _$RecallTestRequestModel {
   const factory RecallTestRequestModel({
-    required List<RecallTestAnser> answers,
+    required List<RecallTestAnswer> answers,
   }) = _RecallTestRequestModel;
 
   factory RecallTestRequestModel.fromJson(Map<String, dynamic> json) =>

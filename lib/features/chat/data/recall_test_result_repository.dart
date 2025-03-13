@@ -16,8 +16,8 @@ class RecallTestResultRepository implements IRecallTestResultRepository {
   Future<RecallTestSummaryResponseModel> fetchData(
       RecallTestRequestModel requestModel) async {
     try {
-      final response =
-          await _apiClient.post('/english/test_result', data: requestModel);
+      final response = await _apiClient.post('/english/test_result',
+          data: requestModel.toJson());
       // var data = response.data as List<dynamic>;
       return RecallTestSummaryResponseModel.fromJson(response.data);
     } catch (e) {

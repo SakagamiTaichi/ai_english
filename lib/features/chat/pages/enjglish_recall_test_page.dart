@@ -53,9 +53,9 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
         // 次の問題の解答がすでに入力されていれば、それを表示
         _answerController.text = _userAnswers[_currentQuestionIndex];
       } else {
-        List<RecallTestAnser> answer = [];
+        List<RecallTestAnswer> answer = [];
         for (int i = 0; i < questions.length; i++) {
-          answer.add(RecallTestAnser(
+          answer.add(RecallTestAnswer(
             user_answer: _userAnswers[i],
             correct_answer: questions[i].message_en,
           ));
