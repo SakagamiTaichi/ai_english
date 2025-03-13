@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:ai_english/core/http/api_client_provider.dart';
-import 'package:ai_english/core/utils/provider/tts_provider.dart';
+import 'package:ai_english/core/utils/providers/tts_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

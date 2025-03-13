@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'tts_settings_provider.g.dart';
+part '../../../generated/core/utils/providers/tts_settings_provider.g.dart';
 
 // TTS設定用のクラス
 class TtsSettings {

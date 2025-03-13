@@ -1,10 +1,10 @@
-import 'package:ai_english/core/utils/provider/tts_settings_provider.dart'; // 新しいプロバイダーをインポート
+import 'package:ai_english/core/utils/providers/tts_settings_provider.dart'; // 新しいプロバイダーをインポート
 import 'package:ai_english/features/chat/models/message.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'tts_provider.g.dart';
+part '../../../generated/core/utils/providers/tts_provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class TtsNotifier extends AsyncNotifier<FlutterTts> {
