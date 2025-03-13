@@ -2,7 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'theme_selector_provider.g.dart';
+part '../../../generated/features/settings/providers/theme_selector_provider.g.dart';
 
 const String themePrefsKey = 'theme_mode';
 

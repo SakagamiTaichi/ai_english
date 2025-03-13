@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'recall_test_request_model.freezed.dart';
-part 'recall_test_request_model.g.dart';
+part '../../../generated/features/chat/models/recall_test_request_model.freezed.dart';
+part '../../../generated/features/chat/models/recall_test_request_model.g.dart';
 
 @freezed
 class RecallTestAnswer with _$RecallTestAnswer {

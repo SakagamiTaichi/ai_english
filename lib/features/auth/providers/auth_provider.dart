@@ -3,7 +3,8 @@ import 'package:ai_english/features/auth/models/auth_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'auth_provider.g.dart';
+// part 'auth_provider.g.dart';
+part '../../../generated/features/auth/providers/auth_provider.g.dart';
 
 const String _authTokenKey = 'auth_token';
 const String _refreshTokenKey = 'refresh_token';

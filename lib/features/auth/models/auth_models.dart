@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'auth_models.freezed.dart';
-part 'auth_models.g.dart';
+part '../../../generated/features/auth/models/auth_models.freezed.dart';
+part '../../../generated/features/auth/models/auth_models.g.dart';
 
 @freezed
 class Token with _$Token {

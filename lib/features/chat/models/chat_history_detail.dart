@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'chat_history_detail.freezed.dart';
-part 'chat_history_detail.g.dart';
+part '../../../generated/features/chat/models/chat_history_detail.freezed.dart';
+part '../../../generated/features/chat/models/chat_history_detail.g.dart';
 
 @freezed
 class ChatHistoryDetail with _$ChatHistoryDetail {

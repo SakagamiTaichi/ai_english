@@ -3,7 +3,7 @@ import 'package:ai_english/features/chat/data/chat_history_repository_provider.d
 import 'package:ai_english/features/chat/models/chat_history.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'chat_history_provider.g.dart';
+part '../../../generated/features/chat/providers/chat_history_provider.g.dart';
 
 @riverpod
 class AsyncChatHistory extends _$AsyncChatHistory {
