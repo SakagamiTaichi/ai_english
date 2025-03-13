@@ -6,7 +6,7 @@ import 'package:ai_english/features/settings/pages/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-Widget footer(BuildContext context) {
+Widget footer(BuildContext context, bool isDisplayPlus) {
   final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
   final Color backgroundColor =
       isDarkMode ? AppTheme.backgroundDark : AppTheme.backgroundLight;
@@ -105,51 +105,54 @@ Widget footer(BuildContext context) {
         ),
       ),
 
-      // Center floating button
-      Padding(
-        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-        child: SizedBox(
-          width: 38 * 2.0,
-          height: 38 + 62.0,
-          child: Container(
-            alignment: Alignment.topCenter,
-            color: Colors.transparent,
-            child: SizedBox(
-              width: 38 * 2.0,
-              height: 38 * 2.0,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    gradient: LinearGradient(
-                      transform: GradientRotation(math.pi / 4),
-                      colors: [
-                        primaryColor,
-                        isDarkMode
-                            ? AppTheme.primaryDark.withAlpha(100)
-                            : AppTheme.primaryLight.withAlpha(100),
+      if (isDisplayPlus)
+        // Center floating button
+        Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+          child: SizedBox(
+            width: 38 * 2.0,
+            height: 38 + 62.0,
+            child: Container(
+              alignment: Alignment.topCenter,
+              color: Colors.transparent,
+              child: SizedBox(
+                width: 38 * 2.0,
+                height: 38 * 2.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      // gradient: LinearGradient(
+                      //   transform: GradientRotation(math.pi / 4),
+                      //   colors: [
+                      //     primaryColor,
+                      //     isDarkMode
+                      //         ? AppTheme.primaryDark.withAlpha(100)
+                      //         : AppTheme.primaryLight.withAlpha(100),
+                      //   ],
+                      //   begin: Alignment.topLeft,
+                      //   end: Alignment.bottomRight,
+                      // ),
+                      shape: BoxShape.circle,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: isDarkMode
+                              ? AppTheme.primaryDark.withAlpha(100)
+                              : AppTheme.primary.withAlpha(100),
+                          offset: const Offset(8.0, 14.0),
+                          blurRadius: 19.0,
+                        ),
                       ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
                     ),
-                    shape: BoxShape.circle,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: isDarkMode
-                            ? AppTheme.primaryDark.withAlpha(100)
-                            : AppTheme.primary.withAlpha(100),
-                        offset: const Offset(8.0, 14.0),
-                        blurRadius: 19.0,
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Icon(
+                        Icons.add,
+                        color: AppTheme.textPrimaryDark, // 常に白色を使用
+                        size: 32,
                       ),
-                    ],
-                  ),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Icon(
-                      Icons.add,
-                      color: AppTheme.textPrimaryDark, // 常に白色を使用
-                      size: 32,
                     ),
                   ),
                 ),
@@ -157,7 +160,6 @@ Widget footer(BuildContext context) {
             ),
           ),
         ),
-      ),
     ],
   );
 }

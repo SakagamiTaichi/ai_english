@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
       body: const Center(
         child: Text('Welcome to AI English!'),
       ),
-      bottomNavigationBar: footer(context),
+      bottomNavigationBar: footer(context, false),
     );
   }
 }

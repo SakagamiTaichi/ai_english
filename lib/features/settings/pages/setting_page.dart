@@ -64,7 +64,7 @@ class SettingPage extends ConsumerWidget {
           const SizedBox(height: 16),
         ],
       ),
-      bottomNavigationBar: footer(context),
+      bottomNavigationBar: footer(context, false),
     );
   }
 

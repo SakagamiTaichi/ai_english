@@ -49,7 +49,7 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: primaryLight,
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       ),
     ),
 
@@ -118,7 +118,7 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor: primaryDark,
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
       ),
     ),
 

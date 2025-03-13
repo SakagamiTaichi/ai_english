@@ -2,6 +2,7 @@ import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/core/utils/methods/format.dart';
 import 'package:ai_english/features/chat/pages/chat_history_detail_page.dart';
+import 'package:ai_english/features/chat/pages/enjglish_recall_test_page.dart';
 import 'package:ai_english/features/chat/providers/chat_history_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -103,6 +104,16 @@ class _ChatHistoryPageState extends ConsumerState<ChatHistoryPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
+                                builder: (context) => EnglishRecallTestPage(
+                                  chatHistoryId: chatHistory.id,
+                                ),
+                              ),
+                            );
+                          },
+                          onLongPress: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
                                 builder: (context) =>
                                     ChatHistoryDetailPage(id: chatHistory.id),
                               ),
@@ -150,7 +161,7 @@ class _ChatHistoryPageState extends ConsumerState<ChatHistoryPage> {
           ),
         ],
       ),
-      bottomNavigationBar: footer(context),
+      bottomNavigationBar: footer(context, true),
     );
   }
 }

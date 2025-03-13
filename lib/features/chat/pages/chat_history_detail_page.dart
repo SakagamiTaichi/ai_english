@@ -65,7 +65,7 @@ class ChatHistoryDetailPage extends ConsumerWidget {
           )),
         ],
       ),
-      bottomNavigationBar: footer(context),
+      bottomNavigationBar: footer(context, false),
     );
   }
 }
