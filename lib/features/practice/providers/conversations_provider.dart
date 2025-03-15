@@ -1,5 +1,5 @@
 import 'package:ai_english/features/practice/data/conversations_repository.dart';
-import 'package:ai_english/features/practice/data/conversations_repository_provider.dart';
+import 'package:ai_english/features/practice/data/repository_providers.dart';
 import 'package:ai_english/features/practice/models/chat_history.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

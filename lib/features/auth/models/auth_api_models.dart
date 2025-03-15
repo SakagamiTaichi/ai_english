@@ -13,3 +13,14 @@ class SignInRequestModel with _$SignInRequestModel {
   factory SignInRequestModel.fromJson(Map<String, dynamic> json) =>
       _$SignInRequestModelFromJson(json);
 }
+
+@freezed
+class SignUpRequestModel with _$SignUpRequestModel {
+  const factory SignUpRequestModel({
+    required String email,
+    required String password,
+  }) = _SignUpRequestModel;
+
+  factory SignUpRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$SignUpRequestModelFromJson(json);
+}

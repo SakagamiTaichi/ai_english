@@ -68,7 +68,10 @@ class AuthNotifier extends _$AuthNotifier {
       state = state.copyWith(isLoading: true, errorMessage: null);
 
       final repository = ref.read(authRepositoryProvider);
-      await repository.signUp(email, password);
+      await repository.signUp(SignUpRequestModel(
+        email: email,
+        password: password,
+      ));
 
       // No longer signing in automatically after registration
       state = state.copyWith(

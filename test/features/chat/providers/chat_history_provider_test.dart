@@ -1,4 +1,4 @@
-import 'package:ai_english/features/practice/data/conversations_repository_provider.dart';
+import 'package:ai_english/features/practice/data/repository_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';

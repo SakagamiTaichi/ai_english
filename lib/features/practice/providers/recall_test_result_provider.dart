@@ -1,5 +1,5 @@
 import 'package:ai_english/features/practice/data/recall_test_result_repository.dart';
-import 'package:ai_english/features/practice/data/recall_test_result_repository_provider.dart';
+import 'package:ai_english/features/practice/data/repository_providers.dart';
 import 'package:ai_english/features/practice/models/recall_test_request_model.dart';
 import 'package:ai_english/features/practice/models/recall_test_response_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
