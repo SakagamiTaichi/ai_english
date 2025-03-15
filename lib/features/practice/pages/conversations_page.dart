@@ -1,20 +1,21 @@
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
+import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/core/utils/methods/format.dart';
-import 'package:ai_english/features/practice/pages/chat_history_detail_page.dart';
+import 'package:ai_english/features/practice/pages/conversation_page.dart';
 import 'package:ai_english/features/practice/pages/enjglish_recall_test_page.dart';
-import 'package:ai_english/features/practice/providers/chat_history_provider.dart';
+import 'package:ai_english/features/practice/providers/conversations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatHistoryPage extends ConsumerStatefulWidget {
-  const ChatHistoryPage({super.key});
+class ConversationsPage extends ConsumerStatefulWidget {
+  const ConversationsPage({super.key});
 
   @override
-  ConsumerState<ChatHistoryPage> createState() => _ChatHistoryPageState();
+  ConsumerState<ConversationsPage> createState() => _ConversationsPageState();
 }
 
-class _ChatHistoryPageState extends ConsumerState<ChatHistoryPage> {
+class _ConversationsPageState extends ConsumerState<ConversationsPage> {
   bool _isSearchVisible = false;
   final TextEditingController _searchController = TextEditingController();
 
@@ -32,8 +33,8 @@ class _ChatHistoryPageState extends ConsumerState<ChatHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final data = ref.watch(asyncChatHistoryProvider);
-    final notifier = ref.read(asyncChatHistoryProvider.notifier);
+    final data = ref.watch(conversationsNotifierProvider);
+    final notifier = ref.read(conversationsNotifierProvider.notifier);
 
     return Scaffold(
       appBar: header(context, 'Chat History'),
@@ -89,7 +90,8 @@ class _ChatHistoryPageState extends ConsumerState<ChatHistoryPage> {
               onRefresh: () => notifier.refresh(),
               child: data.when(
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, _) => Center(child: Text('会話の読み込みに失敗しました')),
+                error: (error, _) =>
+                    Center(child: Text(MeesageConstant.failedToLoadData)),
                 data: (chatHistories) => ListView.builder(
                   itemCount: chatHistories.length,
                   padding: const EdgeInsets.all(16.0),
@@ -115,7 +117,7 @@ class _ChatHistoryPageState extends ConsumerState<ChatHistoryPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    ChatHistoryDetailPage(id: chatHistory.id),
+                                    ConversationPage(id: chatHistory.id),
                               ),
                             );
                           },

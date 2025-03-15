@@ -1,9 +1,10 @@
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
+import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/features/practice/models/chat_history_detail.dart';
 import 'package:ai_english/features/practice/models/recall_test_request_model.dart';
 import 'package:ai_english/features/practice/pages/recall_test_summary_page.dart';
-import 'package:ai_english/features/practice/providers/chat_history_detail_provider.dart';
+import 'package:ai_english/features/practice/providers/conversation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -98,12 +99,12 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
       appBar: header(context, '英語リコールテスト'),
       body: chatHistoryDetailAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('エラーが発生しました: $error')),
+        error: (error, stack) =>
+            Center(child: Text(MeesageConstant.failedToLoadData)),
         data: (chatHistoryDetails) {
           if (chatHistoryDetails.isEmpty) {
             return const Center(child: Text('テスト問題がありません'));
           }
-
           // ここで配列のサイズを確保
           if (_userAnswers.length < chatHistoryDetails.length) {
             _userAnswers.addAll(List.filled(

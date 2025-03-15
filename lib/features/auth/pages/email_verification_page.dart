@@ -15,7 +15,7 @@ class EmailVerificationPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Email Verification'),
+        title: const Text('メール認証'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
@@ -31,7 +31,7 @@ class EmailVerificationPage extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               const Text(
-                'Verify Your Email',
+                'アカウントを有効化してください',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -40,7 +40,7 @@ class EmailVerificationPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                'We\'ve sent a verification link to:\n$email',
+                'メールを送信しました。\n$email',
                 style: const TextStyle(
                   fontSize: 16,
                 ),
@@ -48,7 +48,7 @@ class EmailVerificationPage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               const Text(
-                'Please check your inbox and click the verification link to activate your account.',
+                'メールを確認して、アカウントを有効化してください。',
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
@@ -69,7 +69,7 @@ class EmailVerificationPage extends StatelessWidget {
                     vertical: 16,
                   ),
                 ),
-                child: const Text('Return to Sign In'),
+                child: const Text('ログイン画面へ'),
               ),
             ],
           ),

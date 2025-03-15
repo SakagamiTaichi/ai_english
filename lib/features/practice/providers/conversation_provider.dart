@@ -3,7 +3,7 @@ import 'package:ai_english/features/practice/data/conversation_repository_provid
 import 'package:ai_english/features/practice/models/chat_history_detail.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part '../../../generated/features/practice/providers/chat_history_detail_provider.g.dart';
+part '../../../generated/features/practice/providers/conversation_provider.g.dart';
 
 @riverpod
 class ConversationNotifier extends _$ConversationNotifier {

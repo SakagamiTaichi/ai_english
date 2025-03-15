@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:ai_english/features/practice/data/conversations_repository.dart';
 import 'package:ai_english/features/practice/models/chat_history.dart';
-import 'package:ai_english/features/practice/providers/chat_history_provider.dart';
+import 'package:ai_english/features/practice/providers/conversations_provider.dart';
 
 import 'chat_history_provider_test.mocks.dart';
 
@@ -44,7 +44,7 @@ void main() {
           .thenAnswer((_) async => testData);
 
       // Act
-      final result = await container.read(asyncChatHistoryProvider.future);
+      final result = await container.read(conversationsNotifierProvider.future);
 
       // Assert
       expect(result, equals(testData));
@@ -57,15 +57,15 @@ void main() {
       // Arrange
       when(mockRepository.fetchConversations())
           .thenAnswer((_) async => testData);
-      final provider = container.read(asyncChatHistoryProvider.notifier);
-      await container.read(asyncChatHistoryProvider.future);
+      final provider = container.read(conversationsNotifierProvider.notifier);
+      await container.read(conversationsNotifierProvider.future);
 
       // Act
       provider.filterConversations('');
 
       // Assert
       expect(
-        container.read(asyncChatHistoryProvider).value,
+        container.read(conversationsNotifierProvider).value,
         equals(testData),
       );
     });
@@ -75,15 +75,15 @@ void main() {
       // Arrange
       when(mockRepository.fetchConversations())
           .thenAnswer((_) async => testData);
-      final provider = container.read(asyncChatHistoryProvider.notifier);
-      await container.read(asyncChatHistoryProvider.future);
+      final provider = container.read(conversationsNotifierProvider.notifier);
+      await container.read(conversationsNotifierProvider.future);
 
       // Act
       provider.filterConversations('english');
 
       // Assert
       expect(
-        container.read(asyncChatHistoryProvider).value,
+        container.read(conversationsNotifierProvider).value,
         equals([testData[0]]),
       );
     });
@@ -92,15 +92,15 @@ void main() {
       // Arrange
       when(mockRepository.fetchConversations())
           .thenAnswer((_) async => testData);
-      final provider = container.read(asyncChatHistoryProvider.notifier);
-      await container.read(asyncChatHistoryProvider.future);
+      final provider = container.read(conversationsNotifierProvider.notifier);
+      await container.read(conversationsNotifierProvider.future);
 
       // Act
       provider.filterConversations('ENGLISH');
 
       // Assert
       expect(
-        container.read(asyncChatHistoryProvider).value,
+        container.read(conversationsNotifierProvider).value,
         equals([testData[0]]),
       );
     });
@@ -108,7 +108,7 @@ void main() {
     test('filterConversations should handle null _originalChatHistories',
         () async {
       // Arrange
-      final provider = container.read(asyncChatHistoryProvider.notifier);
+      final provider = container.read(conversationsNotifierProvider.notifier);
 
       // Act & Assert
       expect(
@@ -121,15 +121,15 @@ void main() {
       // Arrange
       when(mockRepository.fetchConversations())
           .thenAnswer((_) async => testData);
-      final provider = container.read(asyncChatHistoryProvider.notifier);
-      await container.read(asyncChatHistoryProvider.future);
+      final provider = container.read(conversationsNotifierProvider.notifier);
+      await container.read(conversationsNotifierProvider.future);
 
       // Act
       provider.filterConversations('nonexistent');
 
       // Assert
       expect(
-        container.read(asyncChatHistoryProvider).value,
+        container.read(conversationsNotifierProvider).value,
         isEmpty,
       );
     });

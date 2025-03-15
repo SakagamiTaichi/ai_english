@@ -3,10 +3,10 @@ import 'package:ai_english/features/practice/data/conversations_repository_provi
 import 'package:ai_english/features/practice/models/chat_history.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part '../../../generated/features/practice/providers/chat_history_provider.g.dart';
+part '../../../generated/features/practice/providers/conversations_provider.g.dart';
 
 @riverpod
-class AsyncChatHistory extends _$AsyncChatHistory {
+class ConversationsNotifier extends _$ConversationsNotifier {
   late final IConversationsRepository _repository;
   List<Conversation>? _originalChatHistories;
 

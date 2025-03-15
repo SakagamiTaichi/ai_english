@@ -1,5 +1,7 @@
+import 'package:ai_english/core/http/interceptors/exceptions.dart';
 import 'package:ai_english/features/auth/data/auth_repository_provider.dart';
 import 'package:ai_english/features/auth/models/auth_models.dart';
+import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -76,9 +78,13 @@ class AuthNotifier extends _$AuthNotifier {
       // Return the email for display in the verification page
       return email;
     } catch (e) {
+      String errorMessage = 'Failed to sign up. Please try again.';
+      if (e is DioException) {
+        var error = e.error;
+      }
       state = state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to sign up: ${e.toString()}',
+        errorMessage: errorMessage,
       );
       rethrow;
     }
@@ -102,9 +108,26 @@ class AuthNotifier extends _$AuthNotifier {
       // Get user info
       await getCurrentUser();
     } catch (e) {
+      String errorMessage = 'ログインに失敗しました。時間をおいて再度お試しください。';
+      if (e is DioException) {
+        var error = e.error;
+        if (error is UnauthorizedException) {
+          errorMessage = 'メールアドレスまたはパスワードが正しくありません。';
+        } else if (error is NetworkException) {
+          errorMessage = 'ネットワークに接続できません。インターネット接続を確認してください。';
+        } else if (error is TimeoutException) {
+          errorMessage = 'サーバーからの応答がありません。時間をおいて再度お試しください。';
+        } else if (error is ServerException) {
+          errorMessage = 'サーバーエラーが発生しました。時間をおいて再度お試しください。';
+        } else if (error is NotFoundException) {
+          errorMessage = 'アカウントが見つかりません。';
+        } else {
+          errorMessage = 'ログインに失敗しました。時間をおいて再度お試しください。';
+        }
+      }
       state = state.copyWith(
         isLoading: false,
-        errorMessage: 'Failed to sign in: ${e.toString()}',
+        errorMessage: errorMessage,
       );
     }
   }

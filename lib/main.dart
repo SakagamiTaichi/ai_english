@@ -2,7 +2,7 @@ import 'package:ai_english/core/theme/app_theme.dart'; // 追加：テーマフ�
 import 'package:ai_english/features/auth/components/auth_guard.dart';
 import 'package:ai_english/features/auth/pages/sign_in_page.dart';
 import 'package:ai_english/features/auth/providers/auth_provider.dart';
-import 'package:ai_english/features/practice/pages/chat_history_page.dart';
+import 'package:ai_english/features/practice/pages/conversations_page.dart';
 import 'package:ai_english/features/settings/providers/theme_selector_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -43,7 +43,7 @@ class MyApp extends ConsumerWidget {
             error: (error, stack) => ThemeMode.system,
           ),
       home: authState.isAuthenticated
-          ? const AuthGuard(child: ChatHistoryPage())
+          ? const AuthGuard(child: ConversationsPage())
           : const SignInPage(),
     );
   }

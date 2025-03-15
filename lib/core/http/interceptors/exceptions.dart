@@ -38,3 +38,19 @@ class TimeoutException implements Exception {
   @override
   String toString() => message;
 }
+
+class ForbiddenException implements Exception {
+  final String message;
+  ForbiddenException(this.message);
+
+  @override
+  String toString() => message;
+}
+
+class ServiceUnavailableException implements Exception {
+  final String message;
+  ServiceUnavailableException(this.message);
+
+  @override
+  String toString() => message;
+}
