@@ -1,4 +1,5 @@
 import 'package:ai_english/core/components/footer.dart';
+import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/features/practice/components/setting_panel.dart';
 import 'package:ai_english/core/utils/providers/tts_provider.dart';
@@ -32,11 +33,7 @@ class ConversationPage extends ConsumerWidget {
     // final notifier = ref.read(asyncChatHistoryDetailProvider(id).notifier);
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('AI English Chat'),
-      ),
+      appBar: header(context, isDisplayBackButton: true),
       body: Column(
         children: [
           SettingPanel(onPlayAll: () {

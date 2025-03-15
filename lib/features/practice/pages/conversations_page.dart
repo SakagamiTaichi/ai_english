@@ -37,7 +37,7 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage> {
     final notifier = ref.read(conversationsNotifierProvider.notifier);
 
     return Scaffold(
-      appBar: header(context, 'Chat History'),
+      appBar: header(context),
       body: Column(
         children: [
           // 検索アイコンを右寄せにする
@@ -98,7 +98,7 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage> {
                   itemBuilder: (context, index) {
                     final chatHistory = chatHistories[index];
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
+                      padding: const EdgeInsets.only(bottom: 8.0),
                       child: Card(
                         child: InkWell(
                           borderRadius: BorderRadius.circular(12.0),

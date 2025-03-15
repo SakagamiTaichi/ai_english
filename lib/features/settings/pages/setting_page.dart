@@ -15,7 +15,7 @@ class SettingPage extends ConsumerWidget {
     // 現在ログイン中のユーザーアカウントを取得
     final user = ref.watch(authNotifierProvider).user;
     return Scaffold(
-      appBar: header(context, '設定'),
+      appBar: header(context),
       body: ListView(
         children: [
           const SizedBox(height: 16),

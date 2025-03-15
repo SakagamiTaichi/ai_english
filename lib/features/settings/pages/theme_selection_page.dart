@@ -1,3 +1,4 @@
+import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/settings/providers/theme_selector_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,11 +12,7 @@ class ThemeSelectionPage extends ConsumerWidget {
     final currentThemeMode = ref.watch(themeNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('テーマ'),
-      ),
+      appBar: header(context, isDisplayBackButton: true),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 16),
         itemCount: ThemeMode.values.length,

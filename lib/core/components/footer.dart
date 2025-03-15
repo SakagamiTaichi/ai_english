@@ -16,9 +16,9 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
   return Stack(
     alignment: AlignmentDirectional.bottomCenter,
     children: <Widget>[
-      // Main bottom bar with curved shape
+      // Main bottom bar with flat shape
       PhysicalShape(
-        color: backgroundColor, // AppThemeから背景色を使用
+        color: backgroundColor,
         elevation: 16.0,
         clipper: TabClipper(radius: 38.0),
         child: Column(
@@ -47,7 +47,7 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                           );
                         },
                         primaryColor,
-                        inactiveIconColor, // アクティブでないアイコンの色を追加
+                        inactiveIconColor,
                       ),
                     ),
                     Expanded(
@@ -67,11 +67,9 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                           );
                         },
                         primaryColor,
-                        inactiveIconColor, // アクティブでないアイコンの色を追加
+                        inactiveIconColor,
                       ),
                     ),
-                    // Center space for floating button
-                    const SizedBox(width: 64.0),
                     Expanded(
                       child: _buildTabIcon(
                         context,
@@ -89,11 +87,13 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                           );
                         },
                         primaryColor,
-                        inactiveIconColor, // アクティブでないアイコンの色を追加
+                        inactiveIconColor,
                       ),
                     ),
-                    // Empty space to balance the layout
-                    const Expanded(child: SizedBox()),
+                    // 4つ目のスペースは必要に応じて他のアイコンを追加するか、削除してください
+                    Expanded(
+                      child: SizedBox(),
+                    ),
                   ],
                 ),
               ),
@@ -104,62 +104,6 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
           ],
         ),
       ),
-
-      if (isDisplayPlus)
-        // Center floating button
-        Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-          child: SizedBox(
-            width: 38 * 2.0,
-            height: 38 + 62.0,
-            child: Container(
-              alignment: Alignment.topCenter,
-              color: Colors.transparent,
-              child: SizedBox(
-                width: 38 * 2.0,
-                height: 38 * 2.0,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: primaryColor,
-                      // gradient: LinearGradient(
-                      //   transform: GradientRotation(math.pi / 4),
-                      //   colors: [
-                      //     primaryColor,
-                      //     isDarkMode
-                      //         ? AppTheme.primaryDark.withAlpha(100)
-                      //         : AppTheme.primaryLight.withAlpha(100),
-                      //   ],
-                      //   begin: Alignment.topLeft,
-                      //   end: Alignment.bottomRight,
-                      // ),
-                      shape: BoxShape.circle,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: isDarkMode
-                              ? AppTheme.primaryDark.withAlpha(100)
-                              : AppTheme.primary.withAlpha(100),
-                          offset: const Offset(8.0, 14.0),
-                          blurRadius: 19.0,
-                        ),
-                      ],
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Icon(
-                        Icons.add,
-                        color: AppTheme.textPrimaryDark, // 常に白色を使用
-                        size: 32,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
     ],
   );
 }
@@ -209,29 +153,19 @@ class TabClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final Path path = Path();
 
-    final double v = radius * 2;
+    // 左上の角を丸くする
     path.lineTo(0, 0);
     path.arcTo(Rect.fromLTWH(0, 0, radius, radius), degreeToRadians(180),
         degreeToRadians(90), false);
-    path.arcTo(
-        Rect.fromLTWH(
-            ((size.width / 2) - v / 2) - radius + v * 0.04, 0, radius, radius),
-        degreeToRadians(270),
-        degreeToRadians(70),
-        false);
 
-    path.arcTo(Rect.fromLTWH((size.width / 2) - v / 2, -v / 2, v, v),
-        degreeToRadians(160), degreeToRadians(-140), false);
+    // 上辺を描く (左から右へ)
+    path.lineTo(size.width - radius, 0);
 
-    path.arcTo(
-        Rect.fromLTWH((size.width - ((size.width / 2) - v / 2)) - v * 0.04, 0,
-            radius, radius),
-        degreeToRadians(200),
-        degreeToRadians(70),
-        false);
+    // 右上の角を丸くする
     path.arcTo(Rect.fromLTWH(size.width - radius, 0, radius, radius),
         degreeToRadians(270), degreeToRadians(90), false);
-    path.lineTo(size.width, 0);
+
+    // 右辺、下辺、左辺を描く
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
 
@@ -246,4 +180,12 @@ class TabClipper extends CustomClipper<Path> {
     final double redian = (math.pi / 180) * degree;
     return redian;
   }
+}
+
+@override
+bool shouldReclip(TabClipper oldClipper) => true;
+
+double degreeToRadians(double degree) {
+  final double redian = (math.pi / 180) * degree;
+  return redian;
 }

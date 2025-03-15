@@ -92,7 +92,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     final authState = ref.watch(authNotifierProvider);
 
     return Scaffold(
-      appBar: header(context, "Sign Up"),
+      appBar: header(context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

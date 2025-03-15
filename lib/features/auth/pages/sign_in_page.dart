@@ -74,7 +74,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
     }
 
     return Scaffold(
-      appBar: header(context, 'Sign In'),
+      appBar: header(context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
