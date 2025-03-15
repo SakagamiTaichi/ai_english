@@ -6,6 +6,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part '../../../generated/features/practice/data/recall_test_result_repository_provider.g.dart';
 
 @riverpod
-RecallTestResultRepository recallTestResultRepository(Ref ref) {
+IRecallTestResultRepository recallTestResultRepository(Ref ref) {
   return RecallTestResultRepository(ref.watch(apiClientProvider));
 }

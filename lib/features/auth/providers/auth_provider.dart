@@ -1,5 +1,6 @@
 import 'package:ai_english/core/http/interceptors/exceptions.dart';
 import 'package:ai_english/features/auth/data/auth_repository_provider.dart';
+import 'package:ai_english/features/auth/models/auth_api_models.dart';
 import 'package:ai_english/features/auth/models/auth_models.dart';
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -78,9 +79,25 @@ class AuthNotifier extends _$AuthNotifier {
       // Return the email for display in the verification page
       return email;
     } catch (e) {
-      String errorMessage = 'Failed to sign up. Please try again.';
+      String errorMessage = 'アカウント登録に失敗しました。時間をおいて再度お試しください。';
+
       if (e is DioException) {
         var error = e.error;
+        if (error is UnauthorizedException) {
+          errorMessage = '認証エラーが発生しました。';
+        } else if (error is NetworkException) {
+          errorMessage = 'ネットワークに接続できません。インターネット接続を確認してください。';
+        } else if (error is TimeoutException) {
+          errorMessage = 'サーバーからの応答がありません。時間をおいて再度お試しください。';
+        } else if (error is ServerException) {
+          errorMessage = 'サーバーエラーが発生しました。時間をおいて再度お試しください。';
+        } else if (error is ForbiddenException) {
+          errorMessage = 'アクセス権限がありません。';
+        } else if (error is ConflictException) {
+          errorMessage = 'このメールアドレスは既に登録されています。';
+        } else {
+          errorMessage = 'アカウント登録に失敗しました。時間をおいて再度お試しください。';
+        }
       }
       state = state.copyWith(
         isLoading: false,
@@ -95,7 +112,10 @@ class AuthNotifier extends _$AuthNotifier {
       state = state.copyWith(isLoading: true, errorMessage: null);
 
       final repository = ref.read(authRepositoryProvider);
-      final token = await repository.signIn(email, password);
+      final token = await repository.signIn(SignInRequestModel(
+        email: email,
+        password: password,
+      ));
 
       await _saveSession(token);
 

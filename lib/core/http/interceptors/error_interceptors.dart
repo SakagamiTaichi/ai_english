@@ -19,6 +19,8 @@ class ErrorInterceptor extends Interceptor {
             throw ForbiddenException('アクセス権限がありません');
           case 404:
             throw NotFoundException('リソースが見つかりません');
+          case 409:
+            throw ConflictException('リクエストが競合しています');
           case 500:
             throw ServerException('サーバー内部エラーが発生しました');
           case 503:

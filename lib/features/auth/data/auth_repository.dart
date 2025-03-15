@@ -1,9 +1,10 @@
 import 'package:ai_english/core/http/iapi_client.dart';
+import 'package:ai_english/features/auth/models/auth_api_models.dart';
 import 'package:ai_english/features/auth/models/auth_models.dart';
 
 abstract class IAuthRepository {
   Future<void> signUp(String email, String password);
-  Future<Token> signIn(String email, String password);
+  Future<Token> signIn(SignInRequestModel request);
   Future<Token> refreshToken(String refreshToken);
   Future<User> getCurrentUser(String accessToken);
 }
@@ -28,15 +29,13 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Token> signIn(String email, String password) async {
+  Future<Token> signIn(SignInRequestModel request) async {
     try {
       // サインイン前に既存のトークンをクリア
       _apiClient.clearAuthToken();
 
-      final response = await _apiClient.post('/auth/login', data: {
-        'email': email,
-        'password': password,
-      });
+      final response =
+          await _apiClient.post('/auth/login', data: request.toJson());
 
       final token = Token.fromJson(response.data);
       // アクセストークンを設定
