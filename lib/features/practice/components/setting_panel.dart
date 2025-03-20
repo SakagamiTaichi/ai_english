@@ -50,17 +50,24 @@ class _SettingPanelState extends ConsumerState<SettingPanel> {
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Column(
                   children: [
-                    // Play all button
-                    ElevatedButton.icon(
-                      onPressed: widget.onPlayAll,
-                      icon: const Icon(Icons.play_arrow),
-                      label: const Text('Play All'),
+                    Row(
+                      children: [
+                        const Text('全再生:'),
+                        const SizedBox(width: 16),
+                        // Play all button
+                        ElevatedButton.icon(
+                          onPressed: widget.onPlayAll,
+                          icon: const Icon(Icons.play_arrow),
+                          label: const Text(''),
+                        ),
+                      ],
                     ),
+
                     const SizedBox(height: 16),
                     // Playback speed control
                     Row(
                       children: [
-                        const Text('Playback Speed:'),
+                        const Text('再生速度:'),
                         Expanded(
                           child: Slider(
                             value: settings.speechRate,

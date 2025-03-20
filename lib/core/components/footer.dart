@@ -9,7 +9,7 @@ import 'package:page_transition/page_transition.dart';
 Widget footer(BuildContext context, bool isDisplayPlus) {
   final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
   final Color backgroundColor =
-      isDarkMode ? AppTheme.backgroundDark : AppTheme.backgroundLight;
+      isDarkMode ? AppTheme.backgroundDarkColor : AppTheme.backgroundColor;
   final Color primaryColor = Theme.of(context).primaryColor;
   final Color inactiveIconColor = isDarkMode ? Colors.white54 : Colors.grey;
 

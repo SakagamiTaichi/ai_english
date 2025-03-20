@@ -41,50 +41,50 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage> {
       body: Column(
         children: [
           // 検索アイコンを右寄せにする
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: Icon(_isSearchVisible ? Icons.close : Icons.search),
-                  onPressed: _toggleSearch,
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     children: [
+          //       IconButton(
+          //         icon: Icon(_isSearchVisible ? Icons.close : Icons.search),
+          //         onPressed: _toggleSearch,
+          //       ),
+          //     ],
+          //   ),
+          // ),
           // 検索欄（表示・非表示の切り替え）
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: _isSearchVisible ? 60 : 0,
-            child: Visibility(
-              visible: _isSearchVisible,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    labelText: '検索',
-                    border: const OutlineInputBorder(),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    // 検索テキストがある場合のみバツアイコンを表示
-                    suffixIcon: _searchController.text.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              // テキストをクリアして検索結果も更新
-                              _searchController.clear();
-                              notifier.filterConversations('');
-                            },
-                          )
-                        : null,
-                  ),
-                  onChanged: notifier.filterConversations,
-                ),
-              ),
-            ),
-          ),
+          // AnimatedContainer(
+          //   duration: const Duration(milliseconds: 300),
+          //   height: _isSearchVisible ? 60 : 0,
+          //   child: Visibility(
+          //     visible: _isSearchVisible,
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: TextField(
+          //         controller: _searchController,
+          //         decoration: InputDecoration(
+          //           labelText: '検索',
+          //           border: const OutlineInputBorder(),
+          //           contentPadding:
+          //               const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          //           // 検索テキストがある場合のみバツアイコンを表示
+          //           suffixIcon: _searchController.text.isNotEmpty
+          //               ? IconButton(
+          //                   icon: const Icon(Icons.clear),
+          //                   onPressed: () {
+          //                     // テキストをクリアして検索結果も更新
+          //                     _searchController.clear();
+          //                     notifier.filterConversations('');
+          //                   },
+          //                 )
+          //               : null,
+          //         ),
+          //         onChanged: notifier.filterConversations,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () => notifier.refresh(),
@@ -103,16 +103,6 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(12.0),
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => EnglishRecallTestPage(
-                                  conversationId: chatHistory.id,
-                                ),
-                              ),
-                            );
-                          },
-                          onLongPress: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(

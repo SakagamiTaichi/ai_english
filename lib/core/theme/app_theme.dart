@@ -7,9 +7,12 @@ class AppTheme {
   static const Color primaryDark = Color.fromARGB(255, 230, 135, 50);
   static const Color primaryLight = Color.fromARGB(255, 255, 176, 107);
 
-  // 背景色
-  static const Color backgroundLight = Colors.white;
-  static const Color backgroundDark = Color(0xFF2C2C2C);
+  static const Color backgroundColor = Colors.white;
+  static const Color backgroundDarkColor = Color(0xFF2C2C2C);
+
+  // 背景色2
+  static const Color backgroundLight = Color.fromARGB(255, 252, 246, 240);
+  static const Color backgroundDark = Color(0xFF3C3C3C);
 
   // カード背景色
   static const Color cardLight = Color.fromARGB(255, 255, 237, 220);
@@ -29,7 +32,7 @@ class AppTheme {
     // カラースキーム
     colorScheme: ColorScheme.fromSeed(
       primary: primary,
-      inversePrimary: backgroundLight,
+      inversePrimary: backgroundColor,
       seedColor: primary,
       brightness: Brightness.light,
     ),
@@ -54,6 +57,8 @@ class AppTheme {
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       ),
     ),
+
+    scaffoldBackgroundColor: backgroundLight,
 
     // テキストテーマ
     textTheme: const TextTheme(
