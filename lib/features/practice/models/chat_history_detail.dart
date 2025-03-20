@@ -6,7 +6,7 @@ part '../../../generated/features/practice/models/chat_history_detail.g.dart';
 @freezed
 class Conversation with _$Conversation {
   const factory Conversation({
-    required String set_id,
+    required String conversation_id,
     required int message_order,
     required int speaker_number,
     required String message_en,

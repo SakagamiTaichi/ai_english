@@ -10,11 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EnglishRecallTestPage extends ConsumerStatefulWidget {
-  final String chatHistoryId;
+  final String conversationId;
 
   const EnglishRecallTestPage({
     super.key,
-    required this.chatHistoryId,
+    required this.conversationId,
   });
 
   @override
@@ -72,11 +72,12 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
                   for (int i = 0; i < questions.length; i++) {
                     answer.add(RecallTestAnswer(
                       user_answer: _userAnswers[i],
-                      correct_answer: questions[i].message_en,
+                      message_order: questions[i].message_order,
                     ));
                   }
 
-                  final requestModels = RecallTestRequestModel(answers: answer);
+                  final requestModels = RecallTestRequestModel(
+                      conversation_id: widget.conversationId, answers: answer);
 
                   // Navigate to the summary screen
                   Navigator.push(
@@ -121,7 +122,7 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
   @override
   Widget build(BuildContext context) {
     final chatHistoryDetailAsync =
-        ref.watch(conversationNotifierProvider(widget.chatHistoryId));
+        ref.watch(conversationNotifierProvider(widget.conversationId));
 
     return Scaffold(
       appBar: header(context),

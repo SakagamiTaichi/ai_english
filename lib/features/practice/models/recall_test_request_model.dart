@@ -6,8 +6,8 @@ part '../../../generated/features/practice/models/recall_test_request_model.g.da
 @freezed
 class RecallTestAnswer with _$RecallTestAnswer {
   const factory RecallTestAnswer({
+    required int message_order,
     required String user_answer,
-    required String correct_answer,
   }) = _RecallTestAnswer;
 
   factory RecallTestAnswer.fromJson(Map<String, dynamic> json) =>
@@ -17,6 +17,7 @@ class RecallTestAnswer with _$RecallTestAnswer {
 @freezed
 class RecallTestRequestModel with _$RecallTestRequestModel {
   const factory RecallTestRequestModel({
+    required String conversation_id,
     required List<RecallTestAnswer> answers,
   }) = _RecallTestRequestModel;
 

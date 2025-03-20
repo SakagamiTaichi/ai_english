@@ -36,6 +36,7 @@ dependencies:
   page_transition: ^2.2.1
   flutter_launcher_icons: ^0.14.3
   hooks_riverpod: ^2.6.1
+  flutter_html: ^3.0.0
 
 dev_dependencies:
   # Flutterのテストフレームワーク。単体テストやウィジェットテストの実行に使用。

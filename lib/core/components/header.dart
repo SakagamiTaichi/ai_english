@@ -6,6 +6,6 @@ PreferredSizeWidget header(BuildContext context,
     toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight,
     automaticallyImplyLeading: isDisplayBackButton,
     foregroundColor: Theme.of(context).colorScheme.primary,
-    backgroundColor: Theme.of(context).colorScheme.inversePrimary.withAlpha(20),
+    backgroundColor: Theme.of(context).colorScheme.inversePrimary,
   );
 }

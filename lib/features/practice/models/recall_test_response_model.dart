@@ -9,7 +9,8 @@ class RecallTestResponseModel with _$RecallTestResponseModel {
     required String user_answer,
     required String correct_answer,
     required bool is_correct,
-    required double similarity_to_correct,
+    required int similarity_to_correct,
+    required int? last_similarity_to_correct,
   }) = _RecallTestResponseModel;
 
   factory RecallTestResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -19,8 +20,8 @@ class RecallTestResponseModel with _$RecallTestResponseModel {
 @freezed
 class RecallTestSummaryResponseModel with _$RecallTestSummaryResponseModel {
   const factory RecallTestSummaryResponseModel({
-    required double correct_rate,
-    required double last_correct_rate,
+    required int correct_rate,
+    required int? last_correct_rate,
     required List<RecallTestResponseModel> result,
   }) = _RecallTestSummaryResponseModel;
 
