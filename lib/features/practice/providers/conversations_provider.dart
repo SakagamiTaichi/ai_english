@@ -1,6 +1,6 @@
 import 'package:ai_english/features/practice/data/conversations_repository.dart';
 import 'package:ai_english/features/practice/data/repository_providers.dart';
-import 'package:ai_english/features/practice/models/chat_history.dart';
+import 'package:ai_english/features/practice/models/conversations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part '../../../generated/features/practice/providers/conversations_provider.g.dart';
@@ -8,15 +8,15 @@ part '../../../generated/features/practice/providers/conversations_provider.g.da
 @riverpod
 class ConversationsNotifier extends _$ConversationsNotifier {
   late final IConversationsRepository _repository;
-  List<Conversation>? _originalChatHistories;
+  ConversationsResponse? _originalChatHistories;
 
   @override
-  FutureOr<List<Conversation>> build() async {
+  FutureOr<ConversationsResponse> build() async {
     _repository = ref.watch(conversationsRepositoryProvider);
     return await _fetchAndStoreConversations();
   }
 
-  Future<List<Conversation>> _fetchAndStoreConversations() async {
+  Future<ConversationsResponse> _fetchAndStoreConversations() async {
     final conversations = await _repository.fetchConversations();
     _originalChatHistories = conversations;
     return conversations;
@@ -31,11 +31,15 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     }
 
     final lowercaseKeyword = keyword.toLowerCase();
-    final filteredList = _originalChatHistories!
+
+    final filteredList = _originalChatHistories!.conversations
         .where((chat) => chat.title.toLowerCase().contains(lowercaseKeyword))
         .toList();
 
-    state = AsyncData(filteredList);
+    final filteredConversationsResponse = _originalChatHistories!.copyWith(
+      conversations: filteredList,
+    );
+    state = AsyncData(filteredConversationsResponse);
   }
 
   Future<void> refresh() async {

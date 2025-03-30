@@ -46,7 +46,7 @@ class ChatNotifier extends _$ChatNotifier {
 
       // APIからストリーミングレスポンスを取得
       final response = await apiClient.getStream(
-        '/english/chat',
+        '/practice/chat',
         queryParameters: {
           'message': text,
           'session_id': _sessionId,

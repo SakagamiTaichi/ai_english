@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:ai_english/features/practice/data/conversations_repository.dart';
-import 'package:ai_english/features/practice/models/chat_history.dart';
+import 'package:ai_english/features/practice/models/conversations.dart';
 import 'package:ai_english/features/practice/providers/conversations_provider.dart';
 
 import 'chat_history_provider_test.mocks.dart';
@@ -13,7 +13,7 @@ import 'chat_history_provider_test.mocks.dart';
 void main() {
   late MockIConversationsRepository mockRepository;
   late ProviderContainer container;
-  late List<Conversation> testData;
+  late ConversationsResponse testData;
 
   setUp(() {
     mockRepository = MockIConversationsRepository();
@@ -23,14 +23,16 @@ void main() {
       ],
     );
 
-    testData = [
-      Conversation(
+    List<ConversationResponse> conversationList = [
+      ConversationResponse(
           id: '1', title: 'English Conversation', created_at: DateTime.now()),
-      Conversation(
+      ConversationResponse(
           id: '2', title: 'Japanese Learning', created_at: DateTime.now()),
-      Conversation(
+      ConversationResponse(
           id: '3', title: 'TOEIC Practice', created_at: DateTime.now()),
     ];
+
+    testData = ConversationsResponse(conversations: conversationList);
   });
 
   tearDown(() {
@@ -84,7 +86,7 @@ void main() {
       // Assert
       expect(
         container.read(conversationsNotifierProvider).value,
-        equals([testData[0]]),
+        equals([testData.conversations[0]]),
       );
     });
 
@@ -101,7 +103,7 @@ void main() {
       // Assert
       expect(
         container.read(conversationsNotifierProvider).value,
-        equals([testData[0]]),
+        equals([testData.conversations[0]]),
       );
     });
 

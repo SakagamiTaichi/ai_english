@@ -2,7 +2,7 @@ import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/features/practice/components/test_card.dart';
-import 'package:ai_english/features/practice/models/chat_history_detail.dart';
+import 'package:ai_english/features/practice/models/conversation.dart';
 import 'package:ai_english/features/practice/models/recall_test_request_model.dart';
 import 'package:ai_english/features/practice/pages/recall_test_summary_page.dart';
 import 'package:ai_english/features/practice/providers/conversation_provider.dart';
@@ -41,7 +41,7 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
     super.dispose();
   }
 
-  void _nextQuestion(List<Conversation> questions, bool wasSkipped) {
+  void _nextQuestion(List<MessageResponse> questions, bool wasSkipped) {
     // 現在の解答を保存
     setState(() {
       _userAnswers[_currentQuestionIndex] = _answerController.text;
@@ -131,16 +131,18 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
         error: (error, stack) =>
             Center(child: Text(MeesageConstant.failedToLoadData)),
         data: (chatHistoryDetails) {
-          if (chatHistoryDetails.isEmpty) {
+          if (chatHistoryDetails.conversations.isEmpty) {
             return const Center(child: Text('テスト問題がありません'));
           }
           // ここで配列のサイズを確保
-          if (_userAnswers.length < chatHistoryDetails.length) {
+          if (_userAnswers.length < chatHistoryDetails.conversations.length) {
             _userAnswers.addAll(List.filled(
-                chatHistoryDetails.length - _userAnswers.length, ''));
+                chatHistoryDetails.conversations.length - _userAnswers.length,
+                ''));
           }
 
-          final currentQuestion = chatHistoryDetails[_currentQuestionIndex];
+          final currentQuestion =
+              chatHistoryDetails.conversations[_currentQuestionIndex];
 
           return SingleChildScrollView(
             child: Padding(
@@ -150,8 +152,8 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
                 children: [
                   // Progress indicator
                   LinearProgressIndicator(
-                    value:
-                        (_currentQuestionIndex + 1) / chatHistoryDetails.length,
+                    value: (_currentQuestionIndex + 1) /
+                        chatHistoryDetails.conversations.length,
                     backgroundColor: Colors.grey[300],
                     valueColor: AlwaysStoppedAnimation<Color>(
                       Theme.of(context).primaryColor,
@@ -162,7 +164,7 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
 
                   // Question count
                   Text(
-                    '問題 ${_currentQuestionIndex + 1}/${chatHistoryDetails.length}',
+                    '問題 ${_currentQuestionIndex + 1}/${chatHistoryDetails.conversations.length}',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
 
@@ -212,8 +214,8 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
                       ),
                       // 次へボタン
                       ElevatedButton.icon(
-                        onPressed: () =>
-                            _nextQuestion(chatHistoryDetails, false),
+                        onPressed: () => _nextQuestion(
+                            chatHistoryDetails.conversations, false),
                         icon: const Icon(Icons.arrow_forward_ios_rounded),
                         label: const Text(''),
                         style: Theme.of(context).elevatedButtonTheme.style,

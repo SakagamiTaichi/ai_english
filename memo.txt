@@ -20,4 +20,5 @@ pageは〇〇Pageとする。
 
 会話：Conversation
 会話一覧：Coversations
+一つのメッセージ：Message
 

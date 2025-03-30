@@ -1,7 +1,7 @@
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/features/practice/components/message_bubble.dart';
 import 'package:ai_english/features/practice/components/reset_alert_dialog.dart';
-import 'package:ai_english/features/practice/components/setting_panel.dart';
+import 'package:ai_english/features/practice/components/side_menue.dart';
 import 'package:ai_english/features/practice/providers/chat_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +11,7 @@ class ChatPage extends ConsumerWidget {
   ChatPage({super.key});
 
   final TextEditingController _controller = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _sendMessage(WidgetRef ref) {
     final text = _controller.text.trim();
@@ -42,6 +43,7 @@ class ChatPage extends ConsumerWidget {
     final data = ref.watch(chatNotifierProvider);
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -51,13 +53,23 @@ class ChatPage extends ConsumerWidget {
             icon: const Icon(Icons.refresh),
             onPressed: () => _resetChat(ref),
           ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              _scaffoldKey.currentState?.openEndDrawer();
+            },
+          ),
         ],
+      ),
+      endDrawer: SideMenu(
+        onPlayAll: () {
+          _playChatHistory(ref);
+          // サイドメニューを閉じる
+          Navigator.pop(context);
+        },
       ),
       body: Column(
         children: [
-          SettingPanel(onPlayAll: () {
-            _playChatHistory(ref);
-          }),
           Expanded(
             child: ListView.builder(
               reverse: false,

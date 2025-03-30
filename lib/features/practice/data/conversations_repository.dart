@@ -1,8 +1,8 @@
 import 'package:ai_english/core/http/iapi_client.dart';
-import 'package:ai_english/features/practice/models/chat_history.dart';
+import 'package:ai_english/features/practice/models/conversations.dart';
 
 abstract class IConversationsRepository {
-  Future<List<Conversation>> fetchConversations();
+  Future<ConversationsResponse> fetchConversations();
 }
 
 class ConversationsRepository implements IConversationsRepository {
@@ -11,11 +11,14 @@ class ConversationsRepository implements IConversationsRepository {
   ConversationsRepository(this._apiClient);
 
   @override
-  Future<List<Conversation>> fetchConversations() async {
+  Future<ConversationsResponse> fetchConversations() async {
     try {
-      final response = await _apiClient.get('/english/conversation_sets');
+      final response = await _apiClient.get('/practice/conversations');
       var data = response.data as List<dynamic>;
-      return data.map((e) => Conversation.fromJson(e)).toList();
+      return ConversationsResponse.fromJson({
+        'conversation':
+            data.map((e) => ConversationResponse.fromJson(e)).toList()
+      });
     } catch (e) {
       rethrow;
     }

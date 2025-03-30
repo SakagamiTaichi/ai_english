@@ -3,7 +3,6 @@ import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/core/utils/methods/format.dart';
 import 'package:ai_english/features/practice/pages/conversation_page.dart';
-import 'package:ai_english/features/practice/pages/enjglish_recall_test_page.dart';
 import 'package:ai_english/features/practice/providers/conversations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -92,11 +91,12 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage> {
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) =>
                     Center(child: Text(MeesageConstant.failedToLoadData)),
-                data: (chatHistories) => ListView.builder(
-                  itemCount: chatHistories.length,
+                data: (conversationsResponse) => ListView.builder(
+                  itemCount: conversationsResponse.conversations.length,
                   padding: const EdgeInsets.all(16.0),
                   itemBuilder: (context, index) {
-                    final chatHistory = chatHistories[index];
+                    final chatHistory =
+                        conversationsResponse.conversations[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Card(
