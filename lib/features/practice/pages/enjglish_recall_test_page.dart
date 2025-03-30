@@ -131,18 +131,17 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
         error: (error, stack) =>
             Center(child: Text(MeesageConstant.failedToLoadData)),
         data: (chatHistoryDetails) {
-          if (chatHistoryDetails.conversations.isEmpty) {
+          if (chatHistoryDetails.messages.isEmpty) {
             return const Center(child: Text('テスト問題がありません'));
           }
           // ここで配列のサイズを確保
-          if (_userAnswers.length < chatHistoryDetails.conversations.length) {
+          if (_userAnswers.length < chatHistoryDetails.messages.length) {
             _userAnswers.addAll(List.filled(
-                chatHistoryDetails.conversations.length - _userAnswers.length,
-                ''));
+                chatHistoryDetails.messages.length - _userAnswers.length, ''));
           }
 
           final currentQuestion =
-              chatHistoryDetails.conversations[_currentQuestionIndex];
+              chatHistoryDetails.messages[_currentQuestionIndex];
 
           return SingleChildScrollView(
             child: Padding(
@@ -153,7 +152,7 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
                   // Progress indicator
                   LinearProgressIndicator(
                     value: (_currentQuestionIndex + 1) /
-                        chatHistoryDetails.conversations.length,
+                        chatHistoryDetails.messages.length,
                     backgroundColor: Colors.grey[300],
                     valueColor: AlwaysStoppedAnimation<Color>(
                       Theme.of(context).primaryColor,
@@ -164,7 +163,7 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
 
                   // Question count
                   Text(
-                    '問題 ${_currentQuestionIndex + 1}/${chatHistoryDetails.conversations.length}',
+                    '問題 ${_currentQuestionIndex + 1}/${chatHistoryDetails.messages.length}',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
 
@@ -214,8 +213,8 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
                       ),
                       // 次へボタン
                       ElevatedButton.icon(
-                        onPressed: () => _nextQuestion(
-                            chatHistoryDetails.conversations, false),
+                        onPressed: () =>
+                            _nextQuestion(chatHistoryDetails.messages, false),
                         icon: const Icon(Icons.arrow_forward_ios_rounded),
                         label: const Text(''),
                         style: Theme.of(context).elevatedButtonTheme.style,

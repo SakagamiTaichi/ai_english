@@ -11,6 +11,7 @@ class MessageResponse with _$MessageResponse {
     required int speaker_number,
     required String message_en,
     required String message_ja,
+    required DateTime created_at,
   }) = _Message;
 
   factory MessageResponse.fromJson(Map<String, dynamic> json) =>
@@ -20,7 +21,7 @@ class MessageResponse with _$MessageResponse {
 @freezed
 class ConversationResponse with _$ConversationResponse {
   const factory ConversationResponse({
-    required List<MessageResponse> conversations,
+    required List<MessageResponse> messages,
   }) = _ConversationResponse;
 
   factory ConversationResponse.fromJson(Map<String, dynamic> json) =>

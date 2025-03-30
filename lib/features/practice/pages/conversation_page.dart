@@ -46,7 +46,7 @@ class ConversationPage extends ConsumerWidget {
         onPlayAll: () {
           data.whenOrNull(
             data: (chatHistories) =>
-                _playConversation(ref, chatHistories.conversations),
+                _playConversation(ref, chatHistories.messages),
           );
           // サイドメニューを閉じる
           Navigator.pop(context);
@@ -59,9 +59,9 @@ class ConversationPage extends ConsumerWidget {
         error: (error, _) =>
             Center(child: Text(MeesageConstant.failedToLoadData)),
         data: (chatHistories) => ListView.builder(
-          itemCount: chatHistories.conversations.length,
+          itemCount: chatHistories.messages.length,
           itemBuilder: (context, index) {
-            final chatHistory = chatHistories.conversations[index];
+            final chatHistory = chatHistories.messages[index];
             return ReversibleMessageBubble(
                 onLongPress: () => ref.read(ttsNotifierProvider.notifier).speak(
                     Message(

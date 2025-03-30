@@ -14,11 +14,8 @@ class ConversationRepository implements IConversationRepository {
   Future<ConversationResponse> fetchData(String id) async {
     try {
       final response = await _apiClient.get('/practice/conversation/$id');
-      var data = response.data as List<dynamic>;
 
-      return ConversationResponse.fromJson({
-        'conversation': data.map((e) => MessageResponse.fromJson(e)).toList()
-      });
+      return ConversationResponse.fromJson(response.data);
     } catch (e) {
       rethrow;
     }
