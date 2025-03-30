@@ -1,14 +1,29 @@
-import 'package:ai_english/core/theme/app_theme.dart'; // 追加：テーマファイルをインポート
+import 'package:ai_english/core/theme/app_theme.dart';
+import 'package:ai_english/core/utils/services/notification_service.dart';
 import 'package:ai_english/features/auth/components/auth_guard.dart';
 import 'package:ai_english/features/auth/pages/sign_in_page.dart';
 import 'package:ai_english/features/auth/providers/auth_provider.dart';
 import 'package:ai_english/features/practice/pages/conversations_page.dart';
 import 'package:ai_english/features/settings/providers/theme_selector_provider.dart';
+import 'package:ai_english/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+void main() async {
+  // Flutterエンジンの初期化
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Firebaseの初期化
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // 通知サービスの初期化
+  await NotificationService().initialize();
+
+  // アプリの実行
   runApp(
     const ProviderScope(
       child: MyApp(),

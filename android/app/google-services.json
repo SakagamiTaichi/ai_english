@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "149293681507",
+    "project_id": "eigoat",
+    "storage_bucket": "eigoat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149293681507:android:9e1c6c63cd534f15826156",
+        "android_client_info": {
+          "package_name": "com.example.ai_english"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsaxXc3gezvnRwwFgowRdxbHVSVsQ97ms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
