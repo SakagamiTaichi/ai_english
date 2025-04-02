@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:ai_english/core/theme/app_theme.dart';
 import 'package:ai_english/core/utils/services/deelink_service.dart';
 import 'package:ai_english/core/utils/services/notification_service.dart';
@@ -8,30 +9,42 @@ import 'package:ai_english/features/practice/pages/conversations_page.dart';
 import 'package:ai_english/features/settings/providers/theme_selector_provider.dart';
 import 'package:ai_english/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
-  // Flutterエンジンの初期化
-  WidgetsFlutterBinding.ensureInitialized();
+  await runZonedGuarded(() async {
+    // Flutterエンジンの初期化
+    WidgetsFlutterBinding.ensureInitialized();
 
-  // Firebaseの初期化
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+    // Firebaseの初期化
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-  // 通知サービスの初期化
-  await NotificationService().initialize();
-  // ディープリンクサービスの初期化
-  await DeepLinkService().initialize();
+    // 通知サービスの初期化
+    await NotificationService().initialize();
+    // ディープリンクサービスの初期化
+    await DeepLinkService().initialize();
+    // アプリの実行
+    runApp(
+      const ProviderScope(
+        child: MyApp(),
+      ),
+    );
 
-  // アプリの実行
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+    //FlutterでCatchされるエラー（UIレンダリングや状態管理に関連するエラーUIレンダリングや状態管理に関連するエラ）
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  }, (error, stackTrace) {
+    // DartでCatchされるエラー（非同期処理や低レベルDartコードのエラー）
+    FirebaseCrashlytics.instance.recordError(
+      error,
+      stackTrace,
+      reason: 'Uncaught error in main()',
+    );
+  });
 }
 
 class MyApp extends ConsumerWidget {
