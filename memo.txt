@@ -15,6 +15,10 @@ git branch -d: ローカルブランチを削除するコマンドです
 git remote prune origin: リモートで削除されたブランチに対応するリモート追跡ブランチを一括で削除します
 git branch -dr: 特定のリモート追跡ブランチを削除するコマンドです（-d はdelete、-r はremoteの意味）
 
+デバッグ用のフィンガープリント取得方法
+cd android
+./gradlew signingReport
+
 命名規則
 pageは〇〇Pageとする。
 

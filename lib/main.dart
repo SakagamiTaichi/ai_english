@@ -1,4 +1,5 @@
 import 'package:ai_english/core/theme/app_theme.dart';
+import 'package:ai_english/core/utils/services/deelink_service.dart';
 import 'package:ai_english/core/utils/services/notification_service.dart';
 import 'package:ai_english/features/auth/components/auth_guard.dart';
 import 'package:ai_english/features/auth/pages/sign_in_page.dart';
@@ -22,6 +23,8 @@ void main() async {
 
   // 通知サービスの初期化
   await NotificationService().initialize();
+  // ディープリンクサービスの初期化
+  await DeepLinkService().initialize();
 
   // アプリの実行
   runApp(
