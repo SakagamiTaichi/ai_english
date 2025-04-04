@@ -43,6 +43,7 @@ dependencies:
   app_links: ^6.4.0
   # アプリで発生した例外情報やクラッシュ情報のログやストックトレースを統合管理する機能
   firebase_crashlytics: ^4.3.5
+  flutter_staggered_animations: ^1.1.1
 
 dev_dependencies:
   # Flutterのテストフレームワーク。単体テストやウィジェットテストの実行に使用。

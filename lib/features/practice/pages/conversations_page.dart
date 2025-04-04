@@ -6,6 +6,7 @@ import 'package:ai_english/features/practice/pages/conversation_page.dart';
 import 'package:ai_english/features/practice/providers/conversations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class ConversationsPage extends ConsumerStatefulWidget {
   const ConversationsPage({super.key});
@@ -14,13 +15,33 @@ class ConversationsPage extends ConsumerStatefulWidget {
   ConsumerState<ConversationsPage> createState() => _ConversationsPageState();
 }
 
-class _ConversationsPageState extends ConsumerState<ConversationsPage> {
+class _ConversationsPageState extends ConsumerState<ConversationsPage>
+    with SingleTickerProviderStateMixin {
   bool _isSearchVisible = false;
   final TextEditingController _searchController = TextEditingController();
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+    _animationController.forward();
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -39,51 +60,6 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage> {
       appBar: header(context),
       body: Column(
         children: [
-          // 検索アイコンを右寄せにする
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //       IconButton(
-          //         icon: Icon(_isSearchVisible ? Icons.close : Icons.search),
-          //         onPressed: _toggleSearch,
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // 検索欄（表示・非表示の切り替え）
-          // AnimatedContainer(
-          //   duration: const Duration(milliseconds: 300),
-          //   height: _isSearchVisible ? 60 : 0,
-          //   child: Visibility(
-          //     visible: _isSearchVisible,
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: TextField(
-          //         controller: _searchController,
-          //         decoration: InputDecoration(
-          //           labelText: '検索',
-          //           border: const OutlineInputBorder(),
-          //           contentPadding:
-          //               const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          //           // 検索テキストがある場合のみバツアイコンを表示
-          //           suffixIcon: _searchController.text.isNotEmpty
-          //               ? IconButton(
-          //                   icon: const Icon(Icons.clear),
-          //                   onPressed: () {
-          //                     // テキストをクリアして検索結果も更新
-          //                     _searchController.clear();
-          //                     notifier.filterConversations('');
-          //                   },
-          //                 )
-          //               : null,
-          //         ),
-          //         onChanged: notifier.filterConversations,
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () => notifier.refresh(),
@@ -91,62 +67,92 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage> {
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) =>
                     Center(child: Text(MeesageConstant.failedToLoadData)),
-                data: (conversationsResponse) => ListView.builder(
-                  itemCount: conversationsResponse.conversations.length,
-                  padding: const EdgeInsets.all(16.0),
-                  itemBuilder: (context, index) {
-                    final chatHistory =
-                        conversationsResponse.conversations[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
-                      child: Card(
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(12.0),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ConversationPage(id: chatHistory.id),
+                data: (conversationsResponse) => AnimationLimiter(
+                  child: ListView.builder(
+                    itemCount: conversationsResponse.conversations.length,
+                    padding: const EdgeInsets.all(16.0),
+                    itemBuilder: (context, index) {
+                      final chatHistory =
+                          conversationsResponse.conversations[index];
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 375),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Card(
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            ConversationPage(
+                                                id: chatHistory.id),
+                                        transitionsBuilder: (context, animation,
+                                            secondaryAnimation, child) {
+                                          var begin = const Offset(1.0, 0.0);
+                                          var end = Offset.zero;
+                                          var curve = Curves.easeInOut;
+                                          var tween = Tween(
+                                                  begin: begin, end: end)
+                                              .chain(CurveTween(curve: curve));
+                                          return SlideTransition(
+                                            position: animation.drive(tween),
+                                            child: child,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          chatHistory.title,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium,
+                                        ),
+                                        const SizedBox(height: 8.0),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              formatDate(
+                                                  chatHistory.created_at),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                            const Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 16,
+                                              color: Colors.grey,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  chatHistory.title,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
-                                ),
-                                const SizedBox(height: 8.0),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      formatDate(chatHistory.created_at),
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                    ),
-                                    const Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 16,
-                                      color: Colors.grey,
-                                    ),
-                                  ],
-                                ),
-                              ],
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
