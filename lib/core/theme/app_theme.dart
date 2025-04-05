@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// アプリケーションのテーマ設定を管理するクラス
 class AppTheme {
@@ -26,6 +27,8 @@ class AppTheme {
 
   // ライトテーマの定義
   static ThemeData lightTheme = ThemeData(
+    // fontFamily: GoogleFonts.notoSansJavaneseTextTheme().fontFamily, // フォントの設定
+
     brightness: Brightness.light,
     useMaterial3: true,
 
@@ -60,8 +63,17 @@ class AppTheme {
 
     scaffoldBackgroundColor: backgroundLight,
 
-    // テキストテーマ
-    textTheme: const TextTheme(
+    primaryTextTheme: GoogleFonts.kosugiMaruTextTheme(
+      const TextTheme(
+        headlineLarge: TextStyle(
+          fontSize: 24.0,
+          fontWeight: FontWeight.bold,
+          color: textPrimaryLight,
+        ),
+      ),
+    ),
+
+    textTheme: GoogleFonts.kosugiMaruTextTheme(const TextTheme(
       headlineLarge: TextStyle(
           fontSize: 24.0, fontWeight: FontWeight.bold, color: textPrimaryLight),
       headlineMedium: TextStyle(
@@ -74,10 +86,12 @@ class AppTheme {
         color: textPrimaryLight,
       ),
       titleMedium: TextStyle(
-          fontSize: 16.0, fontWeight: FontWeight.bold, color: textPrimaryLight),
+          fontSize: 16.0,
+          fontWeight: FontWeight.normal,
+          color: textPrimaryLight),
       titleSmall: TextStyle(
           fontSize: 14.0,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.normal,
           color: textSecondaryLight),
       bodyLarge: TextStyle(fontSize: 16.0, color: textPrimaryLight),
       bodyMedium: TextStyle(fontSize: 14.0, color: textSecondaryLight),
@@ -85,7 +99,7 @@ class AppTheme {
         fontSize: 12.0,
         color: textSecondaryLight,
       ),
-    ),
+    )),
 
     // カードテーマ
     cardTheme: const CardTheme(
@@ -129,8 +143,18 @@ class AppTheme {
       ),
     ),
 
+    primaryTextTheme: GoogleFonts.kosugiMaruTextTheme(
+      const TextTheme(
+        headlineLarge: TextStyle(
+          fontSize: 24.0,
+          fontWeight: FontWeight.bold,
+          color: textPrimaryDark,
+        ),
+      ),
+    ),
+
     // テキストテーマ
-    textTheme: const TextTheme(
+    textTheme: GoogleFonts.kosugiMaruTextTheme(const TextTheme(
       headlineLarge: TextStyle(
         fontSize: 24.0,
         fontWeight: FontWeight.bold,
@@ -153,7 +177,7 @@ class AppTheme {
       ),
       titleMedium: TextStyle(
         fontSize: 16.0,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.normal,
         color: textPrimaryDark,
       ),
       titleSmall: TextStyle(
@@ -173,7 +197,7 @@ class AppTheme {
         fontSize: 12.0,
         color: textSecondaryDark,
       ),
-    ),
+    )),
 
     // カードテーマ
     cardTheme: const CardTheme(
