@@ -16,7 +16,8 @@ class AppTheme {
   static const Color backgroundDark = Color(0xFF3C3C3C);
 
   // カード背景色
-  static const Color cardLight = Color.fromARGB(255, 255, 237, 220);
+  // static const Color cardLight = Color.fromARGB(255, 255, 237, 220);
+  static const Color cardLight = Colors.white;
   static const Color cardDark = Color(0xFF2C2C2C);
 
   // テキスト色
