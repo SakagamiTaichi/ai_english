@@ -33,15 +33,15 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                     Expanded(
                       child: _buildTabIcon(
                         context,
-                        Icons.history,
-                        'カード一覧',
-                        context.widget is ConversationsPage,
+                        Icons.home,
+                        'ダッシュボード',
+                        context.widget is DashboardPage,
                         () {
-                          if (context.widget is ConversationsPage) return;
+                          if (context.widget is DashboardPage) return;
                           Navigator.push(
                             context,
                             PageTransition(
-                              child: ConversationsPage(),
+                              child: DashboardPage(),
                               type: PageTransitionType.fade,
                             ),
                           );
@@ -53,15 +53,15 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                     Expanded(
                       child: _buildTabIcon(
                         context,
-                        Icons.home,
-                        'ダッシュボード',
-                        context.widget is DashboardPage,
+                        Icons.history,
+                        'カード一覧',
+                        context.widget is ConversationsPage,
                         () {
-                          if (context.widget is DashboardPage) return;
+                          if (context.widget is ConversationsPage) return;
                           Navigator.push(
                             context,
                             PageTransition(
-                              child: DashboardPage(),
+                              child: ConversationsPage(),
                               type: PageTransitionType.fade,
                             ),
                           );
@@ -132,6 +132,7 @@ Widget _buildTabIcon(
             alignment: AlignmentDirectional.center,
             children: <Widget>[
               Icon(
+                size: 32,
                 icon,
                 color: isSelected ? activeColor : inactiveColor,
               ),

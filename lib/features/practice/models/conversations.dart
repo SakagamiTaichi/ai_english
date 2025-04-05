@@ -5,11 +5,11 @@ part '../../../generated/features/practice/models/conversations.g.dart';
 
 @freezed
 class ConversationResponse with _$ConversationResponse {
-  const factory ConversationResponse({
-    required String id,
-    required String title,
-    required DateTime created_at,
-  }) = _ConversationResponse;
+  const factory ConversationResponse(
+      {required String id,
+      required String title,
+      required DateTime created_at,
+      required int order}) = _ConversationResponse;
 
   factory ConversationResponse.fromJson(Map<String, dynamic> json) =>
       _$ConversationResponseFromJson(json);

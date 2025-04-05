@@ -7,24 +7,42 @@ import 'package:page_transition/page_transition.dart';
 
 Widget conversationListItem({
   required ConversationsResponse conversationsResponse,
+  required Function(int oldIndex, int newIndex) onReorder,
 }) {
   return AnimationLimiter(
-    child: ListView.builder(
+    child: ReorderableListView.builder(
       itemCount: conversationsResponse.conversations.length,
       padding: const EdgeInsets.all(16.0),
+      onReorder: (oldIndex, newIndex) {
+        // ReorderableListViewの仕様により、移動先のインデックスを調整する必要があります
+        if (oldIndex < newIndex) {
+          newIndex -= 1;
+        }
+        onReorder(oldIndex, newIndex);
+      },
+      proxyDecorator: (child, index, animation) {
+        return AnimatedBuilder(
+          animation: animation,
+          builder: (BuildContext context, Widget? child) {
+            return Material(
+              elevation: 5.0,
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(12.0),
+              child: child,
+            );
+          },
+          child: child,
+        );
+      },
       itemBuilder: (context, index) {
         final chatHistory = conversationsResponse.conversations[index];
-        // スタガード（ずらした）アニメーションの設定を行うウィジェットです
+
         return AnimationConfiguration.staggeredList(
-          // 各項目の位置を指定し、順番にアニメーションを実行するために使用されます
+          key: ValueKey(chatHistory.id), // ReorderableListViewには一意のKeyが必要です
           position: index,
-          // 各アニメーションの持続時間を375ミリ秒に設定しています
           duration: const Duration(milliseconds: 375),
-          // ウィジェットをスライドさせるアニメーションを適用します
           child: SlideAnimation(
-            // 項目が50ピクセル下から上へスライドしてくる効果を作り出します
             verticalOffset: 50.0,
-            // ウィジェットをフェードイン（透明から不透明へ）させるアニメーションを適用します
             child: FadeInAnimation(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
@@ -45,11 +63,18 @@ Widget conversationListItem({
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            chatHistory.title,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: Theme.of(context).textTheme.titleMedium,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  chatHistory.title,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 8.0),
                           Row(

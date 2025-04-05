@@ -29,6 +29,15 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
     super.dispose();
   }
 
+  void _handleReorder(int oldIndex, int newIndex) {
+    // 並び替え処理をNotifierに委譲
+    final notifier = ref.read(conversationsNotifierProvider.notifier);
+    notifier.reorderConversations(oldIndex, newIndex);
+
+    // 必要に応じてバックエンドに並び替え情報を保存
+    // notifier.saveConversationsOrder();
+  }
+
   @override
   Widget build(BuildContext context) {
     final data = ref.watch(conversationsNotifierProvider);
@@ -47,6 +56,7 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
                     Center(child: Text(MeesageConstant.failedToLoadData)),
                 data: (conversationsResponse) => conversationListItem(
                   conversationsResponse: conversationsResponse,
+                  onReorder: _handleReorder, // 新しいパラメータを追加
                 ),
               ),
             ),
