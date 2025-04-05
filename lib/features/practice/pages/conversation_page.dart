@@ -1,4 +1,3 @@
-import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/core/utils/providers/tts_provider.dart';
@@ -73,7 +72,6 @@ class ConversationPage extends ConsumerWidget {
           },
         ),
       ),
-      bottomNavigationBar: footer(context, false),
     );
   }
 }
