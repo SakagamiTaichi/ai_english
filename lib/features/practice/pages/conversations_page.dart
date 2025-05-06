@@ -1,6 +1,7 @@
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/core/constans/MessageConstant.dart';
+import 'package:ai_english/features/practice/components/ai_generate_conversation_dialog.dart';
 import 'package:ai_english/features/practice/components/conversations_list.dart';
 import 'package:ai_english/features/practice/components/fab_option.dart';
 import 'package:ai_english/features/practice/components/fab_option_button.dart';
@@ -21,6 +22,7 @@ class ConversationsPage extends ConsumerStatefulWidget {
 class _ConversationsPageState extends ConsumerState<ConversationsPage>
     with SingleTickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
+
   bool _isDialOpen = false;
   late AnimationController _animationController;
 
@@ -64,7 +66,21 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
     // FAB options definition
     final List<Map<String, dynamic>> fabOptions = [
       {
-        'label': 'フレーズから作成',
+        'label': 'フレーズからAI生成',
+        'icon': Icons.chat,
+        'onTap': () {
+          _toggleFabOptions();
+
+          showDialog(
+            context: ref.context,
+            builder: (BuildContext context) {
+              return aiGenerateDialog(context);
+            },
+          );
+        },
+      },
+      {
+        'label': 'AIとの会話から作成',
         'icon': Icons.edit,
         'onTap': () {
           _toggleFabOptions();
@@ -77,14 +93,6 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
         'onTap': () {
           _toggleFabOptions();
           // テンプレートを追加の処理
-        },
-      },
-      {
-        'label': 'AIとの会話から作成',
-        'icon': Icons.chat,
-        'onTap': () {
-          _toggleFabOptions();
-          // AIとの会話から作成の処理
         },
       },
     ];
@@ -154,7 +162,7 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
                   for (int i = 0; i < fabOptions.length; i++) ...[
                     AnimationConfiguration.staggeredList(
                       position: fabOptions.length - 1 - i,
-                      duration: const Duration(milliseconds: 375),
+                      duration: const Duration(milliseconds: 275),
                       child: SlideAnimation(
                         verticalOffset: 50.0,
                         child: FadeInAnimation(

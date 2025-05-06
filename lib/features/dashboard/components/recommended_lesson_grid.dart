@@ -68,7 +68,8 @@ Widget _buildLessonCard(BuildContext context, Map<String, dynamic> lesson) {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: AppTheme.primary.withOpacity(0.2),
+                  backgroundColor: AppTheme.primary
+                      .withValues(red: 0, green: 0, blue: 0, alpha: 0.1),
                   child: Icon(
                     lesson['icon'] as IconData,
                     color: AppTheme.primary,

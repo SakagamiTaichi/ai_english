@@ -29,8 +29,10 @@ Widget LearningStatsCard(BuildContext context) {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             progressColor: Theme.of(context).primaryColor,
-            backgroundColor:
-                Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            backgroundColor: Theme.of(context)
+                .colorScheme
+                .primary
+                .withValues(red: 0, green: 0, blue: 0, alpha: 0.1),
             circularStrokeCap: CircularStrokeCap.round,
             animation: true,
             animationDuration: 1500,

@@ -13,13 +13,15 @@ Widget fabOption({
     child: Row(
       children: [
         Container(
+          width: 180,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black
+                    .withValues(red: 0, green: 0, blue: 0, alpha: 0.1),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -39,7 +41,8 @@ Widget fabOption({
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black
+                    .withValues(red: 0, green: 0, blue: 0, alpha: 0.1),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
