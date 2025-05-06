@@ -29,20 +29,20 @@ class _SignInPageState extends ConsumerState<SignInPage> {
 
   String? _emailValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your email';
+      return 'メールアドレスを入力してください';
     }
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return 'Please enter a valid email address';
+      return '無効なメールアドレス形式です';
     }
     return null;
   }
 
   String? _passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your password';
+      return 'パスワードを入力してください';
     }
     if (value.length < 6) {
-      return 'Password must be at least 6 characters';
+      return 'パスワードは6文字以上である必要があります';
     }
     return null;
   }
@@ -131,10 +131,14 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   ),
                 ElevatedButton(
                   onPressed: authState.isLoading ? null : _signIn,
-                  style: Theme.of(context).elevatedButtonTheme.style,
-                  child: authState.isLoading
-                      ? const CircularProgressIndicator()
-                      : const Text('ログイン'),
+                  child: Container(
+                    height: 30, // テキストの高さに合わせる
+                    child: Center(
+                      child: authState.isLoading
+                          ? const CircularProgressIndicator()
+                          : const Text('ログイン'),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Row(

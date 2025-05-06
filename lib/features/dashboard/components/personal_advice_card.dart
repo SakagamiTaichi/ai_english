@@ -1,10 +1,15 @@
 // AIによるパーソナルアドバイス
+import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 
 Widget PersonalAdviceCard(BuildContext context) {
   return Card(
     elevation: 2,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    shape: RoundedRectangleBorder(
+        borderRadius: SmoothBorderRadius(
+      cornerRadius: 20,
+      cornerSmoothing: 0.1,
+    )),
     child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(

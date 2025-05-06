@@ -23,18 +23,18 @@ void main() {
       ],
     );
 
-    List<ConversationResponse> conversationList = [
-      ConversationResponse(
+    List<ConversationResponseConversation> conversationList = [
+      ConversationResponseConversation(
           id: '1',
           title: 'English Conversation',
           created_at: DateTime.now(),
           order: 1),
-      ConversationResponse(
+      ConversationResponseConversation(
           id: '2',
           title: 'Japanese Learning',
           created_at: DateTime.now(),
           order: 2),
-      ConversationResponse(
+      ConversationResponseConversation(
           id: '3',
           title: 'TOEIC Practice',
           created_at: DateTime.now(),

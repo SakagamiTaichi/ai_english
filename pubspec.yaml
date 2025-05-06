@@ -36,16 +36,27 @@ dependencies:
   page_transition: ^2.2.1
   flutter_launcher_icons: ^0.14.3
   hooks_riverpod: ^2.6.1
+  # リッチテキストを表示するためのライブラリ。HTML形式のテキストをサポート。
   flutter_html: ^3.0.0
+  # プッシュ通知を実装するためのFirebase Cloud Messagingライブラリ。
   firebase_messaging: ^15.2.4
+  # フォアグラウンドプッシュ通知を表示するためのライブラリ。
   flutter_local_notifications: ^19.0.0
+  # Firebaseを使用するためのライブラリ。
   firebase_core: ^3.12.1
+  # Deeplinkingを実現するためのライブラリ。
   app_links: ^6.4.0
   # アプリで発生した例外情報やクラッシュ情報のログやストックトレースを統合管理する機能
   firebase_crashlytics: ^4.3.5
+  # アニメーションを簡単に実装するためのライブラリ。UIの動きを滑らかにする。
   flutter_staggered_animations: ^1.1.1
+  # google_fontsを使用して、Google Fontsからフォントを取得するためのライブラリ。
   google_fonts: ^6.2.1
+  # グラフやチャートを描画するためのライブラリ。データの視覚化を支援。
   percent_indicator: ^4.2.4
+  # スケルトンを実装するためのライブラリ。データ読み込み中のUIを提供。
+  skeletonizer: ^1.4.3
+  figma_squircle: ^0.6.3
 
 dev_dependencies:
   # Flutterのテストフレームワーク。単体テストやウィジェットテストの実行に使用。

@@ -4,21 +4,22 @@ part '../../../generated/features/practice/models/conversations.freezed.dart';
 part '../../../generated/features/practice/models/conversations.g.dart';
 
 @freezed
-class ConversationResponse with _$ConversationResponse {
-  const factory ConversationResponse(
+class ConversationResponseConversation with _$ConversationResponseConversation {
+  const factory ConversationResponseConversation(
       {required String id,
       required String title,
       required DateTime created_at,
-      required int order}) = _ConversationResponse;
+      required int order}) = _ConversationResponseConversation;
 
-  factory ConversationResponse.fromJson(Map<String, dynamic> json) =>
-      _$ConversationResponseFromJson(json);
+  factory ConversationResponseConversation.fromJson(
+          Map<String, dynamic> json) =>
+      _$ConversationResponseConversationFromJson(json);
 }
 
 @freezed
 class ConversationsResponse with _$ConversationsResponse {
   const factory ConversationsResponse({
-    required List<ConversationResponse> conversations,
+    required List<ConversationResponseConversation> conversations,
   }) = _ConversationsResponse;
 
   factory ConversationsResponse.fromJson(Map<String, dynamic> json) =>

@@ -4,10 +4,12 @@ import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/features/practice/components/conversations_list.dart';
 import 'package:ai_english/features/practice/components/fab_option.dart';
 import 'package:ai_english/features/practice/components/fab_option_button.dart';
+import 'package:ai_english/features/practice/models/conversations.dart';
 import 'package:ai_english/features/practice/providers/conversations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ConversationsPage extends ConsumerStatefulWidget {
   const ConversationsPage({super.key});
@@ -18,16 +20,13 @@ class ConversationsPage extends ConsumerStatefulWidget {
 
 class _ConversationsPageState extends ConsumerState<ConversationsPage>
     with SingleTickerProviderStateMixin {
-  // bool _isSearchVisible = false;
   final TextEditingController _searchController = TextEditingController();
   bool _isDialOpen = false;
-  // アニメーションのためのコントローラーを追加
   late AnimationController _animationController;
 
   @override
   void initState() {
     super.initState();
-    // アニメーションコントローラーの初期化
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -42,7 +41,6 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
   }
 
   void _handleReorder(int oldIndex, int newIndex) {
-    // 並び替え処理をNotifierに委譲
     final notifier = ref.read(conversationsNotifierProvider.notifier);
     notifier.reorderConversations(oldIndex, newIndex);
   }
@@ -63,7 +61,7 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
     final data = ref.watch(conversationsNotifierProvider);
     final notifier = ref.read(conversationsNotifierProvider.notifier);
 
-    // FABオプションの定義
+    // FAB options definition
     final List<Map<String, dynamic>> fabOptions = [
       {
         'label': 'フレーズから作成',
@@ -101,8 +99,24 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
                 child: RefreshIndicator(
                   onRefresh: () => notifier.refresh(),
                   child: data.when(
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
+                    loading: () => Skeletonizer(
+                      enabled: true,
+                      enableSwitchAnimation: true,
+                      child: conversationListItem(
+                        conversationsResponse: ConversationsResponse(
+                          conversations: [
+                            for (int i = 0; i < 10; i++)
+                              ConversationResponseConversation(
+                                id: i.toString(),
+                                title: '会話のタイトルがここに表示されます',
+                                created_at: DateTime.now(),
+                                order: i,
+                              ),
+                          ],
+                        ),
+                        onReorder: _handleReorder,
+                      ),
+                    ),
                     error: (error, _) =>
                         Center(child: Text(MeesageConstant.failedToLoadData)),
                     data: (conversationsResponse) => conversationListItem(
@@ -119,7 +133,9 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
               opacity: _isDialOpen ? 1.0 : 0.0,
               duration: const Duration(milliseconds: 250),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  _toggleFabOptions();
+                },
                 child: Container(
                   color: Colors.black54,
                   width: double.infinity,
@@ -135,7 +151,6 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  // 通常の順序で項目を配置
                   for (int i = 0; i < fabOptions.length; i++) ...[
                     AnimationConfiguration.staggeredList(
                       position: fabOptions.length - 1 - i,

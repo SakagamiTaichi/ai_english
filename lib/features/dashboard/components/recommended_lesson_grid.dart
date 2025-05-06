@@ -1,5 +1,6 @@
 // おすすめレッスン
 import 'package:ai_english/core/theme/app_theme.dart';
+import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -48,10 +49,17 @@ Widget _buildLessonCard(BuildContext context, Map<String, dynamic> lesson) {
 
   return Card(
     elevation: 2,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    shape: RoundedRectangleBorder(
+        borderRadius: SmoothBorderRadius(
+      cornerRadius: 20,
+      cornerSmoothing: 0.1,
+    )),
     child: InkWell(
       onTap: () {},
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: SmoothBorderRadius(
+        cornerRadius: 20,
+        cornerSmoothing: 0.1,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(

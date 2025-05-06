@@ -24,8 +24,8 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     try {
       final conversations = await _repository.fetchConversations();
 
-      final sortedConversations =
-          List<ConversationResponse>.from(conversations.conversations);
+      final sortedConversations = List<ConversationResponseConversation>.from(
+          conversations.conversations);
       sortedConversations.sort((a, b) => a.order.compareTo(b.order));
 
       // 並び替えたリストを新しいレスポンスオブジェクトに設定

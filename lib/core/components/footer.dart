@@ -91,9 +91,26 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                       ),
                     ),
                     // 4つ目のスペースは必要に応じて他のアイコンを追加するか、削除してください
-                    Expanded(
-                      child: SizedBox(),
-                    ),
+                    // Expanded(
+                    //   child: _buildTabIcon(
+                    //     context,
+                    //     Icons.telegram,
+                    //     'テスト',
+                    //     context.widget is SkeletonizerDemoPage,
+                    //     () {
+                    //       if (context.widget is SkeletonizerDemoPage) return;
+                    //       Navigator.push(
+                    //         context,
+                    //         PageTransition(
+                    //           child: SkeletonizerDemoPage(),
+                    //           type: PageTransitionType.fade,
+                    //         ),
+                    //       );
+                    //     },
+                    //     primaryColor,
+                    //     inactiveIconColor,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

@@ -35,7 +35,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
       return 'メールアドレスを入力してください';
     }
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return 'Please enter a valid email address';
+      return '無効なメールアドレス形式です';
     }
     return null;
   }

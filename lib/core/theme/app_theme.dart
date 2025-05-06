@@ -1,3 +1,4 @@
+import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,6 +26,12 @@ class AppTheme {
   static const Color textSecondaryLight = Colors.black54;
   static const Color textPrimaryDark = Colors.white;
   static const Color textSecondaryDark = Colors.white70;
+
+  // メッセージバブルの色
+  static const Color messageBubbleRightLight = Color.fromARGB(255, 231, 113, 3);
+  static const Color messageBubbleRightDark = Color(0xFF2C2C2C);
+  static const Color messageBubbleLeftLight = Colors.grey;
+  static const Color messageBubbleLeftDark = Color(0xFF2C2C2C);
 
   // ライトテーマの定義
   static ThemeData lightTheme = ThemeData(
@@ -103,11 +110,14 @@ class AppTheme {
     )),
 
     // カードテーマ
-    cardTheme: const CardTheme(
+    cardTheme: CardTheme(
       color: cardLight,
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: SmoothBorderRadius(
+          cornerRadius: 20,
+          cornerSmoothing: 0.1,
+        ),
       ),
     ),
   );
@@ -201,10 +211,13 @@ class AppTheme {
     )),
 
     // カードテーマ
-    cardTheme: const CardTheme(
+    cardTheme: CardTheme(
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+        borderRadius: SmoothBorderRadius(
+          cornerRadius: 20,
+          cornerSmoothing: 0.1,
+        ),
       ),
       color: cardDark,
     ),
