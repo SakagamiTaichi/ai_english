@@ -1,11 +1,12 @@
+import 'package:ai_english/core/components/error_feedback.dart';
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
-import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/features/practice/components/ai_generate_conversation_dialog.dart';
 import 'package:ai_english/features/practice/components/conversations_list.dart';
 import 'package:ai_english/features/practice/components/fab_option.dart';
 import 'package:ai_english/features/practice/components/fab_option_button.dart';
 import 'package:ai_english/features/practice/models/conversations.dart';
+import 'package:ai_english/features/practice/pages/conversation_page.dart';
 import 'package:ai_english/features/practice/providers/conversations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,19 +65,29 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
     final notifier = ref.read(conversationsNotifierProvider.notifier);
 
     // FAB options definition
+    // FAB options definition
     final List<Map<String, dynamic>> fabOptions = [
       {
         'label': 'フレーズからAI生成',
         'icon': Icons.chat,
-        'onTap': () {
+        'onTap': () async {
           _toggleFabOptions();
 
-          showDialog(
-            context: ref.context,
-            builder: (BuildContext context) {
-              return aiGenerateDialog(context);
-            },
-          );
+          // 更新したダイアログを表示
+          final result = await showAiGenerateDialog(context);
+
+          // 成功した場合は会話詳細ページに遷移
+          if (result != null) {
+            // 遷移先のページに必要なデータを渡す
+            // await notifier.refresh();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    ConversationPage(id: result), // 遷移先のページを指定
+              ),
+            );
+          }
         },
       },
       {
@@ -125,8 +136,10 @@ class _ConversationsPageState extends ConsumerState<ConversationsPage>
                         onReorder: _handleReorder,
                       ),
                     ),
-                    error: (error, _) =>
-                        Center(child: Text(MeesageConstant.failedToLoadData)),
+                    error: (error, _) => ErrorFeedback(
+                      error: error,
+                      onRetry: () => notifier.refresh(),
+                    ),
                     data: (conversationsResponse) => conversationListItem(
                       conversationsResponse: conversationsResponse,
                       onReorder: _handleReorder,
