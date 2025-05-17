@@ -1,3 +1,4 @@
+import 'package:ai_english/core/components/error_feedback.dart';
 import 'package:ai_english/features/practice/providers/conversation_set_provider.dart';
 import 'package:ai_english/features/practice/providers/conversations_provider.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,15 @@ class _AiGenerateDialogState extends ConsumerState<AiGenerateDialog> {
     if (phrase.isEmpty) return;
 
     try {
-      var response = await ref
-          .read(aiRegistrationNotifierProvider.notifier)
-          .registerAiConversation(phrase);
+      var response = await ApiOperationWrapper.execute(
+        operation: () async {
+          return await ref
+              .read(aiRegistrationNotifierProvider.notifier)
+              .registerAiConversation(phrase);
+        },
+        context: context,
+        successMessage: 'フレーズからAI生成が完了しました。',
+      );
 
       if (mounted) {
         ref.read(conversationsNotifierProvider.notifier).refresh();
@@ -74,7 +81,7 @@ class _AiGenerateDialogState extends ConsumerState<AiGenerateDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: isLoading ? null : () => Navigator.of(context).pop(false),
+          onPressed: isLoading ? null : () => Navigator.of(context).pop(null),
           child: const Text('キャンセル'),
         ),
         TextButton(

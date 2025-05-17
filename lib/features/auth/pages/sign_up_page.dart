@@ -1,3 +1,4 @@
+import 'package:ai_english/core/components/error_feedback.dart';
 import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/auth/components/custom_input_field.dart';
 import 'package:ai_english/features/auth/pages/email_verification_page.dart';
@@ -67,12 +68,17 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
       try {
         // Now signUp returns the email address on success
-        final userEmail = await ref
-            .read(authNotifierProvider.notifier)
-            .signUp(email, password);
-
+        final userEmail = await ApiOperationWrapper.execute(
+          context: context,
+          operation: () =>
+              ref.read(authNotifierProvider.notifier).signUp(email, password),
+          successMessage: '',
+          onSuccess: () {},
+        );
         // Navigate to email verification page on success
         if (!mounted) return;
+
+        if (userEmail == null) return;
 
         Navigator.pushReplacement(
           context,

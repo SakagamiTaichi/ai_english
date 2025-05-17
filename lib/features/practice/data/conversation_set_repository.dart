@@ -1,4 +1,5 @@
 import 'package:ai_english/core/http/iapi_client.dart';
+import 'package:ai_english/features/practice/models/conversation_set.dart';
 
 abstract class IConversationSetRepository {
   Future<String?> aiRegistration(String userPhrase);
@@ -16,7 +17,7 @@ class ConversationSetRepository implements IConversationSetRepository {
           .post('/practice/conversation/ai-registration', data: {
         'user_phrase': userPhrase,
       });
-      return response.data as String?;
+      return ConversationSetResponse.fromJson(response.data).id;
     } catch (e) {
       rethrow;
     }
