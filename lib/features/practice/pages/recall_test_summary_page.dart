@@ -1,6 +1,6 @@
+import 'package:ai_english/core/components/error_feedback.dart';
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
-import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/features/practice/models/recall_test_request_model.dart';
 import 'package:ai_english/features/practice/pages/conversation_page.dart';
 import 'package:ai_english/features/practice/providers/recall_test_result_provider.dart';
@@ -25,12 +25,16 @@ class _RecallTestSummaryPageState extends ConsumerState<RecallTestSummaryPage> {
     final data =
         ref.watch(recallTestResultProviderProvider(widget.requestModels));
 
+    final notifier = ref
+        .read(recallTestResultProviderProvider(widget.requestModels).notifier);
+
     return Scaffold(
       appBar: header(context),
       body: data.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Text(MeesageConstant.failedToLoadData),
+        error: (error, _) => ErrorFeedback(
+          error: error,
+          onRetry: () => notifier.refresh(),
         ),
         data: (results) => SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),

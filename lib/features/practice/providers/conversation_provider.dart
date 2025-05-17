@@ -11,11 +11,16 @@ class ConversationNotifier extends _$ConversationNotifier {
   @override
   FutureOr<ConversationResponse> build(String id) async {
     _repository = ref.watch(conversationRepositoryProvider);
-    return await _fetchData(id);
+    return await _fetchData();
   }
 
-  Future<ConversationResponse> _fetchData(String id) async {
+  Future<ConversationResponse> _fetchData() async {
     final data = await _repository.fetchData(id);
     return data;
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _fetchData());
   }
 }

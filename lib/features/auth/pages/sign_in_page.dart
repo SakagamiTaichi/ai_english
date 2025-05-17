@@ -1,3 +1,4 @@
+import 'package:ai_english/core/components/error_feedback.dart';
 import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/auth/components/custom_input_field.dart';
 import 'package:ai_english/features/auth/pages/sign_up_page.dart';
@@ -51,8 +52,13 @@ class _SignInPageState extends ConsumerState<SignInPage> {
     if (_formKey.currentState!.validate()) {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
-
-      await ref.read(authNotifierProvider.notifier).signIn(email, password);
+      await ApiOperationWrapper.execute(
+        context: context,
+        operation: () =>
+            ref.read(authNotifierProvider.notifier).signIn(email, password),
+        successMessage: '',
+        onSuccess: () {},
+      );
     }
   }
 
@@ -120,15 +126,6 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                if (authState.errorMessage != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: Text(
-                      authState.errorMessage!,
-                      style: const TextStyle(color: Colors.red),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
                 ElevatedButton(
                   onPressed: authState.isLoading ? null : _signIn,
                   child: Container(

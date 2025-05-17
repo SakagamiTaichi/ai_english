@@ -42,11 +42,11 @@ class AppTheme {
 
     // カラースキーム
     colorScheme: ColorScheme.fromSeed(
-      primary: primary,
-      inversePrimary: backgroundColor,
-      seedColor: primary,
-      brightness: Brightness.light,
-    ),
+        primary: primary,
+        inversePrimary: backgroundColor,
+        seedColor: primary,
+        brightness: Brightness.light,
+        error: Colors.red),
 
     // アイコンの色
     iconTheme: const IconThemeData(color: Colors.black87),

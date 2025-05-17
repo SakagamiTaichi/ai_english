@@ -1,8 +1,6 @@
-import 'package:ai_english/core/http/interceptors/exceptions.dart';
 import 'package:ai_english/features/auth/data/auth_repository_provider.dart';
 import 'package:ai_english/features/auth/models/auth_api_models.dart';
 import 'package:ai_english/features/auth/models/auth_models.dart';
-import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -45,7 +43,6 @@ class AuthNotifier extends _$AuthNotifier {
       state = state.copyWith(
         isLoading: false,
         isAuthenticated: false,
-        errorMessage: 'Session expired. Please sign in again.',
       );
     }
   }
@@ -65,7 +62,7 @@ class AuthNotifier extends _$AuthNotifier {
   // Modified: Now returns String for email to display on verification page
   Future<String> signUp(String email, String password) async {
     try {
-      state = state.copyWith(isLoading: true, errorMessage: null);
+      state = state.copyWith(isLoading: true);
 
       final repository = ref.read(authRepositoryProvider);
       await repository.signUp(SignUpRequestModel(
@@ -76,35 +73,13 @@ class AuthNotifier extends _$AuthNotifier {
       // No longer signing in automatically after registration
       state = state.copyWith(
         isLoading: false,
-        // Keep isAuthenticated as false
       );
 
       // Return the email for display in the verification page
       return email;
     } catch (e) {
-      String errorMessage = 'アカウント登録に失敗しました。時間をおいて再度お試しください。';
-
-      if (e is DioException) {
-        var error = e.error;
-        if (error is UnauthorizedException) {
-          errorMessage = '認証エラーが発生しました。';
-        } else if (error is NetworkException) {
-          errorMessage = 'ネットワークに接続できません。インターネット接続を確認してください。';
-        } else if (error is TimeoutException) {
-          errorMessage = 'サーバーからの応答がありません。時間をおいて再度お試しください。';
-        } else if (error is ServerException) {
-          errorMessage = 'サーバーエラーが発生しました。時間をおいて再度お試しください。';
-        } else if (error is ForbiddenException) {
-          errorMessage = 'アクセス権限がありません。';
-        } else if (error is ConflictException) {
-          errorMessage = 'このメールアドレスは既に登録されています。';
-        } else {
-          errorMessage = 'アカウント登録に失敗しました。時間をおいて再度お試しください。';
-        }
-      }
       state = state.copyWith(
         isLoading: false,
-        errorMessage: errorMessage,
       );
       rethrow;
     }
@@ -112,7 +87,7 @@ class AuthNotifier extends _$AuthNotifier {
 
   Future<void> signIn(String email, String password) async {
     try {
-      state = state.copyWith(isLoading: true, errorMessage: null);
+      state = state.copyWith(isLoading: true);
 
       final repository = ref.read(authRepositoryProvider);
       final token = await repository.signIn(SignInRequestModel(
@@ -131,27 +106,11 @@ class AuthNotifier extends _$AuthNotifier {
       // Get user info
       await getCurrentUser();
     } catch (e) {
-      String errorMessage = 'ログインに失敗しました。時間をおいて再度お試しください。';
-      if (e is DioException) {
-        var error = e.error;
-        if (error is UnauthorizedException) {
-          errorMessage = 'メールアドレスまたはパスワードが正しくありません。';
-        } else if (error is NetworkException) {
-          errorMessage = 'ネットワークに接続できません。インターネット接続を確認してください。';
-        } else if (error is TimeoutException) {
-          errorMessage = 'サーバーからの応答がありません。時間をおいて再度お試しください。';
-        } else if (error is ServerException) {
-          errorMessage = 'サーバーエラーが発生しました。時間をおいて再度お試しください。';
-        } else if (error is NotFoundException) {
-          errorMessage = 'アカウントが見つかりません。';
-        } else {
-          errorMessage = 'ログインに失敗しました。時間をおいて再度お試しください。';
-        }
-      }
       state = state.copyWith(
         isLoading: false,
-        errorMessage: errorMessage,
       );
+
+      rethrow;
     }
   }
 

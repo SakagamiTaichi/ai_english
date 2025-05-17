@@ -1,6 +1,6 @@
+import 'package:ai_english/core/components/error_feedback.dart';
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
-import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/features/practice/components/test_card.dart';
 import 'package:ai_english/features/practice/models/conversation.dart';
 import 'package:ai_english/features/practice/models/recall_test_request_model.dart';
@@ -121,15 +121,19 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    final chatHistoryDetailAsync =
-        ref.watch(conversationNotifierProvider(widget.conversationId));
+    final data = ref.watch(conversationNotifierProvider(widget.conversationId));
+
+    final notifier =
+        ref.read(conversationNotifierProvider(widget.conversationId).notifier);
 
     return Scaffold(
       appBar: header(context),
-      body: chatHistoryDetailAsync.when(
+      body: data.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) =>
-            Center(child: Text(MeesageConstant.failedToLoadData)),
+        error: (error, _) => ErrorFeedback(
+          error: error,
+          onRetry: () => notifier.refresh(),
+        ),
         data: (chatHistoryDetails) {
           if (chatHistoryDetails.messages.isEmpty) {
             return const Center(child: Text('テスト問題がありません'));

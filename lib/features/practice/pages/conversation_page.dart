@@ -1,5 +1,5 @@
+import 'package:ai_english/core/components/error_feedback.dart';
 import 'package:ai_english/core/components/header.dart';
-import 'package:ai_english/core/constans/MessageConstant.dart';
 import 'package:ai_english/core/utils/providers/tts_provider.dart';
 import 'package:ai_english/features/practice/components/reversible_message_bubble.dart';
 import 'package:ai_english/features/practice/components/side_menue.dart';
@@ -30,6 +30,7 @@ class ConversationPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(conversationNotifierProvider(id));
+    final notifier = ref.read(conversationNotifierProvider(id).notifier);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -55,8 +56,10 @@ class ConversationPage extends ConsumerWidget {
       ),
       body: data.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) =>
-            Center(child: Text(MeesageConstant.failedToLoadData)),
+        error: (error, _) => ErrorFeedback(
+          error: error,
+          onRetry: () => notifier.refresh(),
+        ),
         data: (chatHistories) => ListView.builder(
           itemCount: chatHistories.messages.length,
           itemBuilder: (context, index) {

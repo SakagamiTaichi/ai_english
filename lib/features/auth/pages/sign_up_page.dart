@@ -155,15 +155,6 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                if (authState.errorMessage != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
-                    child: Text(
-                      authState.errorMessage!,
-                      style: const TextStyle(color: Colors.red),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
                 ElevatedButton(
                   onPressed: authState.isLoading ? null : _signUp,
                   style: ElevatedButton.styleFrom(

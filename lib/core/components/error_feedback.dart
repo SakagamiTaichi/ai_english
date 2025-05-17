@@ -2,6 +2,96 @@ import 'package:ai_english/core/http/interceptors/exceptions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+// 共通のエラーハンドリングユーティリティクラス
+class ErrorHandlingUtil {
+  // エラータイプを判別してErrorDetailsを返す
+  static ErrorDetails getErrorDetails(dynamic error) {
+    // DioExceptionの場合は中のエラーを抽出
+    if (error is DioException) {
+      final innerError = error.error;
+      return _classifyError(innerError);
+    }
+
+    // 直接例外オブジェクトの場合
+    return _classifyError(error);
+  }
+
+  // エラーを分類してErrorDetailsを返す
+  static ErrorDetails _classifyError(dynamic errorObj) {
+    if (errorObj is NetworkException) {
+      return ErrorDetails.network();
+    } else if (errorObj is BadRequestException) {
+      return ErrorDetails.badReqest(errorObj.message);
+    } else if (errorObj is TimeoutException) {
+      return ErrorDetails.timeout(errorObj.message);
+    } else if (errorObj is UnauthorizedException) {
+      return ErrorDetails.unauthorized(errorObj.message);
+    } else if (errorObj is ForbiddenException) {
+      return ErrorDetails.forbidden(errorObj.message);
+    } else if (errorObj is NotFoundException) {
+      return ErrorDetails.notFound(errorObj.message);
+    } else if (errorObj is ServerException) {
+      return ErrorDetails.server(errorObj.message);
+    } else if (errorObj is ServiceUnavailableException) {
+      return ErrorDetails.serviceUnavailable(errorObj.message);
+    } else if (errorObj is ConflictException) {
+      return ErrorDetails.conflict(errorObj.message);
+    } else {
+      return ErrorDetails.unknown();
+    }
+  }
+
+  // エラーメッセージのみを取得する
+  static String getErrorMessage(dynamic error) {
+    return getErrorDetails(error).message;
+  }
+}
+
+class ApiOperationWrapper {
+  /// API操作を実行し、エラーを適切に処理するラッパー関数
+  static Future<T?> execute<T>({
+    required Future<T> Function() operation,
+    required BuildContext context,
+    required String successMessage,
+    VoidCallback? onSuccess,
+  }) async {
+    try {
+      final result = await operation();
+      if (onSuccess != null) {
+        onSuccess();
+      }
+
+      // 成功メッセージを表示
+      if (successMessage.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(successMessage),
+            backgroundColor: Colors.lightGreen,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+
+      return result;
+    } catch (e) {
+      // 共通ユーティリティを使用してエラーメッセージを取得
+      String errorMessage = ErrorHandlingUtil.getErrorMessage(e);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 3),
+          content: Text(errorMessage),
+          backgroundColor: Theme.of(context).colorScheme.error,
+          behavior: SnackBarBehavior.floating,
+          showCloseIcon: true,
+        ),
+      );
+
+      return null;
+    }
+  }
+}
+
 class ErrorFeedback extends StatelessWidget {
   final dynamic error;
   final VoidCallback? onRetry;
@@ -14,8 +104,8 @@ class ErrorFeedback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // エラー情報を一度に取得
-    final errorDetails = _getErrorDetails();
+    // 共通ユーティリティを使用してエラー情報を取得
+    final errorDetails = ErrorHandlingUtil.getErrorDetails(error);
 
     return Center(
       child: Padding(
@@ -53,69 +143,9 @@ class ErrorFeedback extends StatelessWidget {
       ),
     );
   }
-
-  // エラー情報をまとめて取得するメソッド
-  ErrorDetails _getErrorDetails() {
-    // DioExceptionの場合
-    if (error is DioException) {
-      final e = error as DioException;
-      return _getErrorDetailsFromDioError(e.error);
-    }
-
-    // 直接例外オブジェクトの場合
-    return _getErrorDetailsFromDirectError(error);
-  }
-
-  // Dioエラーの内部エラーからErrorDetailsを取得
-  ErrorDetails _getErrorDetailsFromDioError(dynamic errorObj) {
-    if (errorObj is NetworkException) {
-      return ErrorDetails.network(errorObj.toString());
-    } else if (errorObj is TimeoutException) {
-      return ErrorDetails.timeout(errorObj.toString());
-    } else if (errorObj is UnauthorizedException) {
-      return ErrorDetails.unauthorized(errorObj.toString());
-    } else if (errorObj is ForbiddenException) {
-      return ErrorDetails.forbidden(errorObj.toString());
-    } else if (errorObj is NotFoundException) {
-      return ErrorDetails.notFound(errorObj.toString());
-    } else if (errorObj is ServerException) {
-      return ErrorDetails.server(errorObj.toString());
-    } else if (errorObj is ServiceUnavailableException) {
-      return ErrorDetails.serviceUnavailable(errorObj.toString());
-    } else if (errorObj is ConflictException) {
-      return ErrorDetails.conflict(errorObj.toString());
-    } else if (errorObj is String) {
-      return ErrorDetails.custom(message: errorObj);
-    } else {
-      return ErrorDetails.unknown();
-    }
-  }
-
-  // 直接のエラーオブジェクトからErrorDetailsを取得
-  ErrorDetails _getErrorDetailsFromDirectError(dynamic errorObj) {
-    if (errorObj is NetworkException) {
-      return ErrorDetails.network(errorObj.toString());
-    } else if (errorObj is TimeoutException) {
-      return ErrorDetails.timeout(errorObj.toString());
-    } else if (errorObj is UnauthorizedException) {
-      return ErrorDetails.unauthorized(errorObj.toString());
-    } else if (errorObj is ForbiddenException) {
-      return ErrorDetails.forbidden(errorObj.toString());
-    } else if (errorObj is NotFoundException) {
-      return ErrorDetails.notFound(errorObj.toString());
-    } else if (errorObj is ServerException) {
-      return ErrorDetails.server(errorObj.toString());
-    } else if (errorObj is ServiceUnavailableException) {
-      return ErrorDetails.serviceUnavailable(errorObj.toString());
-    } else if (errorObj is ConflictException) {
-      return ErrorDetails.conflict(errorObj.toString());
-    } else {
-      return ErrorDetails.unknown();
-    }
-  }
 }
 
-// エラー詳細情報をカプセル化するクラス
+// エラー詳細情報をカプセル化するクラス（変更なし）
 class ErrorDetails {
   final IconData icon;
   final String title;
@@ -127,17 +157,15 @@ class ErrorDetails {
     required this.message,
   });
 
-  // ネットワークエラー
-  factory ErrorDetails.network(String? message) {
+  // ファクトリーメソッド（変更なし）
+  factory ErrorDetails.network() {
     return ErrorDetails(
       icon: Icons.wifi_off,
       title: 'ネットワークエラー',
-      message: message ??
-          'インターネット接続を確認してください。Wi-Fiまたはモバイルデータ通信がオンになっていることを確認してください。',
+      message: 'インターネット接続を確認してください。Wi-Fiまたはモバイルデータ通信がオンになっていることを確認してください。',
     );
   }
 
-  // タイムアウトエラー
   factory ErrorDetails.timeout(String? message) {
     return ErrorDetails(
       icon: Icons.timer_off,
@@ -146,7 +174,6 @@ class ErrorDetails {
     );
   }
 
-  // 認証エラー
   factory ErrorDetails.unauthorized(String? message) {
     return ErrorDetails(
       icon: Icons.lock,
@@ -155,7 +182,6 @@ class ErrorDetails {
     );
   }
 
-  // アクセス権限エラー
   factory ErrorDetails.forbidden(String? message) {
     return ErrorDetails(
       icon: Icons.lock,
@@ -164,7 +190,6 @@ class ErrorDetails {
     );
   }
 
-  // リソース未発見エラー
   factory ErrorDetails.notFound(String? message) {
     return ErrorDetails(
       icon: Icons.search_off,
@@ -173,7 +198,6 @@ class ErrorDetails {
     );
   }
 
-  // サーバーエラー
   factory ErrorDetails.server(String? message) {
     return ErrorDetails(
       icon: Icons.cloud_off,
@@ -182,7 +206,6 @@ class ErrorDetails {
     );
   }
 
-  // サービス利用不可エラー
   factory ErrorDetails.serviceUnavailable(String? message) {
     return ErrorDetails(
       icon: Icons.cloud_off,
@@ -191,7 +214,6 @@ class ErrorDetails {
     );
   }
 
-  // データ競合エラー
   factory ErrorDetails.conflict(String? message) {
     return ErrorDetails(
       icon: Icons.warning_amber,
@@ -200,16 +222,14 @@ class ErrorDetails {
     );
   }
 
-  // カスタムエラーメッセージ
-  factory ErrorDetails.custom({required String message}) {
+  factory ErrorDetails.badReqest(String? message) {
     return ErrorDetails(
       icon: Icons.info_outline,
-      title: 'お知らせ',
-      message: message,
+      title: 'リクエストエラー',
+      message: message ?? 'リクエストに問題があります。入力内容を確認してください。',
     );
   }
 
-  // 不明なエラー
   factory ErrorDetails.unknown() {
     return const ErrorDetails(
       icon: Icons.error_outline,

@@ -13,12 +13,16 @@ class RecallTestResultProvider extends _$RecallTestResultProvider {
   FutureOr<RecallTestSummaryResponseModel> build(
       RecallTestRequestModel requestModel) async {
     _repository = ref.watch(recallTestResultRepositoryProvider);
-    return await _fetchData(requestModel);
+    return await _fetchData();
   }
 
-  Future<RecallTestSummaryResponseModel> _fetchData(
-      RecallTestRequestModel requestModel) async {
+  Future<RecallTestSummaryResponseModel> _fetchData() async {
     final data = await _repository.fetchData(requestModel);
     return data;
+  }
+
+  Future<void> refresh() async {
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(() => _fetchData());
   }
 }
