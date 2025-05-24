@@ -7,6 +7,7 @@ import 'package:ai_english/features/practice/providers/recall_test_result_provid
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 class RecallTestSummaryPage extends ConsumerStatefulWidget {
@@ -63,14 +64,47 @@ class _RecallTestSummaryPageState extends ConsumerState<RecallTestSummaryPage> {
                                 '合計スコア',
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
-                              Text(
-                                '${results.correct_rate}点',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context).primaryColor,
+                              Row(
+                                children: [
+                                  Text(
+                                    '${results.correct_rate}点',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium
+                                        ?.copyWith(
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                  ),
+                                  // Comparison with previous result
+                                  if (results.last_correct_rate != null)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            results.correct_rate >
+                                                    results.last_correct_rate!
+                                                ? Icons.arrow_upward
+                                                : results.correct_rate <
+                                                        results
+                                                            .last_correct_rate!
+                                                    ? Icons.arrow_downward
+                                                    : Icons.drag_handle,
+                                            color: results.correct_rate >
+                                                    results.last_correct_rate!
+                                                ? Colors.green
+                                                : results.correct_rate <
+                                                        results
+                                                            .last_correct_rate!
+                                                    ? Colors.red
+                                                    : Colors.grey,
+                                          ),
+                                          const SizedBox(width: 4),
+                                        ],
+                                      ),
                                     ),
+                                ],
                               ),
                             ],
                           ),
@@ -85,7 +119,7 @@ class _RecallTestSummaryPageState extends ConsumerState<RecallTestSummaryPage> {
                                 Row(
                                   children: [
                                     Text(
-                                      '${results.last_correct_rate?.toStringAsFixed(1)}点',
+                                      '${results.last_correct_rate}点',
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineMedium
@@ -93,35 +127,6 @@ class _RecallTestSummaryPageState extends ConsumerState<RecallTestSummaryPage> {
                                             color: Colors.grey,
                                           ),
                                     ),
-                                    // Comparison with previous result
-                                    if (results.last_correct_rate != null)
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 4),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              results.correct_rate >
-                                                      results.last_correct_rate!
-                                                  ? Icons.arrow_upward
-                                                  : results.correct_rate <
-                                                          results
-                                                              .last_correct_rate!
-                                                      ? Icons.arrow_downward
-                                                      : Icons.drag_handle,
-                                              color: results.correct_rate >
-                                                      results.last_correct_rate!
-                                                  ? Colors.green
-                                                  : results.correct_rate <
-                                                          results
-                                                              .last_correct_rate!
-                                                      ? Colors.red
-                                                      : Colors.grey,
-                                            ),
-                                            const SizedBox(width: 4),
-                                          ],
-                                        ),
-                                      ),
                                   ],
                                 ),
                               ],
@@ -235,14 +240,17 @@ class _RecallTestSummaryPageState extends ConsumerState<RecallTestSummaryPage> {
                           // User answer with HTML rendering
                           const Divider(),
                           Text(
+                            style: GoogleFonts.rubik(
+                              textStyle: Theme.of(context).textTheme.titleSmall,
+                            ),
                             'あなたの回答:',
-                            style: Theme.of(context).textTheme.titleSmall,
                           ),
                           const SizedBox(height: 4),
                           Html(
                             data: result.user_answer,
                             style: {
                               "del": Style(
+                                fontFamily: GoogleFonts.rubik().fontFamily,
                                 backgroundColor: Colors.red.withAlpha(120),
                                 textDecoration: TextDecoration.lineThrough,
                                 color: Colors.red,

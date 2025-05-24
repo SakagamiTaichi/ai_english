@@ -57,6 +57,7 @@ dependencies:
   # スケルトンを実装するためのライブラリ。データ読み込み中のUIを提供。
   skeletonizer: ^1.4.3
   figma_squircle: ^0.6.3
+  lottie: ^3.3.1
 
 dev_dependencies:
   # Flutterのテストフレームワーク。単体テストやウィジェットテストの実行に使用。
@@ -79,6 +80,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/lottie/
 
 flutter_icons:
   android: true
@@ -86,3 +89,5 @@ flutter_icons:
   image_path: "assets/icon/icon.png"
   adaptive_icon_background: "#ffffff"
   adaptive_icon_foreground: "assets/icon/icon.png"
+
+  # アプリのロゴやアイコンを指定するための設定。

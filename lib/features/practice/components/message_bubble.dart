@@ -4,6 +4,7 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MessageBubble extends ConsumerWidget {
   final Message message;
@@ -41,7 +42,8 @@ class MessageBubble extends ConsumerWidget {
                 )
               : Text(
                   message.text,
-                  style: TextStyle(
+                  style: GoogleFonts.rubik(
+                    textStyle: Theme.of(context).textTheme.bodyMedium,
                     color: message.isUser ? Colors.white : Colors.black,
                   ),
                 ),

@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   await runZonedGuarded(() async {
     // Flutterエンジンの初期化
@@ -55,6 +57,7 @@ class MyApp extends ConsumerWidget {
     final authState = ref.watch(authNotifierProvider);
 
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: '英GOAT',
       localizationsDelegates: const [
         GlobalWidgetsLocalizations.delegate,

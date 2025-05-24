@@ -3,6 +3,7 @@ import 'package:ai_english/features/practice/providers/conversation_set_provider
 import 'package:ai_english/features/practice/providers/conversations_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AiGenerateDialog extends ConsumerStatefulWidget {
   const AiGenerateDialog({super.key});
@@ -63,6 +64,9 @@ class _AiGenerateDialogState extends ConsumerState<AiGenerateDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
+            style: GoogleFonts.rubik(
+              textStyle: Theme.of(context).textTheme.bodyMedium,
+            ),
             controller: _phraseController,
             decoration: const InputDecoration(
               hintText: '英語でフレーズを入力してください。',

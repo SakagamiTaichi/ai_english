@@ -4,11 +4,13 @@ import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/practice/components/test_card.dart';
 import 'package:ai_english/features/practice/models/conversation.dart';
 import 'package:ai_english/features/practice/models/recall_test_request_model.dart';
+import 'package:ai_english/features/practice/pages/conversation_page.dart';
 import 'package:ai_english/features/practice/pages/recall_test_summary_page.dart';
 import 'package:ai_english/features/practice/providers/conversation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class EnglishRecallTestPage extends ConsumerStatefulWidget {
   final String conversationId;
@@ -143,19 +145,42 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
                         // 回答終了ボタン
                         const SizedBox(height: 40),
 
-                        Center(
-                          child: ElevatedButton.icon(
-                            onPressed: () =>
-                                _finishTest(chatHistoryDetails.messages),
-                            icon: const Icon(Icons.check_circle_outline),
-                            label: const Text('回答を終了'),
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 32.0,
-                                vertical: 16.0,
+                        Row(
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () => {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    PageTransition(
+                                      child: ConversationPage(
+                                          id: widget.conversationId),
+                                      type: PageTransitionType.fade,
+                                    ),
+                                    (route) => false)
+                              },
+                              icon: const Icon(Icons.cancel_outlined),
+                              label: const Text('キャンセル'),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32.0,
+                                  vertical: 16.0,
+                                ),
                               ),
                             ),
-                          ),
+                            const SizedBox(width: 16),
+                            ElevatedButton.icon(
+                              onPressed: () =>
+                                  _finishTest(chatHistoryDetails.messages),
+                              icon: const Icon(Icons.check_circle_outline),
+                              label: const Text('回答完了'),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 32.0,
+                                  vertical: 16.0,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
 
                         const SizedBox(height: 40),
@@ -212,6 +237,9 @@ class _EnglishRecallTestPageState extends ConsumerState<EnglishRecallTestPage> {
               hintText: '英語で入力してください',
             ),
             maxLines: 3,
+            style: GoogleFonts.rubik(
+              textStyle: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
         ],
       ),
