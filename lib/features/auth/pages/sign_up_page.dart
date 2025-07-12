@@ -70,8 +70,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
         // Now signUp returns the email address on success
         final userEmail = await ApiOperationWrapper.execute(
           context: context,
-          operation: () =>
-              ref.read(authNotifierProvider.notifier).signUp(email, password),
+          operation: () => ref
+              .read(authNotifierProvider.notifier)
+              .sendVerificationEmail(email),
           successMessage: '',
           onSuccess: () {},
         );
@@ -83,7 +84,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
         Navigator.pushReplacement(
           context,
           PageTransition(
-            child: EmailVerificationPage(email: userEmail),
+            child: EmailVerificationPage(email: userEmail, password: password),
             type: PageTransitionType.fade,
           ),
         );

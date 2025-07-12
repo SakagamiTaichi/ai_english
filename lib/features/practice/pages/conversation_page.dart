@@ -1,13 +1,15 @@
 import 'package:ai_english/core/components/error_feedback.dart';
-import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/core/utils/providers/tts_provider.dart';
 import 'package:ai_english/features/practice/components/reversible_message_bubble.dart';
 import 'package:ai_english/features/practice/components/side_menue.dart';
 import 'package:ai_english/features/practice/models/conversation.dart';
 import 'package:ai_english/features/practice/models/message.dart';
+import 'package:ai_english/features/practice/pages/conversations_page.dart';
 import 'package:ai_english/features/practice/providers/conversation_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:lottie/lottie.dart';
 
 // IDを受け取る
 class ConversationPage extends ConsumerWidget {
@@ -34,11 +36,27 @@ class ConversationPage extends ConsumerWidget {
 
     return Scaffold(
       key: _scaffoldKey,
-      appBar: header(
-        context,
-        isDisplayBackButton: true,
-        isDisplaySideMenuButton: true,
-        scaffoldKey: _scaffoldKey,
+      appBar: AppBar(
+        toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight,
+        // 常に戻るボタンを表示
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => {
+                  if (Navigator.canPop(context))
+                    {Navigator.pop(context)}
+                  else
+                    {
+                      // 戻れない場合はConversationsPageに遷移
+                      Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                          child: const ConversationsPage(),
+                          type: PageTransitionType.leftToRight,
+                        ),
+                      )
+                    }
+                }),
       ),
       endDrawer: SideMenu(
         conversationId: id,
@@ -55,7 +73,14 @@ class ConversationPage extends ConsumerWidget {
         showSpeedControl: true,
       ),
       body: data.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () => Center(
+            child: Lottie.asset(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                'assets/lottie/loading.json',
+                fit: BoxFit.contain,
+                animate: true,
+                repeat: true)),
         error: (error, _) => ErrorFeedback(
           error: error,
           onRetry: () => notifier.refresh(),

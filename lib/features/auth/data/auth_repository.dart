@@ -3,10 +3,12 @@ import 'package:ai_english/features/auth/models/auth_api_models.dart';
 import 'package:ai_english/features/auth/models/auth_models.dart';
 
 abstract class IAuthRepository {
-  Future<void> signUp(SignUpRequestModel request);
+  Future<Token> signUp(SignUpRequestModel request);
   Future<Token> signIn(SignInRequestModel request);
   Future<Token> refreshToken(String refreshToken);
   Future<User> getCurrentUser(String accessToken);
+  Future<SendVerificationCodeResponseModel> sendVerificationCode(
+      SendVerificationCodeRequestModel email);
 }
 
 class AuthRepository implements IAuthRepository {
@@ -15,9 +17,18 @@ class AuthRepository implements IAuthRepository {
   AuthRepository(this._apiClient);
 
   @override
-  Future<void> signUp(SignUpRequestModel request) async {
+  Future<Token> signUp(SignUpRequestModel request) async {
     try {
-      await _apiClient.post('/auth/signup', data: request.toJson());
+      // サインアップ前に既存のトークンをクリア
+      _apiClient.clearAuthToken();
+      final response =
+          await _apiClient.post('/auth/signup', data: request.toJson());
+
+      final token = Token.fromJson(response.data);
+      // アクセストークンを設定
+      _apiClient.setAuthToken(token.access_token);
+
+      return token;
     } catch (e) {
       rethrow;
     }
@@ -67,6 +78,19 @@ class AuthRepository implements IAuthRepository {
 
       final response = await _apiClient.get('/auth/me');
       return User.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<SendVerificationCodeResponseModel> sendVerificationCode(
+      SendVerificationCodeRequestModel request) async {
+    try {
+      var response = await _apiClient.post('/auth/send-verification-code',
+          data: request.toJson());
+
+      return SendVerificationCodeResponseModel.fromJson(response.data);
     } catch (e) {
       rethrow;
     }

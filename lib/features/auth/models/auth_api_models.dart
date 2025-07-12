@@ -15,12 +15,36 @@ class SignInRequestModel with _$SignInRequestModel {
 }
 
 @freezed
+class SendVerificationCodeRequestModel with _$SendVerificationCodeRequestModel {
+  const factory SendVerificationCodeRequestModel({
+    required String email,
+  }) = _SendVerificationCodeRequestModel;
+
+  factory SendVerificationCodeRequestModel.fromJson(
+          Map<String, dynamic> json) =>
+      _$SendVerificationCodeRequestModelFromJson(json);
+}
+
+@freezed
 class SignUpRequestModel with _$SignUpRequestModel {
   const factory SignUpRequestModel({
     required String email,
     required String password,
+    required String code,
   }) = _SignUpRequestModel;
 
   factory SignUpRequestModel.fromJson(Map<String, dynamic> json) =>
       _$SignUpRequestModelFromJson(json);
+}
+
+@freezed
+class SendVerificationCodeResponseModel
+    with _$SendVerificationCodeResponseModel {
+  const factory SendVerificationCodeResponseModel({
+    required String email,
+  }) = _SendVerificationCodeResponseModel;
+
+  factory SendVerificationCodeResponseModel.fromJson(
+          Map<String, dynamic> json) =>
+      _$SendVerificationCodeResponseModelFromJson(json);
 }

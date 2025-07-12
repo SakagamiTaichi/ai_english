@@ -59,24 +59,49 @@ class AuthNotifier extends _$AuthNotifier {
     await prefs.remove(_refreshTokenKey);
   }
 
-  // Modified: Now returns String for email to display on verification page
-  Future<String> signUp(String email, String password) async {
+  Future<String> sendVerificationEmail(String email) async {
     try {
       state = state.copyWith(isLoading: true);
 
       final repository = ref.read(authRepositoryProvider);
-      await repository.signUp(SignUpRequestModel(
-        email: email,
-        password: password,
-      ));
+      var response = await repository
+          .sendVerificationCode(SendVerificationCodeRequestModel(email: email));
 
-      // No longer signing in automatically after registration
       state = state.copyWith(
         isLoading: false,
       );
+      return response.email; // Return email for verification page
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+      );
+      rethrow;
+    }
+  }
 
+  // Modified: Now returns String for email to display on verification page
+  Future<void> signUp(String email, String password, String code) async {
+    try {
+      state = state.copyWith(isLoading: true);
+
+      final repository = ref.read(authRepositoryProvider);
+      var token = await repository.signUp(SignUpRequestModel(
+        email: email,
+        password: password,
+        code: code,
+      ));
+
+      await _saveSession(token);
+
+      state = state.copyWith(
+        token: token,
+        isLoading: false,
+        isAuthenticated: true,
+      );
+
+      // Get user info after sign up
+      await getCurrentUser();
       // Return the email for display in the verification page
-      return email;
     } catch (e) {
       state = state.copyWith(
         isLoading: false,

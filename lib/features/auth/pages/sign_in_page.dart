@@ -156,6 +156,23 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                     ),
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            child: const SignUpPage(),
+                            type: PageTransitionType.fade,
+                          ),
+                        );
+                      },
+                      child: const Text('パスワードをお忘れですか？'),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

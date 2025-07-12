@@ -6,7 +6,6 @@ import 'package:ai_english/features/dashboard/components/recommended_lesson_grid
 import 'package:ai_english/features/dashboard/components/streak_card.dart';
 import 'package:ai_english/features/dashboard/components/test_completion_card.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -62,22 +61,22 @@ class DashboardPage extends StatelessWidget {
           ),
 
           // 花吹雪アニメーション（上のレイヤー）
-          Positioned.fill(
-            child: IgnorePointer(
-              child: Center(
-                child: Container(
-                  child: Lottie.asset(
-                    height: MediaQuery.of(context).size.height * 1.2,
-                    width: MediaQuery.of(context).size.width * 1.2,
-                    'assets/lottie/confetti.json',
-                    fit: BoxFit.fill,
-                    animate: true,
-                    repeat: false,
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Positioned.fill(
+          //   child: IgnorePointer(
+          //     child: Center(
+          //       child: Container(
+          //         child: Lottie.asset(
+          //           height: MediaQuery.of(context).size.height * 1.2,
+          //           width: MediaQuery.of(context).size.width * 1.2,
+          //           'assets/lottie/confetti.json',
+          //           fit: BoxFit.fill,
+          //           animate: true,
+          //           repeat: false,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       bottomNavigationBar: footer(context, false),
