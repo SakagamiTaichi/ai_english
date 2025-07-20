@@ -4,6 +4,7 @@ import 'package:ai_english/features/practice/models/quiz_type_api_models.dart';
 abstract class IQuizTypeRepository {
   Future<QuizTypesResponse> fetchQuizTypes();
   Future<Quiz> fetchQuiz({String? quizTypeId, required String questionType});
+  Future<QuizAnswerResponse> submitQuizAnswer(QuizAnswerRequest request);
 }
 
 class QuizTypeRepository implements IQuizTypeRepository {
@@ -34,6 +35,16 @@ class QuizTypeRepository implements IQuizTypeRepository {
 
       final response = await _apiClient.get('/study/quiz', queryParameters: queryParams);
       return Quiz.fromJson(response.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<QuizAnswerResponse> submitQuizAnswer(QuizAnswerRequest request) async {
+    try {
+      final response = await _apiClient.post('/study/quiz-answer', data: request.toJson());
+      return QuizAnswerResponse.fromJson(response.data);
     } catch (e) {
       rethrow;
     }

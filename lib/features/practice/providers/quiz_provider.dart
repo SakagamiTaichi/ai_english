@@ -23,6 +23,17 @@ class QuizProvider extends _$QuizProvider {
     );
   }
 
+  Future<QuizAnswerResponse> submitQuizAnswer({
+    required String userAnswer,
+    required String quizId,
+  }) async {
+    final request = QuizAnswerRequest(
+      userAnswer: userAnswer,
+      quizId: quizId,
+    );
+    return await _repository.submitQuizAnswer(request);
+  }
+
   void clearQuiz() {
     state = const AsyncData(null);
   }

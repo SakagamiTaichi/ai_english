@@ -1,6 +1,7 @@
 import 'package:ai_english/core/components/error_feedback.dart';
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
+import 'package:ai_english/features/practice/pages/quiz_result_page.dart';
 import 'package:ai_english/features/practice/providers/quiz_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,7 @@ class QuizDisplayPage extends ConsumerStatefulWidget {
 
 class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
   final TextEditingController _answerController = TextEditingController();
+  bool _isSubmitting = false;
   
   @override
   void initState() {
@@ -128,7 +130,7 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
           _buildAnswerInputCard(),
           const SizedBox(height: 24),
 
-          _buildActionButtons(),
+          _buildActionButtons(quiz),
         ],
       ),
     );
@@ -326,32 +328,67 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
     );
   }
 
-  Widget _buildActionButtons() {
+  Future<void> _handleScoring(quiz) async {
+    if (_answerController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('回答を入力してから採点してください'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _isSubmitting = true;
+    });
+
+    try {
+      final result = await ref.read(quizProviderProvider.notifier).submitQuizAnswer(
+        userAnswer: _answerController.text.trim(),
+        quizId: quiz.id,
+      );
+
+      if (mounted) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => QuizResultPage(result: result),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('採点中にエラーが発生しました: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
+  }
+
+  Widget _buildActionButtons(quiz) {
     return Column(
       children: [
         SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
-            onPressed: () {
-              if (_answerController.text.trim().isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('回答を入力してから採点してください'),
-                    backgroundColor: Colors.orange,
-                  ),
-                );
-                return;
-              }
-              
-              // TODO: Implement scoring logic
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('採点中: "${_answerController.text.trim()}"'),
-                ),
-              );
-            },
-            icon: const Icon(Icons.grade),
-            label: const Text('採点する'),
+            onPressed: _isSubmitting ? null : () => _handleScoring(quiz),
+            icon: _isSubmitting 
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.grade),
+            label: Text(_isSubmitting ? '採点中...' : '採点する'),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(

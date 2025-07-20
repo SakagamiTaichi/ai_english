@@ -37,3 +37,27 @@ class Quiz with _$Quiz {
   factory Quiz.fromJson(Map<String, dynamic> json) =>
       _$QuizFromJson(json);
 }
+
+@freezed
+class QuizAnswerRequest with _$QuizAnswerRequest {
+  const factory QuizAnswerRequest({
+    @JsonKey(name: 'user_answer') required String userAnswer,
+    @JsonKey(name: 'quiz_id') required String quizId,
+  }) = _QuizAnswerRequest;
+
+  factory QuizAnswerRequest.fromJson(Map<String, dynamic> json) =>
+      _$QuizAnswerRequestFromJson(json);
+}
+
+@freezed
+class QuizAnswerResponse with _$QuizAnswerResponse {
+  const factory QuizAnswerResponse({
+    required int score,
+    @JsonKey(name: 'user_answer') required String userAnswer,
+    @JsonKey(name: 'ai_model_answer') required String aiModelAnswer,
+    @JsonKey(name: 'ai_feedback') required String aiFeedback,
+  }) = _QuizAnswerResponse;
+
+  factory QuizAnswerResponse.fromJson(Map<String, dynamic> json) =>
+      _$QuizAnswerResponseFromJson(json);
+}
