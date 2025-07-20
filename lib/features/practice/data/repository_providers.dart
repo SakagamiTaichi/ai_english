@@ -3,6 +3,7 @@ import 'package:ai_english/core/http/api_client_provider.dart';
 import 'package:ai_english/features/practice/data/conversation_repository.dart';
 import 'package:ai_english/features/practice/data/conversation_set_repository.dart';
 import 'package:ai_english/features/practice/data/conversations_repository.dart';
+import 'package:ai_english/features/practice/data/quiz_type_repository.dart';
 import 'package:ai_english/features/practice/data/recall_test_result_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -31,4 +32,10 @@ IRecallTestResultRepository recallTestResultRepository(Ref ref) {
 @riverpod
 IConversationSetRepository conversationSetRepository(Ref ref) {
   return ConversationSetRepository(ref.watch(apiClientProvider));
+}
+
+// クイズタイプ用リポジトリプロバイダー
+@riverpod
+IQuizTypeRepository quizTypeRepository(Ref ref) {
+  return QuizTypeRepository(ref.watch(apiClientProvider));
 }

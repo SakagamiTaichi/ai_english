@@ -1,8 +1,10 @@
 // 連続学習日数
+import 'package:ai_english/features/dashboard/models/dashboard_api_models.dart';
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-Widget StreakCard(BuildContext context) {
+Widget StreakCard(BuildContext context, AsyncValue<HomeResponseModel> dashboardState) {
   return Card(
     elevation: 2,
     shape: RoundedRectangleBorder(
@@ -29,11 +31,25 @@ Widget StreakCard(BuildContext context) {
                 size: 36,
               ),
               const SizedBox(width: 8),
-              Text(
-                '7日',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+              dashboardState.when(
+                data: (data) => Text(
+                  '${data.continuousLearningDays}日',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                loading: () => Text(
+                  '7日',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                error: (error, stack) => Text(
+                  '0日',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
               ),
             ],
           ),

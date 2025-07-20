@@ -2,16 +2,19 @@ import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/dashboard/components/learning_stats_card.dart';
 import 'package:ai_english/features/dashboard/components/personal_advice_card.dart';
-import 'package:ai_english/features/dashboard/components/recommended_lesson_grid.dart';
 import 'package:ai_english/features/dashboard/components/streak_card.dart';
 import 'package:ai_english/features/dashboard/components/test_completion_card.dart';
+import 'package:ai_english/features/dashboard/providers/dashboard_provider.dart';
+import 'package:ai_english/features/practice/pages/quiz_selection_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dashboardState = ref.watch(dashboardNotifierProvider);
     return Scaffold(
       appBar: header(context),
       body: Stack(
@@ -24,9 +27,19 @@ class DashboardPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // ウェルカムメッセージ
-                  Text(
-                    'こんにちは!',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                  dashboardState.when(
+                    data: (data) => Text(
+                      data.message,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    loading: () => Text(
+                      'こんにちは!',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    error: (error, stack) => Text(
+                      'こんにちは!',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
                   ),
                   const SizedBox(height: 24),
 
@@ -39,44 +52,49 @@ class DashboardPage extends StatelessWidget {
                     children: [
                       Expanded(child: LearningStatsCard(context)),
                       const SizedBox(width: 16),
-                      Expanded(child: StreakCard(context)),
+                      Expanded(child: StreakCard(context, dashboardState)),
                     ],
                   ),
                   const SizedBox(height: 16),
 
                   // テスト完了状況
-                  TestCompletionCard(context),
+                  TestCompletionCard(context, dashboardState),
                   const SizedBox(height: 16),
 
                   // おすすめレッスン
                   Text(
-                    'おすすめレッスン',
+                    '学習を始める',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
+                  const SizedBox(height: 16),
+
+                  // クイズ選択画面への遷移ボタン
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const QuizSelectionPage(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.quiz),
+                      label: const Text('クイズを始める'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 8),
-                  RecommendedLessonsGrid(context),
                 ],
               ),
             ),
           ),
-
-          // 花吹雪アニメーション（上のレイヤー）
-          // Positioned.fill(
-          //   child: IgnorePointer(
-          //     child: Center(
-          //       child: Container(
-          //         child: Lottie.asset(
-          //           height: MediaQuery.of(context).size.height * 1.2,
-          //           width: MediaQuery.of(context).size.width * 1.2,
-          //           'assets/lottie/confetti.json',
-          //           fit: BoxFit.fill,
-          //           animate: true,
-          //           repeat: false,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
       bottomNavigationBar: footer(context, false),

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:ai_english/core/theme/app_theme.dart';
 import 'package:ai_english/features/practice/pages/conversations_page.dart';
 import 'package:ai_english/features/dashboard/pages/dashboard_page.dart';
+import 'package:ai_english/features/practice/pages/quiz_selection_page.dart';
 import 'package:ai_english/features/settings/pages/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -53,6 +54,26 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                     Expanded(
                       child: _buildTabIcon(
                         context,
+                        Icons.quiz,
+                        '学習',
+                        context.widget is QuizSelectionPage,
+                        () {
+                          if (context.widget is QuizSelectionPage) return;
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              child: QuizSelectionPage(),
+                              type: PageTransitionType.fade,
+                            ),
+                          );
+                        },
+                        primaryColor,
+                        inactiveIconColor,
+                      ),
+                    ),
+                    Expanded(
+                      child: _buildTabIcon(
+                        context,
                         Icons.history,
                         'カード一覧',
                         context.widget is ConversationsPage,
@@ -70,6 +91,7 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                         inactiveIconColor,
                       ),
                     ),
+
                     Expanded(
                       child: _buildTabIcon(
                         context,
