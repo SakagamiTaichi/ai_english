@@ -1,14 +1,19 @@
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/practice/models/quiz_type_api_models.dart';
+import 'package:ai_english/features/practice/pages/quiz_display_page.dart';
 import 'package:flutter/material.dart';
 
 class QuizResultPage extends StatelessWidget {
   final QuizAnswerResponse result;
+  final String? quizTypeId;
+  final String questionType;
 
   const QuizResultPage({
     super.key,
     required this.result,
+    this.quizTypeId,
+    required this.questionType,
   });
 
   @override
@@ -25,24 +30,19 @@ class QuizResultPage extends StatelessWidget {
                 Text(
                   '採点結果',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 const SizedBox(height: 24),
-                
                 _buildScoreCard(context),
                 const SizedBox(height: 24),
-                
                 _buildUserAnswerCard(context),
                 const SizedBox(height: 24),
-                
                 _buildModelAnswerCard(context),
                 const SizedBox(height: 24),
-                
                 _buildFeedbackCard(context),
                 const SizedBox(height: 24),
-                
-                _buildActionButtons(context),
+                _buildActionButtons(context, quizTypeId, questionType),
               ],
             ),
           ),
@@ -59,15 +59,19 @@ class QuizResultPage extends StatelessWidget {
 
     if (result.score >= 90) {
       scoreColor = Colors.green;
-      scoreText = '素晴らしい！';
+      scoreText = 'Perfect！';
       scoreIcon = Icons.star;
-    } else if (result.score >= 70) {
+    } else if (result.score >= 75) {
+      scoreColor = Colors.blue;
+      scoreText = 'Excellent！';
+      scoreIcon = Icons.thumb_up_alt;
+    } else if (result.score >= 60) {
       scoreColor = Colors.orange;
-      scoreText = '良い出来です';
+      scoreText = 'Good job！';
       scoreIcon = Icons.thumb_up;
     } else {
       scoreColor = Colors.red;
-      scoreText = 'もう少し頑張りましょう';
+      scoreText = 'Goo';
       scoreIcon = Icons.refresh;
     }
 
@@ -99,18 +103,18 @@ class QuizResultPage extends StatelessWidget {
               Text(
                 '${result.score}点',
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 48,
-                ),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 48,
+                    ),
               ),
               const SizedBox(height: 8),
               Text(
                 scoreText,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
             ],
           ),
@@ -141,9 +145,9 @@ class QuizResultPage extends StatelessWidget {
                 Text(
                   'あなたの回答',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
                 ),
               ],
             ),
@@ -159,9 +163,9 @@ class QuizResultPage extends StatelessWidget {
               child: Text(
                 result.userAnswer,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  height: 1.6,
-                  fontSize: 16,
-                ),
+                      height: 1.6,
+                      fontSize: 16,
+                    ),
               ),
             ),
           ],
@@ -192,9 +196,9 @@ class QuizResultPage extends StatelessWidget {
                 Text(
                   'AI模範解答',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
                 ),
               ],
             ),
@@ -210,9 +214,9 @@ class QuizResultPage extends StatelessWidget {
               child: Text(
                 result.aiModelAnswer,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  height: 1.6,
-                  fontSize: 16,
-                ),
+                      height: 1.6,
+                      fontSize: 16,
+                    ),
               ),
             ),
           ],
@@ -243,9 +247,9 @@ class QuizResultPage extends StatelessWidget {
                 Text(
                   'AIフィードバック',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
                 ),
               ],
             ),
@@ -261,9 +265,9 @@ class QuizResultPage extends StatelessWidget {
               child: Text(
                 result.aiFeedback,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  height: 1.6,
-                  fontSize: 16,
-                ),
+                      height: 1.6,
+                      fontSize: 16,
+                    ),
               ),
             ),
           ],
@@ -272,17 +276,26 @@ class QuizResultPage extends StatelessWidget {
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
+  Widget _buildActionButtons(
+      BuildContext context, String? quizTypeId, String questionType) {
     return Column(
       children: [
         SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QuizDisplayPage(
+                    quizTypeId: quizTypeId,
+                    questionType: questionType,
+                  ),
+                ),
+              );
             },
             icon: const Icon(Icons.refresh),
-            label: const Text('もう一度練習する'),
+            label: const Text('次の問題へ'),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(

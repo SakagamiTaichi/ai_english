@@ -23,15 +23,15 @@ class QuizDisplayPage extends ConsumerStatefulWidget {
 class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
   final TextEditingController _answerController = TextEditingController();
   bool _isSubmitting = false;
-  
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(quizProviderProvider.notifier).fetchQuiz(
-        quizTypeId: widget.quizTypeId,
-        questionType: widget.questionType,
-      );
+            quizTypeId: widget.quizTypeId,
+            questionType: widget.questionType,
+          );
     });
   }
 
@@ -55,13 +55,12 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
             error: (error, _) => ErrorFeedback(
               error: error,
               onRetry: () => ref.read(quizProviderProvider.notifier).fetchQuiz(
-                quizTypeId: widget.quizTypeId,
-                questionType: widget.questionType,
-              ),
+                    quizTypeId: widget.quizTypeId,
+                    questionType: widget.questionType,
+                  ),
             ),
-            data: (quiz) => quiz != null
-                ? _buildQuizDisplay(quiz)
-                : _buildEmptyState(),
+            data: (quiz) =>
+                quiz != null ? _buildQuizDisplay(quiz) : _buildEmptyState(),
           ),
         ),
       ),
@@ -116,20 +115,17 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
               Text(
                 'クイズ',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
               _buildNewQuizButton(),
             ],
           ),
           const SizedBox(height: 24),
-
           _buildQuizContentCard(quiz),
           const SizedBox(height: 24),
-
           _buildAnswerInputCard(),
           const SizedBox(height: 24),
-
           _buildActionButtons(quiz),
         ],
       ),
@@ -141,9 +137,9 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
       onPressed: () {
         _answerController.clear();
         ref.read(quizProviderProvider.notifier).fetchQuiz(
-          quizTypeId: widget.quizTypeId,
-          questionType: widget.questionType,
-        );
+              quizTypeId: widget.quizTypeId,
+              questionType: widget.questionType,
+            );
       },
       icon: const Icon(Icons.refresh, size: 16),
       label: const Text('新しい問題'),
@@ -152,7 +148,6 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
       ),
     );
   }
-
 
   Widget _buildDifficultyChip(String difficulty) {
     Color chipColor;
@@ -226,9 +221,9 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
                     Text(
                       '問題内容',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                          ),
                     ),
                   ],
                 ),
@@ -253,9 +248,9 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
               child: Text(
                 quiz.content,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  height: 1.6,
-                  fontSize: 16,
-                ),
+                      height: 1.6,
+                      fontSize: 16,
+                    ),
               ),
             ),
           ],
@@ -286,9 +281,9 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
                 Text(
                   'あなたの回答',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor,
+                      ),
                 ),
               ],
             ),
@@ -311,16 +306,16 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
                 fillColor: Colors.grey.shade50,
               ),
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontSize: 16,
-                height: 1.5,
-              ),
+                    fontSize: 16,
+                    height: 1.5,
+                  ),
             ),
             const SizedBox(height: 12),
             Text(
               '自然な英語表現で回答してみましょう',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Colors.grey.shade600,
-              ),
+                    color: Colors.grey.shade600,
+                  ),
             ),
           ],
         ),
@@ -328,7 +323,8 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
     );
   }
 
-  Future<void> _handleScoring(quiz) async {
+  Future<void> _handleScoring(
+      quiz, String? quizTypeId, String questionType) async {
     if (_answerController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -344,15 +340,20 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
     });
 
     try {
-      final result = await ref.read(quizProviderProvider.notifier).submitQuizAnswer(
-        userAnswer: _answerController.text.trim(),
-        quizId: quiz.id,
-      );
+      final result =
+          await ref.read(quizProviderProvider.notifier).submitQuizAnswer(
+                userAnswer: _answerController.text.trim(),
+                quizId: quiz.id,
+              );
 
       if (mounted) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => QuizResultPage(result: result),
+            builder: (context) => QuizResultPage(
+              result: result,
+              quizTypeId: quizTypeId,
+              questionType: questionType,
+            ),
           ),
         );
       }
@@ -380,14 +381,17 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
         SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
-            onPressed: _isSubmitting ? null : () => _handleScoring(quiz),
-            icon: _isSubmitting 
-              ? const SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Icon(Icons.grade),
+            onPressed: _isSubmitting
+                ? null
+                : () => _handleScoring(
+                    quiz, widget.quizTypeId, widget.questionType),
+            icon: _isSubmitting
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.grade),
             label: Text(_isSubmitting ? '採点中...' : '採点する'),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),

@@ -3,7 +3,12 @@
     "allow": [
       "Bash(dart run:*)",
       "Bash(flutter analyze:*)",
-      "Bash(flutter test:*)"
+      "Bash(flutter test:*)",
+      "Bash(dart:*)",
+      "Bash(pushd:*)",
+      "Bash(popd:*)",
+      "Bash(flutter:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }

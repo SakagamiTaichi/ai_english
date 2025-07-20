@@ -5,6 +5,7 @@ import 'package:ai_english/features/practice/data/conversation_set_repository.da
 import 'package:ai_english/features/practice/data/conversations_repository.dart';
 import 'package:ai_english/features/practice/data/quiz_type_repository.dart';
 import 'package:ai_english/features/practice/data/recall_test_result_repository.dart';
+import 'package:ai_english/features/practice/data/study_record_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -38,4 +39,10 @@ IConversationSetRepository conversationSetRepository(Ref ref) {
 @riverpod
 IQuizTypeRepository quizTypeRepository(Ref ref) {
   return QuizTypeRepository(ref.watch(apiClientProvider));
+}
+
+// 学習履歴用リポジトリプロバイダー
+@riverpod
+StudyRecordRepository studyRecordRepository(Ref ref) {
+  return StudyRecordRepository(ref.watch(apiClientProvider));
 }

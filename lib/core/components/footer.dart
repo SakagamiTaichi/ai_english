@@ -3,6 +3,7 @@ import 'package:ai_english/core/theme/app_theme.dart';
 import 'package:ai_english/features/practice/pages/conversations_page.dart';
 import 'package:ai_english/features/dashboard/pages/dashboard_page.dart';
 import 'package:ai_english/features/practice/pages/quiz_selection_page.dart';
+import 'package:ai_english/features/practice/pages/study_history_page.dart';
 import 'package:ai_english/features/settings/pages/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -75,6 +76,26 @@ Widget footer(BuildContext context, bool isDisplayPlus) {
                       child: _buildTabIcon(
                         context,
                         Icons.history,
+                        '学習履歴',
+                        context.widget is StudyHistoryPage,
+                        () {
+                          if (context.widget is StudyHistoryPage) return;
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              child: StudyHistoryPage(),
+                              type: PageTransitionType.fade,
+                            ),
+                          );
+                        },
+                        primaryColor,
+                        inactiveIconColor,
+                      ),
+                    ),
+                    Expanded(
+                      child: _buildTabIcon(
+                        context,
+                        Icons.card_travel_sharp,
                         'カード一覧',
                         context.widget is ConversationsPage,
                         () {

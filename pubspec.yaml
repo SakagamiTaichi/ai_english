@@ -48,6 +48,8 @@ dependencies:
   app_links: ^6.4.0
   # アプリで発生した例外情報やクラッシュ情報のログやストックトレースを統合管理する機能
   firebase_crashlytics: ^4.3.5
+  # グラフ描画ライブラリ。学習履歴のスコア推移を表示するために使用。
+  fl_chart: ^0.70.2
   # アニメーションを簡単に実装するためのライブラリ。UIの動きを滑らかにする。
   flutter_staggered_animations: ^1.1.1
   # google_fontsを使用して、Google Fontsからフォントを取得するためのライブラリ。
