@@ -21,15 +21,12 @@ class StudyRecordFilterNotifier extends _$StudyRecordFilterNotifier {
   }
 
   void setQuizTypeFilter(String? quizTypeId) {
-    state = state.copyWith(quizTypeFilter: quizTypeId);
-  }
-
-  void clearFilters() {
-    state = StudyRecordFilterState(
-      timeFilter: StudyRecordFilter.all,
-      quizTypeFilter: null,
+    state = state.copyWith(
+      quizTypeFilter: quizTypeId,
+      clearQuizTypeFilter: quizTypeId == null,
     );
   }
+
 }
 
 class StudyRecordFilterState {
@@ -44,10 +41,11 @@ class StudyRecordFilterState {
   StudyRecordFilterState copyWith({
     StudyRecordFilter? timeFilter,
     String? quizTypeFilter,
+    bool clearQuizTypeFilter = false,
   }) {
     return StudyRecordFilterState(
       timeFilter: timeFilter ?? this.timeFilter,
-      quizTypeFilter: quizTypeFilter,
+      quizTypeFilter: clearQuizTypeFilter ? null : (quizTypeFilter ?? this.quizTypeFilter),
     );
   }
 }
@@ -78,10 +76,16 @@ List<StudyRecord> filteredStudyRecords(Ref ref) {
       final now = DateTime.now();
       switch (filterState.timeFilter) {
         case StudyRecordFilter.thisWeek:
-          final weekStart = now.subtract(Duration(days: now.weekday - 1));
+          // 今週（日曜日〜土曜日）の範囲を計算
+          final today = DateTime(now.year, now.month, now.day);
+          final weekday = now.weekday == 7 ? 0 : now.weekday; // 日曜日を0とする
+          final weekStart = today.subtract(Duration(days: weekday));
+          final weekEnd = weekStart.add(const Duration(days: 7));
           records = records.where((record) {
             final recordDate = DateTime.parse(record.answeredAt);
-            return recordDate.isAfter(weekStart);
+            final recordDateOnly = DateTime(recordDate.year, recordDate.month, recordDate.day);
+            return recordDateOnly.isAtSameMomentAs(weekStart) || 
+                   (recordDateOnly.isAfter(weekStart) && recordDateOnly.isBefore(weekEnd));
           }).toList();
           break;
         case StudyRecordFilter.thisMonth:
@@ -95,7 +99,13 @@ List<StudyRecord> filteredStudyRecords(Ref ref) {
           break;
       }
 
-      return records;
+      // 回答日時で並び替え（変更可能なリストのコピーを作成してソート）
+      final sortedRecords = List<StudyRecord>.from(records);
+      sortedRecords.sort((a, b) =>
+          DateTime.parse(b.answeredAt).compareTo(DateTime.parse(a.answeredAt)));
+      return sortedRecords;
+
+      // return records;
     },
     loading: () => [],
     error: (error, stack) => [],

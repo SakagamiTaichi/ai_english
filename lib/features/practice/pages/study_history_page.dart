@@ -1,4 +1,5 @@
 import 'package:ai_english/core/components/footer.dart';
+import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/practice/components/study_record_card.dart';
 import 'package:ai_english/features/practice/components/study_summary_card.dart';
 import 'package:ai_english/features/practice/components/study_filter_buttons.dart';
@@ -17,16 +18,25 @@ class StudyHistoryPage extends ConsumerWidget {
     final summary = ref.watch(studyRecordSummaryProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('学習履歴'),
-        centerTitle: true,
-      ),
+      appBar: header(context),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '学習履歴',
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
               // サマリーカード
               StudySummaryCard(summary: summary),
               const SizedBox(height: 16),
@@ -40,13 +50,6 @@ class StudyHistoryPage extends ConsumerWidget {
                   child: CircularProgressIndicator(),
                 ),
                 error: (error, stack) => const SizedBox.shrink(),
-              ),
-              const SizedBox(height: 16),
-
-              // 学習履歴タイトル
-              Text(
-                '学習履歴',
-                style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),
 

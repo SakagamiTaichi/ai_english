@@ -3,6 +3,7 @@ import 'package:ai_english/core/components/header.dart';
 import 'package:ai_english/features/practice/models/quiz_type_api_models.dart';
 import 'package:ai_english/features/practice/pages/quiz_display_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuizResultPage extends StatelessWidget {
   final QuizAnswerResponse result;
@@ -71,7 +72,7 @@ class QuizResultPage extends StatelessWidget {
       scoreIcon = Icons.thumb_up;
     } else {
       scoreColor = Colors.red;
-      scoreText = 'Goo';
+      scoreText = 'Good try！';
       scoreIcon = Icons.refresh;
     }
 
@@ -96,7 +97,7 @@ class QuizResultPage extends StatelessWidget {
             children: [
               Icon(
                 scoreIcon,
-                size: 48,
+                size: 40,
                 color: Colors.white,
               ),
               const SizedBox(height: 12),
@@ -105,7 +106,7 @@ class QuizResultPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 48,
+                      fontSize: 40,
                     ),
               ),
               const SizedBox(height: 8),
@@ -162,10 +163,9 @@ class QuizResultPage extends StatelessWidget {
               ),
               child: Text(
                 result.userAnswer,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      height: 1.6,
-                      fontSize: 16,
-                    ),
+                style: GoogleFonts.rubik(
+                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ),
           ],
@@ -188,13 +188,13 @@ class QuizResultPage extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  Icons.smart_toy_outlined,
+                  Icons.star_outline,
                   color: Theme.of(context).primaryColor,
                   size: 20,
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'AI模範解答',
+                  '模範解答',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor,
@@ -213,10 +213,9 @@ class QuizResultPage extends StatelessWidget {
               ),
               child: Text(
                 result.aiModelAnswer,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      height: 1.6,
-                      fontSize: 16,
-                    ),
+                style: GoogleFonts.rubik(
+                  textStyle: Theme.of(context).textTheme.bodyLarge,
+                ),
               ),
             ),
           ],
@@ -245,7 +244,7 @@ class QuizResultPage extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'AIフィードバック',
+                  'フィードバック',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor,
@@ -294,7 +293,7 @@ class QuizResultPage extends StatelessWidget {
                 ),
               );
             },
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.navigate_next),
             label: const Text('次の問題へ'),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),

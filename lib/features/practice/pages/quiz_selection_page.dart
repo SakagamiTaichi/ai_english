@@ -1,6 +1,7 @@
 import 'package:ai_english/core/components/error_feedback.dart';
 import 'package:ai_english/core/components/footer.dart';
 import 'package:ai_english/core/components/header.dart';
+import 'package:ai_english/core/constans/master.dart';
 import 'package:ai_english/features/practice/models/quiz_type_api_models.dart';
 import 'package:ai_english/features/practice/pages/quiz_display_page.dart';
 import 'package:ai_english/features/practice/providers/quiz_types_provider.dart';
@@ -42,12 +43,6 @@ class _QuizSelectionPageState extends ConsumerState<QuizSelectionPage> {
               _buildStudyModeSelector(),
               const SizedBox(height: 24),
 
-              Text(
-                'クイズの種類',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              const SizedBox(height: 16),
-
               // Quiz type cards
               quizTypesState.when(
                 loading: () => _buildLoadingQuizCards(),
@@ -66,82 +61,55 @@ class _QuizSelectionPageState extends ConsumerState<QuizSelectionPage> {
   }
 
   Widget _buildStudyModeSelector() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Column(
-        children: [
-          _buildStudyModeOption(
-            StudyMode.newAndReview,
-            '新規＆復習',
-            '新しい問題と復習問題の両方を含みます',
-            Icons.refresh,
-          ),
-          const Divider(height: 1),
-          _buildStudyModeOption(
-            StudyMode.newOnly,
-            '新規のみ',
-            '新しい問題のみを出題します',
-            Icons.add_circle_outline,
-          ),
-          const Divider(height: 1),
-          _buildStudyModeOption(
-            StudyMode.reviewOnly,
-            '復習のみ',
-            '復習問題のみを出題します',
-            Icons.replay,
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            _buildStudyModeChip(
+              StudyMode.newAndReview,
+              'すべて',
+            ),
+            _buildStudyModeChip(
+              StudyMode.newOnly,
+              '新規のみ',
+            ),
+            _buildStudyModeChip(
+              StudyMode.reviewOnly,
+              '復習のみ',
+            ),
+          ],
+        ),
+      ],
     );
   }
 
-  Widget _buildStudyModeOption(
+  Widget _buildStudyModeChip(
     StudyMode mode,
     String title,
-    String description,
-    IconData icon,
   ) {
     final isSelected = _selectedMode == mode;
 
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: isSelected ? Theme.of(context).primaryColor : Colors.grey,
+    return FilterChip(
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(width: 4),
+          Text(title),
+        ],
       ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-          color: isSelected ? Theme.of(context).primaryColor : null,
-        ),
-      ),
-      subtitle: Text(
-        description,
-        style: TextStyle(
-          color: isSelected
-              ? Theme.of(context).primaryColor
-              : Colors.grey.shade600,
-        ),
-      ),
-      trailing: Radio<StudyMode>(
-        value: mode,
-        groupValue: _selectedMode,
-        onChanged: (StudyMode? value) {
-          if (value != null) {
-            setState(() {
-              _selectedMode = value;
-            });
-          }
-        },
-      ),
-      onTap: () {
-        setState(() {
-          _selectedMode = mode;
-        });
+      selected: isSelected,
+      onSelected: (selected) {
+        if (selected) {
+          setState(() {
+            _selectedMode = mode;
+          });
+        }
       },
+      selectedColor: Theme.of(context).colorScheme.primaryContainer,
+      checkmarkColor: Theme.of(context).colorScheme.primary,
     );
   }
 
@@ -157,7 +125,7 @@ class _QuizSelectionPageState extends ConsumerState<QuizSelectionPage> {
               name: 'ランダム問題',
               description: 'すべてのクイズの種類からランダムに出題されます',
             ),
-            Icons.shuffle,
+            Icons.casino,
             true,
           ),
           const SizedBox(height: 12),
@@ -191,7 +159,7 @@ class _QuizSelectionPageState extends ConsumerState<QuizSelectionPage> {
             name: 'ランダム問題',
             description: 'すべてのクイズの種類からランダムに出題されます',
           ),
-          Icons.shuffle,
+          Icons.casino,
           true,
         ),
         const SizedBox(height: 12),
@@ -199,10 +167,28 @@ class _QuizSelectionPageState extends ConsumerState<QuizSelectionPage> {
         // API quiz types
         ...quizTypes.map((quizType) => Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: _buildQuizTypeCard(quizType, Icons.quiz, false),
+              child: _buildQuizTypeCard(
+                  quizType, _getIconForQuizType(quizType.id), false),
             )),
       ],
     );
+  }
+
+  IconData _getIconForQuizType(String quizTypeId) {
+    switch (quizTypeId.toLowerCase()) {
+      case QuizTypeMaster.situation:
+        return Icons.book;
+      case QuizTypeMaster.translation:
+        return Icons.translate;
+      case QuizTypeMaster.conversation:
+        return Icons.chat;
+      case QuizTypeMaster.wordExplain:
+        return Icons.description;
+      case QuizTypeMaster.phraseOrWordUse:
+        return Icons.format_quote;
+      default:
+        return Icons.quiz;
+    }
   }
 
   Widget _buildQuizTypeCard(QuizType quizType, IconData icon, bool isRandom) {
@@ -222,16 +208,12 @@ class _QuizSelectionPageState extends ConsumerState<QuizSelectionPage> {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: isRandom
-                      ? Theme.of(context).primaryColor.withOpacity(0.1)
-                      : Colors.grey.shade100,
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   icon,
-                  color: isRandom
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey.shade600,
+                  color: Theme.of(context).primaryColor,
                   size: 24,
                 ),
               ),

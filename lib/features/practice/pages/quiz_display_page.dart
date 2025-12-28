@@ -5,6 +5,7 @@ import 'package:ai_english/features/practice/pages/quiz_result_page.dart';
 import 'package:ai_english/features/practice/providers/quiz_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class QuizDisplayPage extends ConsumerStatefulWidget {
   final String? quizTypeId;
@@ -123,7 +124,6 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
           ),
           const SizedBox(height: 24),
           _buildQuizContentCard(quiz),
-          const SizedBox(height: 24),
           _buildAnswerInputCard(),
           const SizedBox(height: 24),
           _buildActionButtons(quiz),
@@ -142,7 +142,7 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
             );
       },
       icon: const Icon(Icons.refresh, size: 16),
-      label: const Text('新しい問題'),
+      label: const Text('別の問題'),
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
@@ -219,7 +219,7 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      '問題内容',
+                      '問題',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).primaryColor,
@@ -270,24 +270,6 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.edit_outlined,
-                  color: Theme.of(context).primaryColor,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'あなたの回答',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
             TextField(
               controller: _answerController,
               maxLines: 4,
@@ -305,17 +287,9 @@ class _QuizDisplayPageState extends ConsumerState<QuizDisplayPage> {
                 filled: true,
                 fillColor: Colors.grey.shade50,
               ),
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 16,
-                    height: 1.5,
-                  ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              '自然な英語表現で回答してみましょう',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey.shade600,
-                  ),
+              style: GoogleFonts.rubik(
+                textStyle: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
           ],
         ),

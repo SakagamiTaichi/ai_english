@@ -20,14 +20,6 @@ class StudyFilterButtons extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'フィルター',
-          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 12),
-        
         // 時間フィルター
         Wrap(
           spacing: 8,
@@ -40,8 +32,6 @@ class StudyFilterButtons extends ConsumerWidget {
               onSelected: (selected) {
                 if (selected) {
                   filterNotifier.setTimeFilter(filter);
-                  // 時間フィルターを変更した時はクイズタイプフィルターをクリア
-                  filterNotifier.setQuizTypeFilter(null);
                 }
               },
               selectedColor: Theme.of(context).colorScheme.primaryContainer,
@@ -49,51 +39,63 @@ class StudyFilterButtons extends ConsumerWidget {
             );
           }).toList(),
         ),
-        
+
         const SizedBox(height: 16),
-        
+
         // クイズタイプフィルター
         Text(
           'クイズの種類',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-          ),
+                fontWeight: FontWeight.w500,
+              ),
         ),
         const SizedBox(height: 8),
-        
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: quizTypes.map((quizType) {
-            final isSelected = filterState.quizTypeFilter == quizType.id;
-            return FilterChip(
-              label: Text(quizType.name),
-              selected: isSelected,
-              onSelected: (selected) {
-                if (selected) {
-                  filterNotifier.setQuizTypeFilter(quizType.id);
-                  // クイズタイプフィルターを選択した時は時間フィルターを「すべて」に戻す
-                  filterNotifier.setTimeFilter(StudyRecordFilter.all);
-                } else {
-                  filterNotifier.setQuizTypeFilter(null);
-                }
-              },
-              selectedColor: Theme.of(context).colorScheme.secondaryContainer,
-              checkmarkColor: Theme.of(context).colorScheme.secondary,
-            );
-          }).toList(),
-        ),
-        
-        // フィルタークリアボタン
-        if (filterState.timeFilter != StudyRecordFilter.all || 
-            filterState.quizTypeFilter != null) ...[
-          const SizedBox(height: 12),
-          TextButton.icon(
-            onPressed: () => filterNotifier.clearFilters(),
-            icon: const Icon(Icons.clear),
-            label: const Text('フィルターをクリア'),
+
+        SizedBox(
+          height: 40,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              // 「すべて」オプション
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: FilterChip(
+                  label: const Text('すべて'),
+                  selected: filterState.quizTypeFilter == null,
+                  onSelected: (selected) {
+                    if (selected) {
+                      filterNotifier.setQuizTypeFilter(null);
+                    }
+                  },
+                  selectedColor:
+                      Theme.of(context).colorScheme.secondaryContainer,
+                  checkmarkColor: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+              // 各クイズタイプのフィルター
+              ...quizTypes.map((quizType) {
+                final isSelected = filterState.quizTypeFilter == quizType.id;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: FilterChip(
+                    label: Text(quizType.name),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      if (selected) {
+                        filterNotifier.setQuizTypeFilter(quizType.id);
+                      } else {
+                        filterNotifier.setQuizTypeFilter(null);
+                      }
+                    },
+                    selectedColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    checkmarkColor: Theme.of(context).colorScheme.secondary,
+                  ),
+                );
+              }).toList(),
+            ],
           ),
-        ],
+        ),
       ],
     );
   }

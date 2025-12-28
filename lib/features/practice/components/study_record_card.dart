@@ -1,8 +1,8 @@
+import 'package:ai_english/core/utils/methods/date_formatter.dart';
 import 'package:ai_english/features/practice/models/study_record_api_models.dart';
 import 'package:ai_english/features/practice/pages/study_record_detail_page.dart';
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class StudyRecordCard extends StatelessWidget {
   final StudyRecord record;
@@ -17,7 +17,7 @@ class StudyRecordCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final answeredDate = DateTime.parse(record.answeredAt);
-    final formattedDate = DateFormat('yyyy/MM/dd').format(answeredDate);
+    final formattedDate = DateFormatter.formatRelativeDateTime(answeredDate);
     
     return InkWell(
       onTap: () {
